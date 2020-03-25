@@ -48,7 +48,7 @@ def reduce_to_fault(inv, df):
                 mask[i] = np.logical_or(mask[i], [pnt_in_cvex_hull_1(cun_hull, X0[i])])
     return df[mask]
 
-def get_rate(inv, df_backround, df_event, dim, time_delta_1, time_delta_2):
+def get_stress(inv, df_backround, df_event, dim, time_delta_1, time_delta_2):
     num_of_event_backround = []
     num_of_event_event = []
     depth = []
@@ -73,4 +73,20 @@ def get_rate(inv, df_backround, df_event, dim, time_delta_1, time_delta_2):
     num_of_event_backround = np.array(num_of_event_backround)
     num_of_event_event = np.array(num_of_event_event)
     depth = np.array(depth)
-    return 1e-3 * 24e6 * depth * np.log((num_of_event_event / time_delta_2) / (num_of_event_backround / time_delta_1)), np.zeros(len(num_of_event_backround))#np.array(num_of_event_backround), np.array(num_of_event_event)
+    return 1e-3 * 24e6 * depth * np.log((num_of_event_event / time_delta_2) / (num_of_event_backround / time_delta_1))
+
+def to_csv(plains, stress, path):
+    df = []
+    i = 0
+    for p in plains:
+        if p.strike_element == -1:
+            rake = np.deg2rad(0)
+        else:
+            rake = np.deg2rad(180)
+        for s in p.sources:
+            df.append([s.e_m, s.n_m, s.depth_m, s.strike, s.dip, rake, stress[i]])
+            i += 1
+    df = pd.DataFrame(df)
+    df.columns = ['x', 'y', 'z', 'strike', 'dip', 'rake', 'ds']
+    df.to_csv(path, index=False)
+

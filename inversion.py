@@ -192,7 +192,7 @@ class Inversion:
         img_offset = []
         b = []
         for i, img in enumerate(self.images):
-            G_img = img.get_ker(zero_pad=0, compute_mean=self.compute_mean)
+            G_img = img.get_ker(compute_mean=self.compute_mean)
             img_kers.append(G_img)
             img_offset.append(np.concatenate([np.zeros((G_img.shape[0], i)), np.ones((G_img.shape[0], 1)), np.zeros((G_img.shape[0], len(self.images) - 1 - i))], axis=1))
             b.append(img.get_disp(self.compute_mean))
@@ -200,17 +200,15 @@ class Inversion:
         ker = np.concatenate(img_kers)
         offset = np.concatenate(img_offset)
         if smoothing_mat is None:
-            smoothing = beta * self.images[0].get_smoothing_no_bounds(0)
+            smoothing = beta * self.S
         else:
             smoothing = beta * smoothing_mat
         aa = np.concatenate((ker, offset), axis=1)
-        bb = np.concatenate((smoothing, np.zeros(smoothing.shape), np.zeros((smoothing.shape[0], offset.shape[1]))), axis=1)
-        cc = np.concatenate((np.zeros(smoothing.shape), smoothing, np.zeros((smoothing.shape[0], offset.shape[1]))), axis=1)
+        bb = np.concatenate((smoothing, np.zeros((smoothing.shape[0], offset.shape[1]))), axis=1)
         G = np.concatenate((aa,
-                            bb,
-                            cc))
+                            bb,))
 
-        b = np.concatenate((b, np.zeros(smoothing.shape[0] * 2)))
+        b = np.concatenate((b, np.zeros(smoothing.shape[0])))
         sol = optimize.nnls(G, b)
         self.solution = sol[0]
         self.cost = sol[1]
@@ -408,34 +406,34 @@ class Inversion:
 
 
         """
-        if self.solution is None:
-            raise ValueError('can plot a solution only after the problem is solved')
-        else:
-            if images is None:
-                images = self.images
-            if f is None or axs is None:
-                f, axs = plt.subplots(len(images), 3, figsize=(figsize * 1.5, figsize * images[0].im_y_size / images[0].im_x_size))
 
-            if slip is None:
-                slip = self.solution
-            model = G.dot(slip)
-            if len(images) == 1:
-                images[0].plot_sol_val(axs[0], axs[1], axs[2], model, vmin, vmax, cmap)
-            else:
-                shift = 0
-                for i, img in enumerate(images):
-                    img.plot_sol_val(self.plains, axs[i, 0], axs[i, 1], axs[i, 2], model[shift:shift+len(img.station)], vmin, vmax, cmap)
-                    shift += len(img.station)
-            if len(axs.shape) > 1:
-                left, bottom, width, height = axs[len(images)-1, 0].get_position().bounds
-            else:
-                left, bottom, width, height = axs[len(images) - 1].get_position().bounds
-            cax = f.add_axes([left, 0.03, 0.8, height * 0.1])
-            my_cmap = cm.get_cmap(cmap)
-            norm = mlb.colors.Normalize(vmin, vmax)
-            cmmapable = cm.ScalarMappable(norm, my_cmap)
-            cmmapable.set_array(np.linspace(vmin, vmax))
-            plt.colorbar(cmmapable, orientation='horizontal', cax=cax)
+        if images is None:
+            images = self.images
+        if f is None or axs is None:
+            f, axs = plt.subplots(len(images), 3, figsize=(figsize * 1.5, figsize * images[0].im_y_size / images[0].im_x_size))
+
+        if slip is None:
+            if self.solution is None:
+                raise ValueError('can plot a solution only after the inversion solution is not None or slip is provided')
+            slip = self.solution
+        model = G.dot(slip)
+        if len(images) == 1:
+            images[0].plot_sol_val(self.plains, axs[0], axs[1], axs[2], model, vmin, vmax, cmap)
+        else:
+            shift = 0
+            for i, img in enumerate(images):
+                img.plot_sol_val(self.plains, axs[i, 0], axs[i, 1], axs[i, 2], model[shift:shift+len(img.station)], vmin, vmax, cmap)
+                shift += len(img.station)
+        if len(axs.shape) > 1:
+            left, bottom, width, height = axs[len(images)-1, 0].get_position().bounds
+        else:
+            left, bottom, width, height = axs[len(images) - 1].get_position().bounds
+        cax = f.add_axes([left, 0.03, 0.8, height * 0.1])
+        my_cmap = cm.get_cmap(cmap)
+        norm = mlb.colors.Normalize(vmin, vmax)
+        cmmapable = cm.ScalarMappable(norm, my_cmap)
+        cmmapable.set_array(np.linspace(vmin, vmax))
+        plt.colorbar(cmmapable, orientation='horizontal', cax=cax)
 
 
 
@@ -603,7 +601,7 @@ class Inversion:
         resample model data space while optimizing the CN
 
         Args:
-            get_G: function that build A from the form get_G(inv, arg1, arg2, ... arg_n)
+            get_G: function that build the elastic kernal from the form get_G(inv, arg1, arg2, ... arg_n)
             G_kw: map of the form {ar1:val1, ar2:val2, ... , arg_n:val_n}
             min_data_size(float): minimum data point size
             N(int): number of resampling rounds
@@ -696,6 +694,7 @@ class Inversion:
         self.build_sources_mat()
         # sources_num.append(self.images[0].sources_mat.shape[0])
         for n in range(N):
+            print(n)
             cn = []
             plain_num = []
             source_in_plain = []
@@ -968,7 +967,7 @@ class Inversion:
 
         stress = np.zeros((X.shape[0], 3, 3))
 
-        for plain in self.images[0].plains:
+        for plain in self.plains:
             for sr in plain.sources:
                 if sr.strike_slip < 1e-7 and sr.dip_slip < 1e-7:
                     continue

@@ -46,6 +46,7 @@ class Seismisity:
             x_d = np.cos(strike) * l
             y_d = np.sin(strike) * l
             return np.array([x_s + x_d, y_s + y_d, nz]).reshape(-1, 1)
+
         self.populations = []
         for i, row in self.df.iterrows():
             self.populations.append(Population(row.x, row.y, row.z, row.dip, row.strike, row.rake, row.ds, row.ds, normal(row.strike, row.dip), shear_hat(row.strike, row.dip, row.rake)))
@@ -91,17 +92,30 @@ class Seismisity:
         ts = np.einsum('ij,ij->i', t, self.s_hat)
         return ts - self.mu * tn
 
-    def plot_stress(self, plains, cmap='seismic', title=''):
-        fig = plt.figure()
-        ax = fig.add_subplot(1, 1, 1, projection='3d')
+    def plot_stress(self, plains, cmap='seismic', ax=None, sol=None, vmin=None, vmax=None):
+        plot_color_bar = False
+        if ax is None:
+            fig = plt.figure()
+            ax = fig.add_subplot(1, 1, 1, projection='3d')
+            plot_color_bar = True
+        if sol is None:
+            sol = self.df.ds
         for p in plains:
             p.plot_sources(None, ax, cmap)
-        sc = ax.scatter(self.df.x, self.df.y, -self.df.z, c=self.df.ds - self.mu * self.df.dn, cmap=cmap)
-        ax.set_title(title)
+        sc = ax.scatter(self.df.x, self.df.y, -self.df.z, c=sol, cmap=cmap, vmin=vmin, vmax=vmax)
 
         ax.set_xlabel('x')
         ax.set_ylabel('y')
-        plt.colorbar(sc)
+        if plot_color_bar:
+            plt.colorbar(sc)
+
+    def plot_sol(self, plains, slip, cmap='seismic', vmin=None, vmax=None):
+        fig, axs = plt.subplots(1, 3, subplot_kw={'projection':'3d'})
+        G = self.get_G()
+        b = G.dot(slip)
+        self.plot_stress(plains, cmap, axs[0], vmin=vmin, vmax=vmax)
+        self.plot_stress(plains, cmap, axs[1], b, vmin=vmin, vmax=vmax)
+        self.plot_stress(plains, cmap, axs[2], self.df.ds - b, vmin=vmin, vmax=vmax)
 
 
     def calc_stress(self, strike_element, dip_element, plains):
@@ -125,7 +139,7 @@ class Seismisity:
     def get_G(self):
         return np.concatenate((self.G_ss, self.G_ds), axis=1)
     def get_b(self):
-        return self.df.ds - self.mu * self.df.dn
+        return self.df.ds
 
     def resample_model(self, source_plain, source_ind, mat_ind, strike_element, dip_element, plains):
         plain = plains[source_plain]
