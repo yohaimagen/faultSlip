@@ -8,7 +8,7 @@ import numpy
 
 setup(
     cmdclass = {'build_ext': build_ext},
-    ext_modules = [Extension("disloc",
+    ext_modules =[Extension("disloc",
                              sources=["disloc.pyx", "c_disloc.c"],
-                             include_dirs=[numpy.get_include()])],
+                             include_dirs=[numpy.get_include()])]
 )
