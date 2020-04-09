@@ -1,0 +1,41 @@
+{
+  "global_parameters": {
+    "poisson_ratio": 0.25,
+    "shear_modulus": 30e9,
+    "smooth": 0.1,
+    "dip_element": 0,
+    "strike_element": 1,
+    "compute_mean": false,
+    "boundary_constrained": false
+  },
+  "plains": {
+        "plain1": {
+          "dip": 90.0,
+          "strike": 5.0,
+          "plain_cord": [50.0, 25.0, 0.02],
+          "plain_length": 50.0,
+          "width": [5,5,5,6],
+          "num_sub_stk": [10, 10, 10,10],
+          "dont_smooth": [],
+          "strike_element": -1,
+          "dip_element": -1,
+          "total_width": 20
+        }
+      },
+  "images":
+	{
+	"image1": {
+      "disp_file": "/Users/yohai/workspace/faultSlip/faultSlip/example/sim_disp.npy",
+      "lon": -118.1,
+      "lat": 35.3,
+      "x_pixel": 0.1,
+      "y_pixel": 0.1,
+      "incidence_angle": 38.0,
+      "azimuth": 351.0,
+      "station": "uniform",
+      "station_size": 5,
+      "origin_y": 0,
+      "origin_x": 0
+    }
+  }
+}

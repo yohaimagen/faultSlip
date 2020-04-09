@@ -176,31 +176,30 @@ class Image:
         w_normalizer = 1#w_norm
         # N = np.count_nonzero(~np.isnan(self.disp))
         mat = []
-        with warnings.catch_warnings():
-            warnings.simplefilter("ignore", category=RuntimeWarning)
-            if S is None:
-                stations = self.station
-            else:
-                stations = S
-            for s in stations:
-                north = (s.north - self.origin_y)
-                east = (s.east - self.origin_x)
-                data = self.disp[int((north-s.y_size/2.0)/self.y_pixel): int((north+s.y_size/2.0)/self.y_pixel), int((east-s.x_size/2.0)/self.x_pixel): int((east + s.x_size/2.0)/self.x_pixel)]
-                try:
-                    s.weight = float(np.count_nonzero(~np.isnan(data))) / data.size
-                    if s.weight != 0:
-                        s.weight = 1.0
-                except:
-                    print(self.disp.shape)
-                    print(data.shape)
-                    print(s.north)
-                    print(int(s.north/self.y_pixel), int((s.north+s.y_size)/self.y_pixel), int(s.east/self.x_pixel), int((s.east + s.x_size)/self.x_pixel))
-                    exit(1)
-                s.disp = np.nanmean(data)
-                # w_normalizer += s.weight
-                if np.isnan(s.disp):
-                    s.disp = 0.0
-                mat.append([s.east, s.north, s.x_size, s.y_size, s.disp, s.weight])
+
+        if S is None:
+            stations = self.station
+        else:
+            stations = S
+        for s in stations:
+            north = (s.north - self.origin_y)
+            east = (s.east - self.origin_x)
+            data = self.disp[int((north-s.y_size/2.0)/self.y_pixel): int((north+s.y_size/2.0)/self.y_pixel), int((east-s.x_size/2.0)/self.x_pixel): int((east + s.x_size/2.0)/self.x_pixel)]
+            try:
+                s.weight = float(np.count_nonzero(~np.isnan(data))) / data.size
+                if s.weight != 0:
+                    s.weight = 1.0
+            except:
+                print(self.disp.shape)
+                print(data.shape)
+                print(s.north)
+                print(int(s.north/self.y_pixel), int((s.north+s.y_size)/self.y_pixel), int(s.east/self.x_pixel), int((s.east + s.x_size)/self.x_pixel))
+                exit(1)
+            s.disp = np.nanmean(data)
+            # w_normalizer += s.weight
+            if np.isnan(s.disp):
+                s.disp = 0.0
+            mat.append([s.east, s.north, s.x_size, s.y_size, s.disp, s.weight])
         if S is not None:
             mat = np.array(mat)
             # mat[:, 5] *= N

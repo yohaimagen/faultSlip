@@ -1,3 +1,4 @@
+# run with 'build_ext --inplace' in command line
 import setuptools
 from Cython.Distutils import build_ext
 import numpy
@@ -36,7 +37,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="fualtSlip", # Replace with your own username
+    name="faultSlip", # Replace with your own username
     version="0.0.1",
     author="Yohai Magen",
     author_email="yohaimagen@mail.tau.ac.il",
@@ -44,6 +45,10 @@ setuptools.setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/yohaimagen/faultSlip",
+    download_url='https://github.com/yohaimagen/faultSlip/archive/v_0.0.1.tar.gz',
+install_requires=[
+          'numpy', 'scipy', 'pandas', 'matplotlib', 'json'
+      ],
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",

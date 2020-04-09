@@ -768,7 +768,7 @@ class Inversion:
 
 
 
-    def combine_resample(self, get_G, G_kw, final_num_of_sources, min_source_size, min_data_point_size, data_point_per_round, dest_path):
+    def combine_resample(self, get_G, G_kw, final_num_of_sources, min_source_size, min_data_point_size, data_point_per_round, ratio=10, dest_path=None):
         """
         combined model and data space resampling of the inversion to optimize the condition number
 
@@ -791,8 +791,13 @@ class Inversion:
         def print_status():
             print('number of station:%d, number of sources:%d, ratio%.3f' %(self.get_stations_num(), self.get_sources_num(), self.get_stations_num() / self.get_sources_num()))
         print_status()
-        rounds = int(np.round(10.0/ data_point_per_round))
-        pre_rounds = int(np.round((self.get_stations_num() - self.get_sources_num() * 10) / 30))
+
+        pre_rounds = int(np.round((self.get_stations_num() - self.get_sources_num() * ratio) / (3 * data_point_per_round)))
+        if data_point_per_round > 10.0:
+            rounds = int(np.round(data_point_per_round/10.0))
+            data_point_per_round = 10
+        else:
+            rounds = 1
         iteration = []
         itert = 0
         num_of_sources = []
@@ -805,12 +810,14 @@ class Inversion:
         G = get_G(self, G_kw)
         cn.append((get_cn(G)))
         iteration.append(0)
-        self.save_sources_mat(dest_path + '0')
-        self.save_stations_mat(dest_path + '0')
+        if dest_path is not None:
+            self.save_sources_mat(dest_path + '0')
+            self.save_stations_mat(dest_path + '0')
         for i in range(pre_rounds):
             self.resample_model(get_G, G_kw, N=1, min_size=min_source_size)
             itert += 1
-            self.save_sources_mat(dest_path + '{}'.format(itert))
+            if dest_path is not None:
+                self.save_sources_mat(dest_path + '{}'.format(itert))
             num_of_sources.append(self.get_sources_num())
             num_of_stations.append(self.get_stations_num())
             ker_array = [img.get_ker() for img in self.images] + [seis.get_G() for seis in self.seismisity]
@@ -824,7 +831,8 @@ class Inversion:
         for _ in range(iter_num):
             self.resample_model(get_G, G_kw, N=1, min_size=min_source_size)
             itert += 1
-            self.save_sources_mat(dest_path + '{}'.format(itert))
+            if dest_path is not None:
+                self.save_sources_mat(dest_path + '{}'.format(itert))
             num_of_sources.append(self.get_sources_num())
             num_of_stations.append(self.get_stations_num())
             ker_array = [img.get_ker() for img in self.images] + [seis.get_G() for seis in self.seismisity]
@@ -836,7 +844,8 @@ class Inversion:
             for _ in range(rounds):
                 self.resample_data(get_G, G_kw, data_per_r=data_point_per_round, N=1, min_data_size=min_data_point_size)
                 itert += 1
-                self.save_stations_mat(dest_path + '{}'.format(itert))
+                if dest_path is not None:
+                    self.save_stations_mat(dest_path + '{}'.format(itert))
                 num_of_sources.append(self.get_sources_num())
                 num_of_stations.append(self.get_stations_num())
                 ker_array = [img.get_ker() for img in self.images] + [seis.get_G() for seis in self.seismisity]
