@@ -37,42 +37,31 @@ class Plain:
 
 
     def get_mesh(self, sub_dip, sub_strike):
-        x = []
-        y = []
-        z = []
         ccw_to_x_stk = np.pi / 2 - np.deg2rad(self.strike)  # the angle betuen the fualt and the x axis cunter clock wise
         ccw_to_x_dip = - np.deg2rad(self.strike)
         dip = np.deg2rad(self.dip)
         strike_step = self.plain_length / float(sub_strike)
         dip_step = self.total_width / float(sub_dip)
-        for j in range(sub_dip):
-            for i in range(sub_strike):
-                dx = strike_step * i + strike_step / 2.0
-                dy = dip_step * j + dip_step / 2.0
-                e_m = self.plain_cord[0] + dx  * np.cos(ccw_to_x_stk) + np.cos(ccw_to_x_dip) * np.cos(dip) * dy
-                n_m = self.plain_cord[1] + dx * np.sin(ccw_to_x_stk) + np.sin(ccw_to_x_dip) * np.cos(dip) * dy
-                depth_m = self.plain_cord[2] + np.sin(dip) * dy
-                x.append(e_m)
-                y.append(n_m)
-                z.append(depth_m)
-        x, y, z = np.array(x).reshape(sub_dip, sub_strike), np.array(y).reshape(sub_dip, sub_strike), np.array(z).reshape(sub_dip, sub_strike)
-        de = (strike_step / 2)  * np.cos(ccw_to_x_stk) + np.cos(ccw_to_x_dip) * np.cos(dip) * (dip_step / 2)
-        dn = (strike_step / 2) * np.sin(ccw_to_x_stk) + np.sin(ccw_to_x_dip) * np.cos(dip) * (dip_step / 2)
-        dz = np.sin(dip) * (dip_step / 2)
-        X, Y, Z = x - de, y - dn, z - dz
-        de = strike_step * np.cos(ccw_to_x_stk)
-        dn = strike_step * np.sin(ccw_to_x_stk)
-        X = np.concatenate((X, X[:, -1].reshape(-1, 1) + de), axis=1)
-        Y = np.concatenate((Y, Y[:, -1].reshape(-1, 1) + dn), axis=1)
-        Z = np.concatenate((Z, Z[:, -1].reshape(-1, 1)), axis=1)
-        de = np.cos(ccw_to_x_dip) * np.cos(dip) * dip_step
-        dn = np.sin(ccw_to_x_dip) * np.cos(dip) * dip_step
-        dz = np.sin(dip) * dip_step
-        X = np.concatenate((X, X[-1, :].reshape(1, -1) + de), axis=0)
-        Y = np.concatenate((Y, Y[-1, :].reshape(1, -1) + dn), axis=0)
-        Z = np.concatenate((Z, Z[-1, :].reshape(1, -1) + dz), axis=0)
-        return x, y, z, X, Y, Z
+        dx = np.linspace(strike_step / 2.0, self.plain_length + strike_step / 2.0, sub_strike, endpoint=False)
+        dy = np.linspace(dip_step / 2.0, self.total_width + dip_step / 2.0, sub_dip, endpoint=False)
+        dX, dY = np.meshgrid(dx, dy)
+        x = self.plain_cord[0] + dX * np.cos(ccw_to_x_stk) + np.cos(ccw_to_x_dip) * np.cos(dip) * dY
+        y = self.plain_cord[1] + dX * np.sin(ccw_to_x_stk) + np.sin(ccw_to_x_dip) * np.cos(dip) * dY
+        z = self.plain_cord[2] + np.sin(dip) * dY
 
+        return x, y, z
+
+    def sample_points(self, N):
+        ccw_to_x_stk = np.pi / 2 - np.deg2rad(
+            self.strike)  # the angle betuen the fualt and the x axis cunter clock wise
+        ccw_to_x_dip = - np.deg2rad(self.strike)
+        dip = np.deg2rad(self.dip)
+        strike_step = np.random.uniform(0, self.plain_length, N)
+        dip_step = np.random.uniform(0, self.total_width, N)
+        x = self.plain_cord[0] + strike_step * np.cos(ccw_to_x_stk) + np.cos(ccw_to_x_dip) * np.cos(dip) * dip_step
+        y = self.plain_cord[1] + strike_step * np.sin(ccw_to_x_stk) + np.sin(ccw_to_x_dip) * np.cos(dip) * dip_step
+        z = self.plain_cord[2] + np.sin(dip) * dip_step
+        return np.stack((x, y, z)).T
 
 
     def get_strike_ker(self, zero_pad=0):

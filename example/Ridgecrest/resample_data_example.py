@@ -28,11 +28,11 @@ plt.plot(iteration, cn)
 plt.show()
 
 inv.S = inv.new_smoothing()
-inv.solve(beta=0.1)
+inv.solve(beta=0.05)
 inv.solution = np.concatenate((inv.solution, np.zeros_like(inv.solution)))
 inv.plot_sources()
 
-inv.plot_sol_val()
+# inv.plot_sol_val()
 
 
 

@@ -12,6 +12,9 @@ cdef extern void c_okada_stress(double x1, double y1, double z1, double strike1,
 cdef extern void c_okada_stress_thread(double x1, double y1, double z1, double strike, double dip, double L, double W, double slip_strike, double slip_dip, double open,
 		double *x2, double *y2, double *z2, double *s,
 		double lame_lambda, double mu, int pop_num, int thread_num)
+cdef extern void c_okada_strain_thread(double x1, double y1, double z1, double strike, double dip, double L, double W, double slip_strike, double slip_dip, double open,
+		double *x2, double *y2, double *z2, double *s,
+		double lame_lambda, double mu, int pop_num, int thread_num)
 
 
 @cython.boundscheck(False)
@@ -47,6 +50,18 @@ def okada_stress_thread(double x1, double y1, double z1, double strike1, double 
 
     cdef np.ndarray[double, ndim=1, mode='c'] out = np.zeros((pop_num * 3 * 3), dtype = np.float)
     c_okada_stress_thread(x1, y1, z1, strike1, dip1, L,  W, slip_strike, slip_dip, open, &x2[0], &y2[0], &z2[0], &out[0], lame_lambda, mu, pop_num, 12)
+
+
+    return out.reshape(pop_num, 3, 3)
+
+def okada_strain_thread(double x1, double y1, double z1, double strike1, double dip1, double L, double W, double slip_strike, double slip_dip, double open,
+		  np.ndarray[double, ndim=1, mode="c"] x2 not None,
+		  np.ndarray[double, ndim=1, mode="c"] y2 not None,
+		  np.ndarray[double, ndim=1, mode="c"] z2 not None,
+		  double lame_lambda, double mu, int pop_num):
+
+    cdef np.ndarray[double, ndim=1, mode='c'] out = np.zeros((pop_num * 3 * 3), dtype = np.float)
+    c_okada_strain_thread(x1, y1, z1, strike1, dip1, L,  W, slip_strike, slip_dip, open, &x2[0], &y2[0], &z2[0], &out[0], lame_lambda, mu, pop_num, 12)
 
 
     return out.reshape(pop_num, 3, 3)

@@ -857,6 +857,9 @@ class Inversion:
         print_status()
         return iteration, num_of_sources, num_of_stations, cn
 
+    def moment_magnitude(self, convert_to_meter=1e3, solution=None):
+        return (np.log10(self.seismic_moment(convert_to_meter, solution)) - 9.05) / 1.5
+
     def seismic_moment(self, convert_to_meter=1e3, solution=None):
         if solution is None:
             solution = self.solution

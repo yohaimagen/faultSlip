@@ -1,7 +1,7 @@
 import numpy as np
 from copy import deepcopy
 # from okada_wrapper import dc3dwrapper
-from psokada.okada_stress import okada_stress
+from psokada.okada_stress import *
 
 # def okada_stress():
 #     print 'change imports in souces.py'
@@ -210,6 +210,14 @@ y = {}'''.format(self.strike, self.dip, self.length, self.width, self.ss, self.d
         okada_stress(self.e_t, self.n_t, self.depth_t, self.ccw_to_x_stk, self.dip, self.length, self.width,
                      self.strike_slip*strike_element, self.dip_slip * dip_element, 0, x, y, z, stress, lambda_l, shaer_m)
         return stress
+
+    def stress_thread(self, x, y, z, strike_element, dip_element, lambda_l, shaer_m):
+        return okada_stress_thread(self.e_t, self.n_t, self.depth_t, self.ccw_to_x_stk, self.dip, self.length, self.width,
+                     self.strike_slip*strike_element, self.dip_slip * dip_element, 0, x, y, z, lambda_l, shaer_m, x.shape[0])
+    def strain_thread(self, x, y, z, strike_element, dip_element, lambda_l, shaer_m):
+        return okada_strain_thread(self.e_t, self.n_t, self.depth_t, self.ccw_to_x_stk, self.dip, self.length, self.width,
+                     self.strike_slip*strike_element, self.dip_slip * dip_element, 0, x, y, z, lambda_l, shaer_m, x.shape[0])
+
 
     def to_gmt(self, slip):
         ccw_to_x_stk = np.pi / 2 - self.strike  # the angle betuen the fualt and the x axis cunter clock wise
