@@ -4,8 +4,8 @@ import matplotlib.patches as patches
 from matplotlib.pylab import *
 from scipy import ndimage
 
-from disloc import disloc
-from station import Station
+from faultSlip.disloc import disloc
+from faultSlip.station import Station
 
 
 class Image:

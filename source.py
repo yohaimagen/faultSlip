@@ -1,7 +1,7 @@
 import numpy as np
 from copy import deepcopy
 # from okada_wrapper import dc3dwrapper
-from psokada.okada_stress import *
+from faultSlip.psokada.okada_stress import *
 
 # def okada_stress():
 #     print 'change imports in souces.py'

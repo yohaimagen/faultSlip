@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from psokada.okada_stress import okada_stress, okada_stress_thread
+from faultSlip.psokada.okada_stress import okada_stress, okada_stress_thread
 
 
 class Population:

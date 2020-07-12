@@ -5,12 +5,12 @@ import matplotlib.cm as cm
 from scipy import optimize
 import numpy as np
 import json
-from ps import Point_sources
-from image import Image
-from gps_set import Gps
+from faultSlip.ps import Point_sources
+from faultSlip.image import Image
+from faultSlip.gps_set import Gps
 from seismicity import Seismisity
-from plain import Plain
-from dists.dist import neighbors
+from faultSlip.plain import Plain
+from faultSlip.dists.dist import neighbors
 
 
 

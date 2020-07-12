@@ -2,8 +2,8 @@ from matplotlib.pylab import *
 import matplotlib.patches as patches
 
 
-from disloc import disloc
-from source import Source
+from faultSlip.disloc import disloc
+from faultSlip.source import Source
 
 
 class Plain:
