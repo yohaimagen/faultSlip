@@ -40,10 +40,10 @@ class Plain:
         ccw_to_x_stk = np.pi / 2 - np.deg2rad(self.strike)  # the angle betuen the fualt and the x axis cunter clock wise
         ccw_to_x_dip = - np.deg2rad(self.strike)
         dip = np.deg2rad(self.dip)
-        strike_step = self.plain_length / float(sub_strike)
-        dip_step = self.total_width / float(sub_dip)
-        dx = np.linspace(strike_step / 2.0, self.plain_length + strike_step / 2.0, sub_strike, endpoint=False)
-        dy = np.linspace(dip_step / 2.0, self.total_width + dip_step / 2.0, sub_dip, endpoint=False)
+        strike_steps = int(self.plain_length / sub_strike)
+        dip_steps = int(self.total_width / sub_dip)
+        dx = np.linspace(sub_strike / 2.0, self.plain_length + sub_strike / 2.0, strike_steps, endpoint=False)
+        dy = np.linspace(sub_dip / 2.0, self.total_width + sub_dip / 2.0, dip_steps, endpoint=False)
         dX, dY = np.meshgrid(dx, dy)
         x = self.plain_cord[0] + dX * np.cos(ccw_to_x_stk) + np.cos(ccw_to_x_dip) * np.cos(dip) * dY
         y = self.plain_cord[1] + dX * np.sin(ccw_to_x_stk) + np.sin(ccw_to_x_dip) * np.cos(dip) * dY

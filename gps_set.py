@@ -108,21 +108,12 @@ class Gps():
             model_d = G.dot(slip.reshape(-1, 1))
         else:
             model_d = G.dot(slip[:-2].reshape(-1, 1))
-        east_west_df = self.data[['lon', 'lat']].copy()
-        east_west_df.loc[:, 'E'] = model_d[0:self.data.shape[0]]
-        east_west_df.loc[:, 'N'] = model_d[self.data.shape[0]:self.data.shape[0] * 2]
-        east_west_df.loc[:, 'Se'] = 0
-        east_west_df.loc[:, 'Sn'] = 0
-        east_west_df.loc[:, 'corelation'] = 0
-        east_west_df.to_csv(path + '_east_north.txt', index=False, header=False, sep=' ')
+        model = self.data[['id', 'lon', 'lat']].copy()
+        model.loc[:, 'E'] = model_d[0:self.data.shape[0]]
+        model.loc[:, 'N'] = model_d[self.data.shape[0]:self.data.shape[0] * 2]
 
-        up_df = self.data[['lon', 'lat']].copy()
-        up_df.loc[:, 'E'] = 0
-        up_df.loc[:, 'N'] = model_d[self.data.shape[0]*2:self.data.shape[0] * 4]
-        up_df.loc[:, 'Se'] = 0
-        up_df.loc[:, 'Sn'] = 0
-        up_df.loc[:, 'corelation'] = 0
-        up_df.to_csv(path + '_up.txt', index=False, header=False, sep=' ')
+        model.loc[:, 'Up'] = model_d[self.data.shape[0]*2:self.data.shape[0] * 4]
+        model.to_csv(path, index=False)
 
 
 

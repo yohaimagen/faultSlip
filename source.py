@@ -42,6 +42,14 @@ class Source:
             self.depth_m = c + np.sin(dip) * (y - 0.5 * self.width)
         deast = np.cos(self.ccw_to_x_stk) * self.width * 0.5
         dnorth = np.sin(self.ccw_to_x_stk) * self.width * 0.5
+        """
+        p1 ------------ p2
+           |           |
+           |           |
+           |           |
+        p4 ------------ p3
+        
+        """
         self.p1 = np.array([self.e_t - deast, self.n_t - dnorth, self.depth_t])
         self.p2 = np.array([self.e_t + deast, self.n_t + dnorth, self.depth_t])
         self.p3 = np.array([self.e + deast, self.n + dnorth, self.depth])
@@ -183,7 +191,7 @@ y = {}'''.format(self.strike, self.dip, self.length, self.width, self.ss, self.d
         else:
             return True
     def get_corners(self):
-        return (self.p1, self.p2, self.p3, self.p4)
+        return np.stack((self.p1, self.p2, self.p3, self.p4))
 
     def same_level(self, other):
         self_top = self.depth - self.width * np.sin(self.dip)
@@ -218,6 +226,10 @@ y = {}'''.format(self.strike, self.dip, self.length, self.width, self.ss, self.d
         return okada_strain_thread(self.e_t, self.n_t, self.depth_t, self.ccw_to_x_stk, self.dip, self.length, self.width,
                      self.strike_slip*strike_element, self.dip_slip * dip_element, 0, x, y, z, lambda_l, shaer_m, x.shape[0])
 
+    def strain_thread_gf(self, x, y, z, strike_element, dip_element, lambda_l, shaer_m):
+        return okada_strain_thread(self.e_t, self.n_t, self.depth_t, self.ccw_to_x_stk, self.dip, self.length, self.width,
+                     strike_element,  dip_element, 0, x, y, z, lambda_l, shaer_m, x.shape[0])
+
 
     def to_gmt(self, slip):
         ccw_to_x_stk = np.pi / 2 - self.strike  # the angle betuen the fualt and the x axis cunter clock wise
@@ -240,6 +252,26 @@ y = {}'''.format(self.strike, self.dip, self.length, self.width, self.ss, self.d
 %f %f %f
 %f %f %f
 ''' %(slip, x4, y4, z2, x3, y3, z2, x1, y1, z1, x2, y2, z1)
+
+    # def get_corners(self):
+    #     ccw_to_x_stk = np.pi / 2 - self.strike  # the angle betuen the fualt and the x axis cunter clock wise
+    #     ccw_to_x_dip = -self.strike
+    #     X = np.zeros(4, 3)
+    #     X[0, 0] = self.e + self.length / 2.0 * np.cos(ccw_to_x_stk)
+    #     X[0, 1] = self.n + self.length / 2.0 * np.sin(ccw_to_x_stk)
+    #     X[1, 0] = self.e - self.length / 2.0 * np.cos(ccw_to_x_stk)
+    #     X[1, 1] = self.n - self.length / 2.0 * np.sin(ccw_to_x_stk)
+    #     l = self.width * np.cos(self.dip)
+    #     X[2, 0] = X[0, 0] - l * np.cos(ccw_to_x_dip)
+    #     X[2, 1] = X[0, 1] - l * np.sin(ccw_to_x_dip)
+    #     X[3, 0] = X[1, 0] - l * np.cos(ccw_to_x_dip)
+    #     X[3, 1] = X[1, 1] - l * np.sin(ccw_to_x_dip)
+    #
+    #     X[0, 2] = self.depth
+    #     X[1, 2] = X[0, 2]
+    #     X[2, 2] = X[0, 2] - self.width * np.sin(self.dip)
+    #     X[3, 2] = X[2, 2]
+    #     return X
 
     def to_gmt_plain(self, slip, normal):
         ccw_to_x_stk = np.pi / 2 - self.strike  # the angle betuen the fualt and the x axis cunter clock wise

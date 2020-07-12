@@ -5,6 +5,7 @@ import matplotlib.cm as cm
 from scipy import optimize
 import numpy as np
 import json
+from ps import Point_sources
 from image import Image
 from gps_set import Gps
 from seismicity import Seismisity
@@ -42,11 +43,12 @@ class Inversion:
         self.images = []
         self.plains = []
         self.sources_mat = None
-        def plains_sort(p1):
-            return float(p1.split('n')[1])
+        if "plains" in in_data.keys():
+            def plains_sort(p1):
+                return float(p1.split('n')[1])
 
-        for key in sorted(in_data['plains'], key=plains_sort):
-            self.plains.append(Plain(**in_data['plains'][key]))
+            for key in sorted(in_data['plains'], key=plains_sort):
+                self.plains.append(Plain(**in_data['plains'][key]))
         if 'images' in in_data.keys():
             def image_num(image):
                 return float(image.split('e')[1])
@@ -56,13 +58,21 @@ class Inversion:
         if 'gps' in in_data.keys():
             for key in sorted(in_data['gps']):
                 self.gps.append(Gps(**in_data['gps'][key]))
+        self.point_sources = []
+        if 'point_sources' in in_data.keys():
+
+            self.point_sources = Point_sources(in_data['point_sources'])
         self.seismisity = []
         if 'seismicity' in in_data.keys():
             def seismisty_num(seismisty):
                 return float(seismisty.split('y')[1])
             for key in sorted(in_data['seismicity'], key=seismisty_num):
                 self.seismisity.append(Seismisity(**in_data['seismicity'][key]))
-        self.S = self.new_smoothing()
+        if type(in_data['global_parameters']['smooth']) is str:
+            print('load_smoothing from %s' %in_data['global_parameters']['smooth'])
+            self.S = np.load(in_data['global_parameters']['smooth'])
+        else:
+            self.S = self.new_smoothing()
 
 
     @staticmethod
@@ -204,16 +214,21 @@ class Inversion:
         else:
             smoothing = beta * smoothing_mat
         aa = np.concatenate((ker, offset), axis=1)
-        bb = np.concatenate((smoothing, np.zeros((smoothing.shape[0], offset.shape[1]))), axis=1)
+
+        s_strike = np.concatenate((smoothing, np.zeros_like(smoothing)), axis=1)
+        s_dip = np.concatenate((np.zeros_like(smoothing), smoothing), axis=1)
+        s = np.concatenate((s_strike, s_dip), axis=0)
+        bb = np.concatenate((s, np.zeros((s.shape[0], offset.shape[1]))), axis=1)
+
         G = np.concatenate((aa,
                             bb,))
 
-        b = np.concatenate((b, np.zeros(smoothing.shape[0])))
+        b = np.concatenate((b, np.zeros(s.shape[0])))
         sol = optimize.nnls(G, b)
         self.solution = sol[0]
         self.cost = sol[1]
 
-    def solve_g(self, get_G, G_kw):
+    def solve_g(self, get_G, G_kw={}, solver='nnls', bounds=None):
         """
         solve the inversion for user defined A
 
@@ -221,10 +236,23 @@ class Inversion:
             get_G: function that build A from the form get_G(inv, arg1, arg2, ... arg_n)
             G_kw: map of the form {ar1:val1, ar2:val2, ... , arg_n:val_n}
         """
-        b, G = get_G(self, G_kw)
-        sol = optimize.nnls(G, b)
-        self.solution = sol[0]
-        self.cost = sol[1]
+        b, G = get_G(self, **G_kw)
+        if solver == 'nnls':
+            sol = optimize.nnls(G, b)
+            self.solution = sol[0]
+            self.cost = sol[1]
+        elif solver == 'lstsq':
+            sol = np.linalg.lstsq(G, b, rcond=None)
+            self.solution = sol[0]
+            self.cost = sol[1]
+        elif solver == 'lstsq_bound':
+            if bounds is None:
+                bounds = (-np.inf, np.inf)
+            sol = optimize.lsq_linear(G, b, bounds=bounds)
+            self.solution = sol['x']
+            self.cost = sol['cost']
+        else:
+            raise(Exception(f'{solver} is an unauthorized solver. available solvers are: nnls, lstsq'))
 
 
     def plot_sources(self, cmap_max=None, cmap_min=None, view=(30, 225), title='Fault Geometry', I=None):
@@ -914,27 +942,60 @@ class Inversion:
 
 
 
-        east = torch.DoubleTensor(self.gps[0].data.x.values * 1e-3) - model[6]
-        north = torch.DoubleTensor(self.gps[0].data.y.values * 1e-3) - model[7]
-        b = np.concatenate((self.gps[0].data.E.values, self.gps[0].data.N.values, self.gps[0].data.Up.values))
-        b = torch.DoubleTensor(b)
+        east0 = torch.DoubleTensor(self.images[0].stations_mat[:, 0]) - model[6]
+        north0 = torch.DoubleTensor(self.images[0].stations_mat[:, 1]) - model[7]
+        b0 = torch.DoubleTensor(self.images[0].stations_mat[:, 4])
 
-        strike_ker = disloc_pytorch(model[4], model[5], depth, model[1], model[0], 0.0, 0.0, self.strike_element,
-                             0.0, 0.0, east, north, 0.25)
-        strike_ker = torch.cat((strike_ker[0], strike_ker[1], strike_ker[2]))
+        east1 = torch.DoubleTensor(self.images[1].stations_mat[:, 0]) - model[6]
+        north1 = torch.DoubleTensor(self.images[1].stations_mat[:, 1]) - model[7]
+        b1 = torch.DoubleTensor(self.images[1].stations_mat[:, 4])
+
+        strike_ker = disloc_pytorch(model[4], model[5], depth, model[1], model[0], 0.0, 0.0,
+                                    1.0,
+                                    0.0, 0.0, east0, north0, 0.25)
+
+        x0 = -np.cos(self.images[0].azimuth) * strike_ker[0]
+        y0 = np.sin(self.images[0].azimuth) * strike_ker[1]
+        z0 = strike_ker[2] * np.cos(self.images[0].incidence_angle)
+
+        strike_ker0 = -((x0 + y0) * np.sin(self.images[0].incidence_angle) + z0)
+
+        dip_ker = disloc_pytorch(model[4], model[5], depth, model[1], model[0], 0.0, 0.0, 0.0,
+                                 1.0, 0.0, east0, north0, 0.25)
+
+        x0 = -np.cos(self.images[0].azimuth) * dip_ker[0]
+        y0 = np.sin(self.images[0].azimuth) * dip_ker[1]
+        z0 = dip_ker[2] * np.cos(self.images[0].incidence_angle)
+        dip_ker0 = -((x0 + y0) * np.sin(self.images[0].incidence_angle) + z0)
+
+
+
+        strike_ker = disloc_pytorch(model[4], model[5], depth, model[1], model[0], 0.0, 0.0, 1.0,
+                             0.0, 0.0, east1, north1, 0.25)
+
+        x1 = -np.cos(self.images[1].azimuth) * strike_ker[0]
+        y1 = np.sin(self.images[1].azimuth) * strike_ker[1]
+        z1 = strike_ker[2] * np.cos(self.images[1].incidence_angle)
+        strike_ker1 = -((x1 + y1) * np.sin(self.images[1].incidence_angle) + z1)
+
 
 
         dip_ker = disloc_pytorch(model[4], model[5], depth, model[1], model[0], 0.0, 0.0, 0.0,
-                             self.dip_element, 0.0, east, north, 0.25)
-        dip_ker = torch.cat((dip_ker[0], dip_ker[1], dip_ker[2]))
+                             1.0, 0.0, east1, north1, 0.25)
+        x1 = -np.cos(self.images[1].azimuth) * dip_ker[0]
+        y1 = np.sin(self.images[1].azimuth) * dip_ker[1]
+        z1 = dip_ker[2] * np.cos(self.images[1].incidence_angle)
+        dip_ker1 = -((x1 + y1) * np.sin(self.images[0].incidence_angle) + z1)
 
-        w = torch.DoubleTensor(self.gps[0].cala_whigts())
+        strike_ker = torch.cat((strike_ker0, strike_ker1))
+        dip_ker = torch.cat((dip_ker0, dip_ker1))
+        b = torch.cat((b0, b1))
+
 
 
     # img_kers.append(torch.stack((strike_ker * w, dip_ker * w)))
 
-        b = b * w
-        ker = torch.stack((strike_ker * w, dip_ker * w)).t()
+        ker = torch.stack((strike_ker , dip_ker )).t()
         norm = torch.norm(torch.mm(ker, model[2:4].view(-1, 1)).view(-1) - b, 2)
         norm.backward()
         return norm.detach().numpy(), model.grad.numpy()

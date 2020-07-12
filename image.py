@@ -497,7 +497,7 @@ class Image:
         for x, y in zip(X, Y):
             ax.plot(x - self.origin_x, y - self.origin_y, color='g', linewidth=2)
 
-    def get_fault(self, plains, sampels=8):
+    def get_fault(self, plains, sampels=2):
         X = []
         Y = []
         for p in plains:
