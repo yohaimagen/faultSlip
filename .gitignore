@@ -2,5 +2,6 @@
 /*/*.a
 /*/*.o
 /build/
+/*/build/
 /__pycache__/
 ./pypi_token
