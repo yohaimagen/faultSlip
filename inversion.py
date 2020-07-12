@@ -8,7 +8,7 @@ import json
 from faultSlip.ps import Point_sources
 from faultSlip.image import Image
 from faultSlip.gps_set import Gps
-from seismicity import Seismisity
+from faultSlip.seismicity import Seismisity
 from faultSlip.plain import Plain
 from faultSlip.dists.dist import neighbors
 

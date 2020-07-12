@@ -1,6 +1,6 @@
 from matplotlib.pylab import *
 import pandas as pd
-from disloc import disloc
+from faultSlip.disloc import disloc
 
 
 
