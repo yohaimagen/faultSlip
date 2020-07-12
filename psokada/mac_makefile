@@ -3,7 +3,7 @@ CC=gcc
 
 
 INCS=-I.
-CFLAGS = -Wall -Wextra -fPIC -g -c 
+CFLAGS = -Wall -Wextra -g -c 
 LOADLIBES = -L./ 
 
 
@@ -13,7 +13,7 @@ all: okada_stress
 
 
 pscokada.o: pscokada.c pscokada.h defines.h util1.o
-	$(CC) $(CFLAGS) -pthread pscokada.c -o pscokada.o
+	$(CC) $(CFLAGS) -lpthread pscokada.c -o pscokada.o
 
 dc3d.o: dc3d.c dc3d.h defines.h
 	$(CC) $(CFLAGS) dc3d.c -o dc3d.o
