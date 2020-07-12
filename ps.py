@@ -3,7 +3,7 @@ from copy import deepcopy
 from faultSlip.point_source.point_source import py_disp_point_source
 
 # from okada_wrapper import dc3dwrapper
-from psokada.okada_stress import *
+from faultSlip.psokada.okada_stress import *
 
 # def okada_stress():
 #     print 'change imports in souces.py'

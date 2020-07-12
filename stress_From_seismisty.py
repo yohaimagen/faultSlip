@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from faultSlip.inversion import Inversion
 from scipy.spatial import ConvexHull
 
-from faultSlip.source import Source
+from faultSlip. source import Source
 
 
 def get_line_pt(x, y, z, length, ang):
