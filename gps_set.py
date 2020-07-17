@@ -4,32 +4,39 @@ from faultSlip.disloc import disloc
 
 
 
+
 class Gps():
-    def __init__(self, data):
+    def __init__(self, data, origin_lon=None, origin_lat=None):
         self.data = pd.read_csv(data)
         self.G_ss = None
         self.G_ds = None
+        self.G_o = None
         self.sources_mat = None
 
 
-    def build_ker(self, strike_element, dip_element, plains, poisson_ratio=0.25):
+    def build_ker(self, strike_element, dip_element, open_elemnt, plains, poisson_ratio=0.25):
         if strike_element == 0:
             self.G_ss = np.zeros((self.data.shape[0] * 3, 0))
         else:
-            self.G_ss = self.build_ker_element(strike_element, 0, plains, poisson_ratio)
+            self.G_ss = self.build_ker_element(strike_element, 0, 0, plains, poisson_ratio)
         if dip_element == 0:
             self.G_ds = np.zeros((self.data.shape[0]*3, 0))
         else:
-            self.G_ds = self.build_ker_element(0, dip_element, plains, poisson_ratio)
+            self.G_ds = self.build_ker_element(0, dip_element, 0, plains, poisson_ratio)
+        if open_elemnt == 0:
+            self.G_o = np.zeros((self.data.shape[0]*3, 0))
+        else:
+            self.G_o = self.build_ker_element(0, 0, open_elemnt, plains, poisson_ratio)
 
 
-    def build_ker_element(self, strike_element, dip_element, plains, poisson_ratio=0.25):
+    def build_ker_element(self, strike_element, dip_element, open_element, plains, poisson_ratio=0.25):
        all_Gz = []
        all_Ge = []
        all_Gn = []
        for plain in plains:
             s_element = strike_element * plain.strike_element
             d_element = dip_element * plain.dip_element
+            o_element = open_element * plain.open_element
             Gz = np.zeros((self.data.shape[0], len(plain.sources)))
             Ge = np.zeros_like(Gz)
             Gn = np.zeros_like(Gz)
@@ -38,7 +45,7 @@ class Gps():
                 uN = np.zeros_like(uE)
                 uZ = np.zeros_like(uE)
                 model = np.array(
-                    [sr.length, sr.width, sr.depth, np.rad2deg(sr.dip), np.rad2deg(sr.strike), 0, 0, s_element, d_element , 0.0],
+                    [sr.length, sr.width, sr.depth, np.rad2deg(sr.dip), np.rad2deg(sr.strike), 0, 0, s_element, d_element , o_element],
                     dtype='float64')
                 disloc.disloc_1d(uE, uN, uZ, model, self.data.x.values * 1e-3 - sr.e, self.data.y.values * 1e-3 - sr.n, poisson_ratio,
                                  self.data.shape[0], 1)
@@ -51,6 +58,8 @@ class Gps():
        xx = np.concatenate((np.concatenate(all_Ge, axis=1), np.concatenate(all_Gn, axis=1), np.concatenate(all_Gz, axis=1)),
                       axis=0)
        return xx
+
+
 
     def cala_whigts(self, mask=None):
         sigma = np.concatenate((self.data.Se.values, self.data.Sn.values, self.data.Su.values))

@@ -95,7 +95,7 @@ class Image:
         self.clean = None
 
 
-    def build_kernal(self, ss, ds, plains, poisson_ratio=0.25):
+    def build_kernal(self, ss, ds, ts, plains, poisson_ratio=0.25):
         def build(plain, ss, ds):
             A = np.zeros((len(plain.sources), len(self.station), 3))
             east = np.array([st.east for st in self.station], dtype='float64')

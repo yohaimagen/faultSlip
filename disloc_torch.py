@@ -6,7 +6,12 @@ def disloc_pytorch(length, width, depth, dip, strike, easting, northing, ss, ds,
     _cos_dip = torch.cos(dip)
     _sin_dip = torch.sin(dip)
     if (length < 0 or width < 0 or depth < 0 or (depth - _sin_dip * width) < 0):
-        return torch.zeros_like(e), torch.zeros_like(e), torch.zeros_like(e)
+        # return torch.zeros_like(e),\
+        #        torch.zeros_like(e),\
+        #        torch.zeros_like(e)
+        return torch.ones_like(e) * length * width * depth * dip * strike * easting * northing  * ts * 1e20, \
+               torch.ones_like(e) * length * width * depth * dip * strike * easting * northing  * ts * 1e20, \
+               torch.ones_like(e) * length * width * depth * dip * strike * easting * northing  * ts * 1e20
         # raise Exception('the dislocation is unphysical')
     if torch.abs(_cos_dip) < 2.2204460492503131e-16:
         cos_dip = 0.0
@@ -369,23 +374,24 @@ def okada_nunpy(alp, sin_dip, cos_dip, length, width, depth, X, Y, ss, ds, ts):
 # E = np.zeros(2)
 # N = np.zeros(2)
 # Z = np.zeros(2)
-# model = np.array([12.35, 20.0, 14.14, np.rad2deg(0.5), np.rad2deg(2.0), 12.27, 15.8, 0.2, 0.3, 0.0])
-# east = torch.DoubleTensor([10.0])
-# north = torch.DoubleTensor([10.0])
+# model = np.array([12.35, 20.0, 14.14, np.rad2deg(0.5), np.rad2deg(2.0), 12.27, 15.8, 0.0, 0.0, 1.0])
+# east = torch.DoubleTensor([10.0, 20.0])
+# north = torch.DoubleTensor([10.0, 20.0])
 # disloc.disloc_1d(E, N, Z,  model, east.numpy(), north.numpy(), 0.25, 2, 1)
 # model[3:5] = np.deg2rad(model[3:5])
 # model = torch.autograd.Variable(torch.from_numpy(model), requires_grad=True)
 # disp = disloc_pytorch(model[0], model[1], model[2], model[3], model[4], model[5], model[6], model[7], model[8], model[9], east, north, 0.25)
 #
-# print 'E:%f, N:%f, Z:%f' %(E[0] - disp[0].detach().numpy(), N[0] - disp[1].detach().numpy(), Z[0]- disp[2].detach().numpy())
-# print E, N, Z
-# print disp
-
-
+# # print('E:%f, N:%f, Z:%f' %(E[0] - disp[0].detach().numpy(), N[0] - disp[1].detach().numpy(), Z[0]- disp[2].detach().numpy()))
+# print(torch.cat(disp).shape)
+# print(E, N, Z)
+# print(disp)
+#
+#
 # loss = torch.sum(disp[0]) + torch.sum(disp[1]) + torch.sum(disp[2])
 # loss.backward()
-# print model.grad
-
+# print(model.grad)
+#
 # length = np.array([10.0])
 # width = np.array([10.0])
 # depth = np.array([11.0])
@@ -396,8 +402,8 @@ def okada_nunpy(alp, sin_dip, cos_dip, length, width, depth, X, Y, ss, ds, ts):
 # ss = np.array([1.0])
 # ds = np.array([1.0])
 # ts = np.array([1.0])
-
-
+#
+#
 # length = np.array([10.0, 1.0, 2.0])
 # width = np.array([10.0, 1.0, 10.0])
 # depth = np.array([10.0, 10.0, 15.0])
@@ -408,10 +414,10 @@ def okada_nunpy(alp, sin_dip, cos_dip, length, width, depth, X, Y, ss, ds, ts):
 # ss = np.array([1.0, 1.0, 1.0])
 # ds = np.array([1.0, 1.0, 1.0])
 # ts = np.array([1.0, 1.0, 1.0])
-
+#
 # e = np.array([10.0])
 # n = np.array([10.0])
-
+#
 # e = np.array([10.0, 5.0])
 # n = np.array([10.0, 5.0])
 #
@@ -423,6 +429,6 @@ def okada_nunpy(alp, sin_dip, cos_dip, length, width, depth, X, Y, ss, ds, ts):
 #
 # k = disloc_numpy(length, width, depth, dip, strike, easting, northing, ss, ds, ts, e, n, nu)
 #
-# print f - k
+# print(f - k)
 
 

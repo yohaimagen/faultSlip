@@ -37,6 +37,7 @@ class Inversion:
         self.shear_modulus = global_parameters['shear_modulus']
         self.dip_element = global_parameters['dip_element']
         self.strike_element = global_parameters['strike_element']
+        self.open_element = global_parameters['open_element']
         self.compute_mean = global_parameters['compute_mean']
         self.solution = None
         self.cost = None
@@ -105,11 +106,11 @@ class Inversion:
     def build_kers(self):
         """building all subsets dataset elastic kernels"""
         for img in self.images:
-            img.build_kernal(self.strike_element, self.dip_element, self.plains)
+            img.build_kernal(self.strike_element, self.dip_element, self.open_element, self.plains)
         for gps in self.gps:
-            gps.build_ker(self.strike_element, self.dip_element, self.plains)
+            gps.build_ker(self.strike_element, self.dip_element, self.open_element, self.plains)
         for seismisity in self.seismisity:
-            seismisity.build_ker(self.strike_element, self.dip_element, self.plains)
+            seismisity.build_ker(self.strike_element, self.dip_element, self.open_element, self.plains)
 
     def calculate_station_disp(self):
         """calculate the displacement for each data point"""

@@ -7,7 +7,7 @@ from faultSlip.source import Source
 
 
 class Plain:
-    def __init__(self, dip=None, strike=None, plain_cord=None, plain_length=None, width=None, num_sub_stk=None, dont_smooth=[], smooth_down=True, sources_file=False, total_width=None, strike_element=1, dip_element=1, **kwargs):
+    def __init__(self, dip=None, strike=None, plain_cord=None, plain_length=None, width=None, num_sub_stk=None, dont_smooth=[], smooth_down=True, sources_file=False, total_width=None, strike_element=1, dip_element=1, open_element=0, **kwargs):
         self.dip = dip
         self.strike = strike
         self.plain_cord = plain_cord
@@ -19,6 +19,7 @@ class Plain:
         self.num_sub_stk = num_sub_stk
         self.strike_element = strike_element
         self.dip_element = dip_element
+        self.open_element=open_element
         if not sources_file:
             for i in range(len(width)):
                 source_length = plain_length / num_sub_stk[i]
