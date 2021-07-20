@@ -7,11 +7,16 @@ from faultSlip.disloc import disloc
 
 class Gps():
     def __init__(self, data, origin_lon=None, origin_lat=None):
-        self.data = pd.read_csv(data)
+        if isinstance(data, pd.DataFrame):
+            self.data = data
+        else:
+            self.data = pd.read_csv(data)
         self.G_ss = None
         self.G_ds = None
         self.G_o = None
         self.sources_mat = None
+        self.origin_lon = origin_lon
+        self.origin_lat = origin_lat
 
 
     def build_ker(self, strike_element, dip_element, open_elemnt, plains, poisson_ratio=0.25):
@@ -67,6 +72,10 @@ class Gps():
             sigma = sigma[mask]
         return 1 / (sigma * np.sum(1/sigma[sigma != 0]))
 
+    def softmax_whigts(self, mask=None):
+        sigma = np.concatenate((self.data.Se.values, self.data.Sn.values, self.data.Su.values))
+        sigma = np.exp(sigma)
+        return sigma / np.sum(sigma)
     def get_data(self):
         return np.concatenate((self.data.E.values, self.data.N.values, self.data.Up.values))
 
@@ -111,7 +120,7 @@ class Gps():
             plt.plot(x, y, color='g')
 
 
-    def save_model(self, slip, path="", only_gps=True):
+    def save_model(self, slip, path=None, only_gps=True):
         G = np.concatenate((self.G_ss, self.G_ds), axis=1)
         if only_gps:
             model_d = G.dot(slip.reshape(-1, 1))
@@ -122,7 +131,23 @@ class Gps():
         model.loc[:, 'N'] = model_d[self.data.shape[0]:self.data.shape[0] * 2]
 
         model.loc[:, 'Up'] = model_d[self.data.shape[0]*2:self.data.shape[0] * 4]
-        model.to_csv(path, index=False)
+        if path is not None:
+            model.to_csv(path, index=False)
+        return model
+
+    def get_model(self, slip):
+        G = np.concatenate((self.G_ss, self.G_ds), axis=1)
+        model_d = G.dot(slip.reshape(-1, 1))
+        model = self.data[['id', 'lon', 'lat']].copy()
+        model.loc[:, 'E'] = model_d[0:self.data.shape[0]]
+        model.loc[:, 'N'] = model_d[self.data.shape[0]:self.data.shape[0] * 2]
+        model.loc[:, 'Up'] = model_d[self.data.shape[0]*2:self.data.shape[0] * 4]
+        return model
+
+    def get_model_EN(self, slip):
+        G = np.concatenate((self.G_ss, self.G_ds), axis=1)
+        model_d = G.dot(slip.reshape(-1, 1))
+        return np.concatenate((model_d[0:self.data.shape[0]], model_d[self.data.shape[0]:self.data.shape[0] * 2]), axis=1)
 
 
 

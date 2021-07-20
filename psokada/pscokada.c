@@ -192,7 +192,7 @@ void c_okada_stress(double x1, double y1, double z1, double strike1, double dip1
 		double lame_lambda, double mu)
 {
 
-	pscokada(x1, y1, z1, strike1, dip1, L, W, slip_strike, slip_dip, open, x2, y2, z2, &s[0], &s[4], &s[8], &s[1], &s[2], &s[5], lame_lambda, mu);
+	pscokada(x1, y1, z1, strike1, dip1, L, W, slip_strike, slip_dip, open, x2, y2, z2, &s[0], &s[4], &s[8], &s[1], &s[5], &s[2], lame_lambda, mu);
 	s[3] = s[1];
 	s[6] = s[2];
 	s[7] = s[5];

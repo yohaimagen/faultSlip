@@ -40,8 +40,8 @@ class Source:
             self.e_m = a + x * np.cos(self.ccw_to_x_stk) + np.cos(self.ccw_to_x_dip) * np.cos(dip) * (y - 0.5 * self.width)
             self.n_m = b + x * np.sin(self.ccw_to_x_stk) + np.sin(self.ccw_to_x_dip) * np.cos(dip) * (y - 0.5 * self.width)
             self.depth_m = c + np.sin(dip) * (y - 0.5 * self.width)
-        deast = np.cos(self.ccw_to_x_stk) * self.width * 0.5
-        dnorth = np.sin(self.ccw_to_x_stk) * self.width * 0.5
+        deast = np.cos(self.ccw_to_x_stk) * self.length * 0.5
+        dnorth = np.sin(self.ccw_to_x_stk) * self.length * 0.5
         """
         p1 ------------ p2
            |           |

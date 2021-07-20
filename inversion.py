@@ -237,7 +237,7 @@ class Inversion:
             get_G: function that build A from the form get_G(inv, arg1, arg2, ... arg_n)
             G_kw: map of the form {ar1:val1, ar2:val2, ... , arg_n:val_n}
         """
-        b, G = get_G(self, **G_kw)
+        b, G = get_G(self, G_kw)
         if solver == 'nnls':
             sol = optimize.nnls(G, b)
             self.solution = sol[0]
@@ -1027,8 +1027,8 @@ class Inversion:
         def shear_hat(strike, dip, rake):
             l_s = np.cos(rake)
             l_d = np.sin(rake)
-            nz = -np.sin(dip) * l_d
-            l = np.cos(dip) * l_d
+            l = np.sin(dip) * l_d
+            nz = np.cos(dip) * l_d
 
             x_s = np.cos(strike) * l_s
             y_s = np.sin(strike) * l_s
@@ -1046,6 +1046,7 @@ class Inversion:
                 if sr.strike_slip < 1e-7 and sr.dip_slip < 1e-7:
                     continue
                 for ix in range(X.shape[0]):
+                    # print(X[ix], Y[ix], Z[ix])
                     stress[ix] += sr.stress(X[ix], Y[ix], Z[ix], self.strike_element*plain.strike_element, self.dip_element*plain.dip_element, lambda_l, shear_m)
         n_hat = normal(strike, dip)
         s_hat = shear_hat(np.pi / 2 - strike, dip, rake)
@@ -1055,18 +1056,19 @@ class Inversion:
         coulomb = ts + mu * tn
         return X, Y, Z, coulomb, tn, ts
 
-    def calc_coulomb_disloc(self, mu, X, Y, Z, strike, dip, rake, lambda_l=50e9, shear_m=30e9):
+
+    def calc_coulomb_2d(self, mu, X, Y, Z, strike=0.0, dip=(3.141592653589793 / 2.0), rake=0.0, lambda_l =50e9, shear_m=30e9):
         def normal(strike, dip):
             nz = np.cos(dip)
             nx = np.cos(strike) * np.sin(dip)
-            ny = -np.sin(strike ) * np.sin(dip)
+            ny = -np.sin(strike) * np.sin(dip)
             return np.array([nx, ny, nz]).reshape(-1, 1)
 
         def shear_hat(strike, dip, rake):
             l_s = np.cos(rake)
             l_d = np.sin(rake)
-            nz = -np.sin(dip) * l_d
-            l = np.cos(dip) * l_d
+            l = np.sin(dip) * l_d
+            nz = np.cos(dip) * l_d
 
             x_s = np.cos(strike) * l_s
             y_s = np.sin(strike) * l_s
@@ -1077,90 +1079,25 @@ class Inversion:
 
         self.assign_slip()
 
-        tn = []
-        ts = []
-        coulomb = []
-        for ix in range(X.shape[0]):
-            stress = np.zeros((3, 3))
-            for plain in self.images[0].plains:
-                for isr, sr in enumerate(plain.sources):
-                    if (sr.strike_slip < 1e-7 and sr.dip_slip < 1e-7):
-                        continue
-                    stress += sr.stress(X[ix], Y[ix], Z[ix], self.strike_element*plain.strike_element, self.dip_element*plain.dip_element, lambda_l, shear_m)
-            n_hat = normal(strike[ix], dip[ix])
-            s_hat = shear_hat(np.pi / 2 - strike[ix], dip[ix], rake[ix])
-            t = np.squeeze(stress.dot(n_hat))
-            tn.append(np.squeeze(t.dot(n_hat)))
-            ts.append(np.squeeze(t.dot(s_hat)))
-            coulomb.append(ts[-1] - mu * tn[-1])
-        return np.array(coulomb), np.array(tn), np.array(ts)
+        stress = np.zeros((X.shape[0], X.shape[1], 3, 3))
 
-    def calc_coulomb_cord(self, mu, x, y, z, strike, dip, rake, lambda_l=50e9, shear_m=30e9):
-        def normal(strike, dip):
-            nz = np.cos(dip)
-            nx = np.cos(strike) * np.sin(dip)
-            ny = -np.sin(strike ) * np.sin(dip)
-            return np.array([nx, ny, nz]).reshape(-1, 1)
-
-        def shear_hat(strike, dip, rake):
-            l_s = np.cos(rake)
-            l_d = np.sin(rake)
-            nz = -np.sin(dip) * l_d
-            l = np.cos(dip) * l_d
-
-            x_s = np.cos(strike) * l_s
-            y_s = np.sin(strike) * l_s
-
-            x_d = np.cos(strike + np.pi / 2) * l
-            y_d = np.sin(strike + np.pi / 2) * l
-            return np.array([x_s + x_d, y_s + y_d, nz]).reshape(-1, 1)
-
-        self.assign_slip()
-
-
-        stress = np.zeros((3, 3))
-        for plain in self.images[0].plains:
-            for isr, sr in enumerate(plain.sources):
-                if (sr.strike_slip < 1e-7 and sr.dip_slip < 1e-7):
+        for plain in self.plains:
+            for sr in plain.sources:
+                if sr.strike_slip < 1e-7 and sr.dip_slip < 1e-7:
                     continue
-                stress += sr.stress(x, y, z, self.strike_element*plain.strike_element, self.dip_element*plain.dip_element, lambda_l, shear_m)
+                for ix in range(X.shape[0]):
+                    for jx in range(X.shape[1]):
+                        # print(X[ix, jx], Y[ix, jx], Z[ix, jx])
+                        stress[ix, jx] += sr.stress(X[ix, jx], Y[ix, jx], Z[ix, jx], self.strike_element*plain.strike_element, self.dip_element*plain.dip_element, lambda_l, shear_m)
         n_hat = normal(strike, dip)
         s_hat = shear_hat(np.pi / 2 - strike, dip, rake)
         t = np.squeeze(stress.dot(n_hat))
-        tn = np.squeeze(t.dot(n_hat))
-        ts = np.squeeze(t.dot(s_hat))
-        coulomb = ts - mu * tn
-        return tn, ts, coulomb
+        tn = np.fliplr(np.squeeze(t.dot(n_hat)))
+        ts = np.fliplr(np.squeeze(t.dot(s_hat)))
+        coulomb = ts + mu * tn
+        return X, Y, Z, coulomb, tn, ts
 
 
-    def calc_plains_colum(self, ax, spacing=1.0, lambda_l=30e9, shear_m=30e9, mu=0.6, rake=0.0, cmap='jet', vmin=1e9, vmax=1e10):
-
-        my_cmap = mlb.cm.get_cmap(cmap)
-        norm = mlb.colors.Normalize(vmin, vmax)
-
-        for plain in self.images[0].plains:
-            X_p, Y_p = np.meshgrid(np.arange(0, plain.plain_length, spacing), np.arange(0, plain.total_width, spacing))
-            strike = np.deg2rad(plain.strike)
-            ccw_to_x_stk = np.pi / 2 - strike  # the angle betuen the fualt and the x axis cunter clock wise
-            ccw_to_x_dip = - strike
-            dip = np.deg2rad(plain.dip-0.1)
-            e = plain.plain_cord[0] + X_p * np.cos(ccw_to_x_stk) + np.cos(ccw_to_x_dip) * np.cos(dip) * Y_p
-            n = np.ones_like(e) * 50.0#plain.plain_cord[1] + X_p * np.sin(ccw_to_x_stk) + np.sin(ccw_to_x_dip) * np.cos(dip) * Y_p
-            depth = (np.abs(plain.plain_cord[2]) + np.sin(dip) * Y_p)
-            X, Y, Z, coulomb, tn, ts = self.calc_ccoulomb(mu, e.flatten(), n.flatten(), depth.flatten(), strike=np.deg2rad(plain.strike), dip=np.deg2rad(plain.dip), rake=np.deg2rad(rake), lambda_l=lambda_l, shear_m=shear_m)
-            ax.plot_surface(e, n, depth, facecolors=my_cmap(norm(ts.reshape(n.shape))))
-            ax.set_ylim(40,60)
-            print(coulomb)
-        cmmapable = plt.cm.ScalarMappable(norm, my_cmap)
-        cmmapable.set_array(np.linspace(vmin, vmax))
-        cbar = plt.colorbar(cmmapable)
-        plt.figure()
-        sum = []
-        A = np.linspace(ts.min(), ts.max(), 100)
-        for a in A:
-            sum.append(np.sum(ts < a) / float(ts.shape[0]))
-        plt.plot(A, sum)
-        plt.xscale('symlog')
 
 
     def slip_depth(self, max_depth=15, intervals=10):
