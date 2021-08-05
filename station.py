@@ -1,9 +1,6 @@
 from copy import deepcopy
 
 
-
-
-
 class Station:
     def __init__(self, east, north, x_size=1, y_size=1, disp=0, weight=1, flag=False):
         if flag:

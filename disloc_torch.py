@@ -1,17 +1,50 @@
 import numpy as np
 import torch
+
 from disloc import disloc
 
-def disloc_pytorch(length, width, depth, dip, strike, easting, northing, ss, ds, ts, e, n, nu):
+
+def disloc_pytorch(
+    length, width, depth, dip, strike, easting, northing, ss, ds, ts, e, n, nu
+):
     _cos_dip = torch.cos(dip)
     _sin_dip = torch.sin(dip)
-    if (length < 0 or width < 0 or depth < 0 or (depth - _sin_dip * width) < 0):
+    if length < 0 or width < 0 or depth < 0 or (depth - _sin_dip * width) < 0:
         # return torch.zeros_like(e),\
         #        torch.zeros_like(e),\
         #        torch.zeros_like(e)
-        return torch.ones_like(e) * length * width * depth * dip * strike * easting * northing  * ts * 1e20, \
-               torch.ones_like(e) * length * width * depth * dip * strike * easting * northing  * ts * 1e20, \
-               torch.ones_like(e) * length * width * depth * dip * strike * easting * northing  * ts * 1e20
+        return (
+            torch.ones_like(e)
+            * length
+            * width
+            * depth
+            * dip
+            * strike
+            * easting
+            * northing
+            * ts
+            * 1e20,
+            torch.ones_like(e)
+            * length
+            * width
+            * depth
+            * dip
+            * strike
+            * easting
+            * northing
+            * ts
+            * 1e20,
+            torch.ones_like(e)
+            * length
+            * width
+            * depth
+            * dip
+            * strike
+            * easting
+            * northing
+            * ts
+            * 1e20,
+        )
         # raise Exception('the dislocation is unphysical')
     if torch.abs(_cos_dip) < 2.2204460492503131e-16:
         cos_dip = 0.0
@@ -28,35 +61,67 @@ def disloc_pytorch(length, width, depth, dip, strike, easting, northing, ss, ds,
 
     relt_e = cos_angle * (e - easting) - sin_angle * (n - northing) + 0.5 * length
     relt_n = sin_angle * (e - easting) + cos_angle * (n - northing)
-    SS_0, SS_1, SS_2, DS_0, DS_1, DS_2, TS_0, TS_1, TS_2 = okada_torch(1 - 2 * nu, sin_dip, cos_dip, length, width, depth,
-                       relt_e, relt_n, ss, ds, ts)
+    SS_0, SS_1, SS_2, DS_0, DS_1, DS_2, TS_0, TS_1, TS_2 = okada_torch(
+        1 - 2 * nu, sin_dip, cos_dip, length, width, depth, relt_e, relt_n, ss, ds, ts
+    )
 
     x = SS_0 + DS_0 + TS_0
     y = SS_1 + DS_1 + TS_1
-    return cos_angle * x + sin_angle * y, -sin_angle * x + cos_angle * y, SS_2 + DS_2 + TS_2
+    return (
+        cos_angle * x + sin_angle * y,
+        -sin_angle * x + cos_angle * y,
+        SS_2 + DS_2 + TS_2,
+    )
 
 
 def okada_torch(alp, sin_dip, cos_dip, length, width, depth, X, Y, ss, ds, ts):
     PI2INV = 0.15915494309189535
-
 
     depth_sin_dip = depth * sin_dip
     depth_cos_dip = depth * cos_dip
 
     p = Y * cos_dip + depth_sin_dip
     q = Y * sin_dip - depth_cos_dip
-    SS_0, SS_1, SS_2, DS_0, DS_1, DS_2, TS_0, TS_1, TS_2 = a1(p - width, PI2INV, X, q, sin_dip, cos_dip, alp, ss, ds, ts, length)
-    SS_0_t, SS_1_t, SS_2_t, DS_0_t, DS_1_t, DS_2_t, TS_0_t, TS_1_t, TS_2_t = a1(p, -PI2INV, X, q, sin_dip, cos_dip, alp, ss, ds, ts, length)
+    SS_0, SS_1, SS_2, DS_0, DS_1, DS_2, TS_0, TS_1, TS_2 = a1(
+        p - width, PI2INV, X, q, sin_dip, cos_dip, alp, ss, ds, ts, length
+    )
+    SS_0_t, SS_1_t, SS_2_t, DS_0_t, DS_1_t, DS_2_t, TS_0_t, TS_1_t, TS_2_t = a1(
+        p, -PI2INV, X, q, sin_dip, cos_dip, alp, ss, ds, ts, length
+    )
 
-
-    return SS_0 + SS_0_t, SS_1 + SS_1_t, SS_2 + SS_2_t, DS_0 + DS_0_t, DS_1 + DS_1_t, DS_2 + DS_2_t, TS_0 + TS_0_t, TS_1 + TS_1_t, TS_2 + TS_2_t
+    return (
+        SS_0 + SS_0_t,
+        SS_1 + SS_1_t,
+        SS_2 + SS_2_t,
+        DS_0 + DS_0_t,
+        DS_1 + DS_1_t,
+        DS_2 + DS_2_t,
+        TS_0 + TS_0_t,
+        TS_1 + TS_1_t,
+        TS_2 + TS_2_t,
+    )
 
 
 def a1(et, sign, X, q, sin_dip, cos_dip, alp, ss, ds, ts, length):
-    SS_0, SS_1, SS_2, DS_0, DS_1, DS_2, TS_0, TS_1, TS_2 = a2(X - length, sign, et, q, sin_dip, cos_dip, alp, ss, ds, ts)
+    SS_0, SS_1, SS_2, DS_0, DS_1, DS_2, TS_0, TS_1, TS_2 = a2(
+        X - length, sign, et, q, sin_dip, cos_dip, alp, ss, ds, ts
+    )
     SS_0, SS_1, SS_2, DS_0, DS_1, DS_2 = -SS_0, -SS_1, -SS_2, -DS_0, -DS_1, -DS_2
-    SS_0_t, SS_1_t, SS_2_t, DS_0_t, DS_1_t, DS_2_t, TS_0_t, TS_1_t, TS_2_t = a2(X, -sign, et, q, sin_dip, cos_dip, alp, ss, ds, ts)
-    return SS_0 - SS_0_t, SS_1 - SS_1_t, SS_2 - SS_2_t, DS_0 -DS_0_t, DS_1 - DS_1_t, DS_2 - DS_2_t, TS_0 + TS_0_t, TS_1 + TS_1_t, TS_2 + TS_2_t
+    SS_0_t, SS_1_t, SS_2_t, DS_0_t, DS_1_t, DS_2_t, TS_0_t, TS_1_t, TS_2_t = a2(
+        X, -sign, et, q, sin_dip, cos_dip, alp, ss, ds, ts
+    )
+    return (
+        SS_0 - SS_0_t,
+        SS_1 - SS_1_t,
+        SS_2 - SS_2_t,
+        DS_0 - DS_0_t,
+        DS_1 - DS_1_t,
+        DS_2 - DS_2_t,
+        TS_0 + TS_0_t,
+        TS_1 + TS_1_t,
+        TS_2 + TS_2_t,
+    )
+
 
 def a2(xi, sign, et, q, sin_dip, cos_dip, alp, ss, ds, ts):
     sin_cos_dip = sin_dip * cos_dip
@@ -89,8 +154,15 @@ def a2(xi, sign, et, q, sin_dip, cos_dip, alp, ss, ds, ts):
     else:
         td = sin_dip / cos_dip
         x = torch.sqrt(xi2 + q2)
-        a5 = alp * 2 / cos_dip * torch.atan(
-            (et * (x + q * cos_dip) + x * (r + x) * sin_dip) / (xi * (r + x) * cos_dip))
+        a5 = (
+            alp
+            * 2
+            / cos_dip
+            * torch.atan(
+                (et * (x + q * cos_dip) + x * (r + x) * sin_dip)
+                / (xi * (r + x) * cos_dip)
+            )
+        )
         a5[xi == 0.0] = 0.0
         a4 = alp / cos_dip * (torch.log(rd) - sin_dip * dle)
         a3 = alp * (y / rd / cos_dip - dle) + td * a4
@@ -100,9 +172,9 @@ def a2(xi, sign, et, q, sin_dip, cos_dip, alp, ss, ds, ts):
     rxq = rrx * q
 
     mult = sign * ss
-    SS_0 =  mult * (req * xi + tt + a1 * sin_dip)
-    SS_1 =  mult * (req * y + q * cos_dip * re + a2 * sin_dip)
-    SS_2 =  mult * (req * d + q * sin_dip * re + a4 * sin_dip)
+    SS_0 = mult * (req * xi + tt + a1 * sin_dip)
+    SS_1 = mult * (req * y + q * cos_dip * re + a2 * sin_dip)
+    SS_2 = mult * (req * d + q * sin_dip * re + a4 * sin_dip)
 
     mult = sign * ds
     DS_0 = mult * (q / r - a3 * sin_cos_dip)
@@ -116,10 +188,12 @@ def a2(xi, sign, et, q, sin_dip, cos_dip, alp, ss, ds, ts):
     return SS_0, SS_1, SS_2, DS_0, DS_1, DS_2, TS_0, TS_1, TS_2
 
 
-def disloc_py(length, width, depth, dip, strike, easting, northing, ss, ds, ts, e, n, nu):
+def disloc_py(
+    length, width, depth, dip, strike, easting, northing, ss, ds, ts, e, n, nu
+):
     cos_dip = np.cos(dip)
     sin_dip = np.sin(dip)
-    if (length < 0 or width < 0 or depth < 0 or (depth - sin_dip * width) < 1e-12):
+    if length < 0 or width < 0 or depth < 0 or (depth - sin_dip * width) < 1e-12:
         return 0, 0, 0
     if np.abs(cos_dip) < 2.2204460492503131e-16:
         cos_dip = 0.0
@@ -136,12 +210,17 @@ def disloc_py(length, width, depth, dip, strike, easting, northing, ss, ds, ts, 
     TS = np.zeros(3)
     relt_e = cos_angle * (e - easting) - sin_angle * (n - northing) + 0.5 * length
     relt_n = sin_angle * (e - easting) + cos_angle * (n - northing)
-    SS, DS, TS = okada(1 - 2 * nu, sin_dip, cos_dip, length, width, depth,
-                       relt_e, relt_n, ss, ds, ts)
+    SS, DS, TS = okada(
+        1 - 2 * nu, sin_dip, cos_dip, length, width, depth, relt_e, relt_n, ss, ds, ts
+    )
 
     x = SS[0] + DS[0] + TS[0]
     y = SS[1] + DS[1] + TS[1]
-    return cos_angle * x + sin_angle * y, -sin_angle * x + cos_angle * y, SS[2] + DS[2] + TS[2]
+    return (
+        cos_angle * x + sin_angle * y,
+        -sin_angle * x + cos_angle * y,
+        SS[2] + DS[2] + TS[2],
+    )
 
 
 def okada(alp, sin_dip, cos_dip, length, width, depth, X, Y, ss, ds, ts):
@@ -164,13 +243,12 @@ def okada(alp, sin_dip, cos_dip, length, width, depth, X, Y, ss, ds, ts):
     p = Y * cos_dip + depth_sin_dip
     q = Y * sin_dip - depth_cos_dip
 
-
     for k in range(2):
         et = p - awa[k]
         for j in range(2):
             sign = PI2INV
             xi = X - ala[j]
-            if (j + k == 1):
+            if j + k == 1:
                 sign = -PI2INV
             xi2 = xi ** 2
             et2 = et ** 2
@@ -208,8 +286,15 @@ def okada(alp, sin_dip, cos_dip, length, width, depth, X, Y, ss, ds, ts):
                 if xi == 0.0:
                     a5 = 0.0
                 else:
-                    a5 = alp * 2 / cos_dip * np.arctan(
-                        (et * (x + q * cos_dip) + x * (r + x) * sin_dip) / (xi * (r + x) * cos_dip))
+                    a5 = (
+                        alp
+                        * 2
+                        / cos_dip
+                        * np.arctan(
+                            (et * (x + q * cos_dip) + x * (r + x) * sin_dip)
+                            / (xi * (r + x) * cos_dip)
+                        )
+                    )
                 a4 = alp / cos_dip * (np.log(rd) - sin_dip * dle)
                 a3 = alp * (y / rd / cos_dip - dle) + td * a4
                 a1 = -alp / cos_dip * xi / rd - td * a5
@@ -229,17 +314,32 @@ def okada(alp, sin_dip, cos_dip, length, width, depth, X, Y, ss, ds, ts):
             if ts != 0.0:
                 mult = sign * ts
                 TS[0] += mult * (q2 * rre - a3 * sin_2_dip)
-                TS[1] += mult * (-d * rxq - sin_dip * (xi * q * rre - tt) - a1 * sin_2_dip)
-                TS[2] += mult * (y * rxq + cos_dip * (xi * q * rre - tt) - a5 * sin_2_dip)
+                TS[1] += mult * (
+                    -d * rxq - sin_dip * (xi * q * rre - tt) - a1 * sin_2_dip
+                )
+                TS[2] += mult * (
+                    y * rxq + cos_dip * (xi * q * rre - tt) - a5 * sin_2_dip
+                )
     return SS, DS, TS
 
-def disloc_numpy(length, width, depth, dip, strike, easting, northing, ss, ds, ts, e, n, nu):
+
+def disloc_numpy(
+    length, width, depth, dip, strike, easting, northing, ss, ds, ts, e, n, nu
+):
     cos_dip = np.cos(dip)
     sin_dip = np.sin(dip)
-    un_phisical = np.concatenate((np.argwhere(length < 0), np.argwhere(width < 0), np.argwhere(depth < 0), np.argwhere((depth - sin_dip * width) < 1e-12)))
+    un_phisical = np.concatenate(
+        (
+            np.argwhere(length < 0),
+            np.argwhere(width < 0),
+            np.argwhere(depth < 0),
+            np.argwhere((depth - sin_dip * width) < 1e-12),
+        )
+    )
     if un_phisical.shape[0] > 0:
-        raise Exception('the following dislocations are unphysical' + str(np.unique(un_phisical)))
-
+        raise Exception(
+            "the following dislocations are unphysical" + str(np.unique(un_phisical))
+        )
 
     mask = np.argwhere(np.abs(cos_dip) < 2.2204460492503131e-16)
     cos_dip[mask] = 0.0
@@ -250,16 +350,31 @@ def disloc_numpy(length, width, depth, dip, strike, easting, northing, ss, ds, t
     cos_angle = np.cos(angle)
     sin_angle = np.sin(angle)
 
-
-    relt_e = cos_angle.reshape(-1, 1) * (-np.tile(easting.reshape(-1, 1), (1, e.shape[0])) + e) - sin_angle.reshape(-1, 1) * (-np.tile(northing.reshape(-1, 1), (1, n.shape[0])) + n) + 0.5 * length.reshape(-1, 1)
-    relt_n = sin_angle.reshape(-1, 1) * (-np.tile(easting.reshape(-1, 1), (1, e.shape[0])) + e) + cos_angle.reshape(-1, 1) * (
-                -np.tile(northing.reshape(-1, 1), (1, n.shape[0])) + n)
-    SS, DS, TS = okada_nunpy(1 - 2 * nu, sin_dip, cos_dip, length, width, depth,
-                       relt_e, relt_n, ss, ds, ts)
+    relt_e = (
+        cos_angle.reshape(-1, 1)
+        * (-np.tile(easting.reshape(-1, 1), (1, e.shape[0])) + e)
+        - sin_angle.reshape(-1, 1)
+        * (-np.tile(northing.reshape(-1, 1), (1, n.shape[0])) + n)
+        + 0.5 * length.reshape(-1, 1)
+    )
+    relt_n = sin_angle.reshape(-1, 1) * (
+        -np.tile(easting.reshape(-1, 1), (1, e.shape[0])) + e
+    ) + cos_angle.reshape(-1, 1) * (
+        -np.tile(northing.reshape(-1, 1), (1, n.shape[0])) + n
+    )
+    SS, DS, TS = okada_nunpy(
+        1 - 2 * nu, sin_dip, cos_dip, length, width, depth, relt_e, relt_n, ss, ds, ts
+    )
 
     x = SS[0] + DS[0] + TS[0]
     y = SS[1] + DS[1] + TS[1]
-    return np.array([cos_angle * x + sin_angle * y, -sin_angle * x + cos_angle * y, SS[2] + DS[2] + TS[2]])
+    return np.array(
+        [
+            cos_angle * x + sin_angle * y,
+            -sin_angle * x + cos_angle * y,
+            SS[2] + DS[2] + TS[2],
+        ]
+    )
 
 
 def okada_nunpy(alp, sin_dip, cos_dip, length, width, depth, X, Y, ss, ds, ts):
@@ -269,8 +384,6 @@ def okada_nunpy(alp, sin_dip, cos_dip, length, width, depth, X, Y, ss, ds, ts):
     DS = np.zeros((3, X.shape[0], X.shape[1]))
     TS = np.zeros((3, X.shape[0], X.shape[1]))
     PI2INV = 0.15915494309189535
-
-
 
     ala.append(length)
     ala.append(np.zeros(length.shape))
@@ -286,13 +399,12 @@ def okada_nunpy(alp, sin_dip, cos_dip, length, width, depth, X, Y, ss, ds, ts):
     p = Y * cos_dip.reshape(-1, 1) + depth_sin_dip.reshape(-1, 1)
     q = Y * sin_dip.reshape(-1, 1) - depth_cos_dip.reshape(-1, 1)
 
-
     for k in range(2):
         et = p - awa[k].reshape(-1, 1)
         for j in range(2):
             sign = PI2INV
             xi = X - ala[j].reshape(-1, 1)
-            if (j + k == 1):
+            if j + k == 1:
                 sign = -PI2INV
             xi2 = xi ** 2
             et2 = et ** 2
@@ -313,23 +425,25 @@ def okada_nunpy(alp, sin_dip, cos_dip, length, width, depth, X, Y, ss, ds, ts):
             dle = np.log(ret)
             dle[ret == 0.0] = -np.log(r[ret == 0.0] - et[ret == 0.0])
 
-
             rrx = 1 / (r * (r + xi))
             rre = re / r
-
 
             a1 = np.zeros(xi.shape)
             a2 = np.zeros(xi.shape)
             a3 = np.zeros(xi.shape)
             a4 = np.zeros(xi.shape)
-            a5= np.zeros(xi.shape)
+            a5 = np.zeros(xi.shape)
 
             rd2 = rd * rd
 
             mask = cos_dip == 0.0
 
             a1[mask] = -alp / 2 * xi[mask] * q[mask] / rd2[mask]
-            a3[mask] = alp / 2 * (et[mask] / rd[mask] + y[mask] * q[mask] / rd2[mask] - dle[mask])
+            a3[mask] = (
+                alp
+                / 2
+                * (et[mask] / rd[mask] + y[mask] * q[mask] / rd2[mask] - dle[mask])
+            )
             a4[mask] = -alp * q[mask] / rd[mask]
             a5[mask] = -alp * xi[mask] * sin_dip[mask].reshape(-1, 1) / rd[mask]
 
@@ -337,18 +451,33 @@ def okada_nunpy(alp, sin_dip, cos_dip, length, width, depth, X, Y, ss, ds, ts):
             mask = np.logical_not(mask)
             td = sin_dip[mask] / cos_dip[mask]
 
-            a5[mask] = alp * 2 / cos_dip[mask].reshape(-1, 1) * np.arctan(
-                (et[mask] * (x[mask] + q[mask] * cos_dip[mask].reshape(-1, 1)) +
-                 x[mask] * (r[mask] + x[mask]) * sin_dip[mask].reshape(-1, 1)) /
-                (xi[mask] * (r[mask] + x[mask]) * cos_dip[mask].reshape(-1, 1)))
+            a5[mask] = (
+                alp
+                * 2
+                / cos_dip[mask].reshape(-1, 1)
+                * np.arctan(
+                    (
+                        et[mask] * (x[mask] + q[mask] * cos_dip[mask].reshape(-1, 1))
+                        + x[mask] * (r[mask] + x[mask]) * sin_dip[mask].reshape(-1, 1)
+                    )
+                    / (xi[mask] * (r[mask] + x[mask]) * cos_dip[mask].reshape(-1, 1))
+                )
+            )
             a5[mask][xi[mask] == 0.0] = 0.0
 
-            a4[mask] = alp / cos_dip[mask].reshape(-1, 1) * (np.log(rd[mask]) - sin_dip[mask].reshape(-1, 1) * dle[mask])
-            a3[mask] = alp * (y[mask] / rd[mask] / cos_dip[mask].reshape(-1, 1) - dle[mask]) + td.reshape(-1, 1) * a4[mask]
-            a1[mask] = -alp / cos_dip[mask].reshape(-1, 1) * xi[mask] / rd[mask] - td.reshape(-1, 1) * a5[mask]
-
-
-
+            a4[mask] = (
+                alp
+                / cos_dip[mask].reshape(-1, 1)
+                * (np.log(rd[mask]) - sin_dip[mask].reshape(-1, 1) * dle[mask])
+            )
+            a3[mask] = (
+                alp * (y[mask] / rd[mask] / cos_dip[mask].reshape(-1, 1) - dle[mask])
+                + td.reshape(-1, 1) * a4[mask]
+            )
+            a1[mask] = (
+                -alp / cos_dip[mask].reshape(-1, 1) * xi[mask] / rd[mask]
+                - td.reshape(-1, 1) * a5[mask]
+            )
 
             a2 = -alp * dle - a3
             req = rre * q
@@ -356,18 +485,34 @@ def okada_nunpy(alp, sin_dip, cos_dip, length, width, depth, X, Y, ss, ds, ts):
 
             mult = sign * ss.reshape(-1, 1)
             SS[0] -= mult * (req * xi + tt + a1 * sin_dip.reshape(-1, 1))
-            SS[1] -= mult * (req * y + q * cos_dip.reshape(-1, 1) * re + a2 * sin_dip.reshape(-1, 1))
-            SS[2] -= mult * (req * d + q * sin_dip.reshape(-1, 1) * re + a4 * sin_dip.reshape(-1, 1))
+            SS[1] -= mult * (
+                req * y + q * cos_dip.reshape(-1, 1) * re + a2 * sin_dip.reshape(-1, 1)
+            )
+            SS[2] -= mult * (
+                req * d + q * sin_dip.reshape(-1, 1) * re + a4 * sin_dip.reshape(-1, 1)
+            )
 
             mult = sign * ds.reshape(-1, 1)
             DS[0] -= mult * (q / r - a3 * sin_cos_dip.reshape(-1, 1))
-            DS[1] -= mult * (y * rxq + cos_dip.reshape(-1, 1) * tt - a1 * sin_cos_dip.reshape(-1, 1))
-            DS[2] -= mult * (d * rxq + sin_dip.reshape(-1, 1) * tt - a5 * sin_cos_dip.reshape(-1, 1))
+            DS[1] -= mult * (
+                y * rxq + cos_dip.reshape(-1, 1) * tt - a1 * sin_cos_dip.reshape(-1, 1)
+            )
+            DS[2] -= mult * (
+                d * rxq + sin_dip.reshape(-1, 1) * tt - a5 * sin_cos_dip.reshape(-1, 1)
+            )
 
             mult = sign * ts.reshape(-1, 1)
             TS[0] += mult * (q2 * rre - a3 * sin_2_dip.reshape(-1, 1))
-            TS[1] += mult * (-d * rxq - sin_dip.reshape(-1, 1) * (xi * q * rre - tt) - a1 * sin_2_dip.reshape(-1, 1))
-            TS[2] += mult * (y * rxq + cos_dip.reshape(-1, 1) * (xi * q * rre - tt) - a5 * sin_2_dip.reshape(-1, 1))
+            TS[1] += mult * (
+                -d * rxq
+                - sin_dip.reshape(-1, 1) * (xi * q * rre - tt)
+                - a1 * sin_2_dip.reshape(-1, 1)
+            )
+            TS[2] += mult * (
+                y * rxq
+                + cos_dip.reshape(-1, 1) * (xi * q * rre - tt)
+                - a5 * sin_2_dip.reshape(-1, 1)
+            )
     return SS, DS, TS
 
 
@@ -430,5 +575,3 @@ def okada_nunpy(alp, sin_dip, cos_dip, length, width, depth, X, Y, ss, ds, ts):
 # k = disloc_numpy(length, width, depth, dip, strike, easting, northing, ss, ds, ts, e, n, nu)
 #
 # print(f - k)
-
-
