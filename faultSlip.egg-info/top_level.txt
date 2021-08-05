@@ -1,5 +1,0 @@
-disloc
-disloc/disloc
-dists/dist
-psokada
-psokada/okada_stress

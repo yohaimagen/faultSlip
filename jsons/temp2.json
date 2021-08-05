@@ -1,0 +1,124 @@
+{
+"global_parameters":
+	{
+	"poisson_ratio":0.25,
+	"shear_modulus":30e9,
+	"smooth":0.1,
+	"dip_element":0,
+	"strike_element":1,
+	"compute_mean":false,
+	"boundary_constrained":false
+	},
+"plains":
+		{
+		"plain1":
+			{
+			"dip":90.0,
+			"strike":137.0,
+			"plain_cord":[34.1741, 65.61427, 0],
+			"plain_length":51.774,
+			"width":[15],
+			"num_sub_stk":[1],
+			"smooth_up":[],
+			"strike_element":-1,
+			"dip_element":-1,
+			 "total_width":10
+			},
+		"plain19":
+			{
+			"dip":90.0,
+			"strike":41.0,
+			"plain_cord":[52.6990, 43.1492, 0.0],
+			"plain_length":5.8066,
+			"width":[15],
+			"num_sub_stk":[1],
+			"smooth_up":[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 19, 20, 21, 22],
+			"strike_element":1,
+			"dip_element":1,
+			 "total_width":15
+			},
+		"plain23":
+			{
+			"dip":90.0,
+			"strike":42.919231,
+			"plain_cord":[45.099109, 32.138055, 0.0],
+			"plain_length":14.304243,
+			"width":[15],
+			"num_sub_stk":[1],
+			"smooth_up":[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18],
+			"strike_element":1,
+			"dip_element":1,
+			 "total_width":5
+			}
+		},
+"images":
+	{
+	"image1":
+		{
+		"disp_file":"//Users/yohai/workspace/thesis/CA/new_sar/20190704_20170710.npy",
+		"lon":-118.1,
+		"lat":35.3,
+		"x_pixel":0.049871,
+		"y_pixel":0.049871,
+		"incidence_angle":38.0,
+		"azimuth":351.0,
+		"station":"/Users/yohai/workspace/thesis/CA/new_sar/resampling/ross/model_data_2/122_image_0.npy",
+		"station_num":4,
+		"origin_y":0,
+		"origin_x":0
+		},
+	"image2":
+		{
+		"disp_file":"//Users/yohai/workspace/thesis/CA/new_sar/20190704_20170716.npy",
+		"lon":-118.1,
+		"lat":35.3,
+		"x_pixel":0.049871,
+		"y_pixel":0.049871,
+		"incidence_angle":39.56,
+		"azimuth":186.62,
+		"station":"/Users/yohai/workspace/thesis/CA/new_sar/resampling/ross/model_data_2/122_image_1.npy",
+		"station_num":4,
+		"origin_y":0,
+		"origin_x":0
+		},
+	"image3":
+		{
+		"disp_file":"//Users/yohai/workspace/thesis/CA/7.1/east_west1.npy",
+		"lon":-117.77,
+		"lat":35.475,
+		"x_pixel":0.12,
+		"y_pixel":0.12,
+		"incidence_angle":90.0,
+		"azimuth":0.0,
+		"station":"/Users/yohai/workspace/thesis/CA/new_sar/resampling/ross/model_data_2/122_image_2.npy",
+		"station_num":3,
+		"origin_y":17.95328482511056,
+		"origin_x":18.453530046130687
+		},
+	"image4":
+		{
+		"disp_file":"//Users/yohai/workspace/thesis/CA/7.1/north_south1.npy",
+		"lon":-117.77,
+		"lat":35.475,
+		"x_pixel":0.12,
+		"y_pixel":0.12,
+		"incidence_angle":90.0,
+		"azimuth":270.0,
+		"station":"/Users/yohai/workspace/thesis/CA/new_sar/resampling/ross/model_data_2/122_image_3.npy",
+		"station_num":3,
+		"origin_y":17.95328482511056,
+		"origin_x":18.453530046130687
+		}
+	},
+"gps":
+	{
+	"gps_set_1":
+		{
+		"data":"/Users/yohai/workspace/thesis/CA/7.1/inv_sar.csv"
+		},
+	"gps_set_2":
+		{
+		"data":"/Users/yohai/workspace/thesis/CA/6.4/inv5.csv"
+		}
+	}
+}

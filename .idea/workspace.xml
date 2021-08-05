@@ -1,17 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AnalysisUIOptions">
+    <option name="SCOPE_TYPE" value="3" />
+  </component>
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/setup.py" line="16" />
+    <bookmark url="file://$PROJECT_DIR$/faultSlip/catalog_generator.py" line="336" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="03552222-38da-4755-9dc2-f10fc0826a18" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/example.json" beforeDir="false" afterPath="$PROJECT_DIR$/example/simple_inversion/example.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/example.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/simple_inversion/example.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/resample_data_example.json" beforeDir="false" afterPath="$PROJECT_DIR$/example/resampling_data/resample_data_example.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/resample_data_example.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/resampling_data/resample_data_example.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inversion.py" beforeDir="false" afterPath="$PROJECT_DIR$/inversion.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
+    <list default="true" id="5bc433d9-347a-43b8-bc55-fdebc6678069" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/faultSlip/dist/faultSlip-0.0.1-cp37-cp37m-macosx_10_7_x86_64.whl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/faultSlip/dist/faultSlip-0.0.1.tar.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/faultSlip/dist/fualtSlip-0.0.1-cp37-cp37m-macosx_10_7_x86_64.whl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/faultSlip/dist/fualtSlip-0.0.1.tar.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/faultSlip/example/.ipynb_checkpoints/stress_Calc_example-checkpoint.ipynb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/faultSlip/example/Ridgecrest/20190704_20170710.npy" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/faultSlip/example/Ridgecrest/20190704_20170716.npy" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/faultSlip/example/Ridgecrest/Ridgecrest.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/faultSlip/example/Ridgecrest/resample_data_example.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/faultSlip/example/resampling_data/resample_data_example.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/faultSlip/example/resampling_data/resample_data_example.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/faultSlip/example/resampling_data_n_model/resample_data_n_model_example.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/faultSlip/example/resampling_data_n_model/resample_data_n_model_example.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/faultSlip/example/sim_disp.npy" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/faultSlip/example/sim_slip.npy" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/faultSlip/example/simple_inversion/example.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/faultSlip/example/simple_inversion/example.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/faultSlip/example/stress_Calc_example.ipynb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/faultSlip/faultSlip.egg-info/PKG-INFO" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/faultSlip/faultSlip.egg-info/SOURCES.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/faultSlip/faultSlip.egg-info/dependency_links.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/faultSlip/faultSlip.egg-info/requires.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/faultSlip/faultSlip.egg-info/top_level.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/faultSlip/fualtSlip.egg-info/PKG-INFO" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/faultSlip/fualtSlip.egg-info/SOURCES.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/faultSlip/fualtSlip.egg-info/dependency_links.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/faultSlip/fualtSlip.egg-info/top_level.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/long_valley/dike/model.json" beforeDir="false" afterPath="$PROJECT_DIR$/long_valley/dike/model.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/long_valley/dike/res.py" beforeDir="false" afterPath="$PROJECT_DIR$/long_valley/dike/res.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/long_valley/dike/temp.png" beforeDir="false" afterPath="$PROJECT_DIR$/long_valley/dike/temp.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/long_valley/dike2/downhill_simplex.py" beforeDir="false" afterPath="$PROJECT_DIR$/long_valley/dike2/downhill_simplex.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/long_valley/dike2/new.png" beforeDir="false" afterPath="$PROJECT_DIR$/long_valley/dike2/new.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/long_valley/dike2/plot.py" beforeDir="false" afterPath="$PROJECT_DIR$/long_valley/dike2/plot.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/long_valley/multi_seq/downhill_simplex.py" beforeDir="false" afterPath="$PROJECT_DIR$/long_valley/multi_seq/downhill_simplex.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/long_valley/multiple/downhill_simplex.py" beforeDir="false" afterPath="$PROJECT_DIR$/long_valley/multiple/downhill_simplex.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/long_valley/multiple/new.png" beforeDir="false" afterPath="$PROJECT_DIR$/long_valley/multiple/new.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/long_valley/multiple/plot.py" beforeDir="false" afterPath="$PROJECT_DIR$/long_valley/multiple/plot.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_faultSlip/faultSlip/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/test_faultSlip/faultSlip/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_faultSlip/faultSlip/example/simple_inversion/example.py" beforeDir="false" afterPath="$PROJECT_DIR$/test_faultSlip/faultSlip/example/simple_inversion/example.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -20,74 +55,89 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/faultSlip$resample_data_example__1_.coverage" NAME="resample_data_example (1) Coverage Results" MODIFIED="1586416666354" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/example/resampling_data_n_model" />
-    <SUITE FILE_PATH="coverage/faultSlip$resample_data_example.coverage" NAME="resample_data_example Coverage Results" MODIFIED="1586414130738" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/example/resampling_data" />
-    <SUITE FILE_PATH="coverage/faultSlip$example.coverage" NAME="example Coverage Results" MODIFIED="1586413862492" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/example" />
+    <SUITE FILE_PATH="coverage/faultSlip$disloc_torch.coverage" NAME="disloc_torch Coverage Results" MODIFIED="1594884112701" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/faultSlip" />
+    <SUITE FILE_PATH="coverage/faultSlip$stress_from_seismisity_test.coverage" NAME="stress_from_seismisity_test Coverage Results" MODIFIED="1582188612186" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/faultSlip$res__2_.coverage" NAME="res (2) Coverage Results" MODIFIED="1595419140558" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/long_valley/distance_exp" />
+    <SUITE FILE_PATH="coverage/faultSlip$resample_data_n_model_example.coverage" NAME="resample_data_n_model_example Coverage Results" MODIFIED="1628151663431" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/faultSlip/example/resampling_data_n_model" />
+    <SUITE FILE_PATH="coverage/faultSlip$setup__2_.coverage" NAME="setup (2) Coverage Results" MODIFIED="1588754840069" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/faultSlip/point_source" />
+    <SUITE FILE_PATH="coverage/faultSlip$opt.coverage" NAME="opt Coverage Results" MODIFIED="1596011164237" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/long_valley/mogi" />
+    <SUITE FILE_PATH="coverage/faultSlip$tttttt.coverage" NAME="tttttt Coverage Results" MODIFIED="1624371063765" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/faultSlip$test.coverage" NAME="test Coverage Results" MODIFIED="1594034772961" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/long_valley" />
+    <SUITE FILE_PATH="coverage/faultSlip$stress_calc.coverage" NAME="stress_calc Coverage Results" MODIFIED="1618316319690" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/faultSlip$fit_test.coverage" NAME="fit_test Coverage Results" MODIFIED="1589272591290" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/etas" />
+    <SUITE FILE_PATH="coverage/faultSlip$resample_data_example.coverage" NAME="resample_data_example Coverage Results" MODIFIED="1628151607110" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/faultSlip/example/resampling_data" />
+    <SUITE FILE_PATH="coverage/faultSlip$cs_solve.coverage" NAME="cs_solve Coverage Results" MODIFIED="1618301620018" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/faultSlip$remaking_1.coverage" NAME="remaking_1 Coverage Results" MODIFIED="1583068268791" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/heimson_remaking" />
+    <SUITE FILE_PATH="coverage/faultSlip$downhill_simplex.coverage" NAME="downhill_simplex Coverage Results" MODIFIED="1596367493252" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/long_valley/multi_seq" />
+    <SUITE FILE_PATH="coverage/faultSlip$setup.coverage" NAME="setup Coverage Results" MODIFIED="1588594902455" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/faultSlip" />
+    <SUITE FILE_PATH="coverage/faultSlip$sampling_test.coverage" NAME="sampling_test Coverage Results" MODIFIED="1582200590524" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/faultSlip$torch.coverage" NAME="torch Coverage Results" MODIFIED="1594882830617" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/long_valley/torch" />
+    <SUITE FILE_PATH="coverage/faultSlip$downhill_simplex__1_.coverage" NAME="downhill_simplex (1) Coverage Results" MODIFIED="1596361516137" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/long_valley/multiple" />
+    <SUITE FILE_PATH="coverage/faultSlip$remaking_numba.coverage" NAME="remaking_numba Coverage Results" MODIFIED="1582624444261" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/heimson_remaking" />
+    <SUITE FILE_PATH="coverage/faultSlip$inv_as__2_.coverage" NAME="inv_as (2) Coverage Results" MODIFIED="1589457249301" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/etas/test2" />
+    <SUITE FILE_PATH="coverage/faultSlip$ttttt.coverage" NAME="ttttt Coverage Results" MODIFIED="1622119775245" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/faultSlip$test__2_.coverage" NAME="test (2) Coverage Results" MODIFIED="1594877067534" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/long_valley/dike" />
+    <SUITE FILE_PATH="coverage/faultSlip$test_rl.coverage" NAME="test_rl Coverage Results" MODIFIED="1594033750223" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/long_valley" />
+    <SUITE FILE_PATH="coverage/faultSlip$plot__3_.coverage" NAME="plot (3) Coverage Results" MODIFIED="1595847245831" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/long_valley/sub/combine2" />
+    <SUITE FILE_PATH="coverage/faultSlip$point_source.coverage" NAME="point_source Coverage Results" MODIFIED="1593531876069" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/faultSlip" />
+    <SUITE FILE_PATH="coverage/faultSlip$cs_solve__1_.coverage" NAME="cs_solve (1) Coverage Results" MODIFIED="1602414252364" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/post_ridgecrest" />
+    <SUITE FILE_PATH="coverage/faultSlip$tttt.coverage" NAME="tttt Coverage Results" MODIFIED="1628074082610" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/faultSlip$catalog_generator_test__2_.coverage" NAME="catalog_generator_test (2) Coverage Results" MODIFIED="1589456815404" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/etas/test2" />
+    <SUITE FILE_PATH="coverage/faultSlip$gps_torch.coverage" NAME="gps_torch Coverage Results" MODIFIED="1594882261380" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/faultSlip" />
+    <SUITE FILE_PATH="coverage/faultSlip$catalog_generator_test.coverage" NAME="catalog_generator_test Coverage Results" MODIFIED="1589449259632" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/faultSlip$point_source_test.coverage" NAME="point_source_test Coverage Results" MODIFIED="1588754890993" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/faultSlip$navada_inv.coverage" NAME="navada_inv Coverage Results" MODIFIED="1590064118130" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/navada" />
+    <SUITE FILE_PATH="coverage/faultSlip$plot__2_.coverage" NAME="plot (2) Coverage Results" MODIFIED="1596367592332" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/long_valley/multi_seq" />
+    <SUITE FILE_PATH="coverage/faultSlip$seismisty_test.coverage" NAME="seismisty_test Coverage Results" MODIFIED="1582201651312" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/faultSlip$1.coverage" NAME="1 Coverage Results" MODIFIED="1594646523153" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/long_valley/non_linear" />
+    <SUITE FILE_PATH="coverage/faultSlip$test_stress.coverage" NAME="test_stress Coverage Results" MODIFIED="1582617779870" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/heimson_remaking" />
+    <SUITE FILE_PATH="coverage/faultSlip$test__1_.coverage" NAME="test (1) Coverage Results" MODIFIED="1594043880698" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/long_valley/non_linear" />
+    <SUITE FILE_PATH="coverage/faultSlip$inv_as__1_.coverage" NAME="inv_as (1) Coverage Results" MODIFIED="1589450142580" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/etas/test1" />
+    <SUITE FILE_PATH="coverage/faultSlip$example__1_.coverage" NAME="example (1) Coverage Results" MODIFIED="1583753674964" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/faultSlip/example" />
+    <SUITE FILE_PATH="coverage/faultSlip$find_ps.coverage" NAME="find_ps Coverage Results" MODIFIED="1594639952149" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/long_valley/non_linear" />
+    <SUITE FILE_PATH="coverage/faultSlip$reduce_to_fault.coverage" NAME="reduce_to_fault Coverage Results" MODIFIED="1581935483490" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/faultSlip$solve.coverage" NAME="solve Coverage Results" MODIFIED="1596105209093" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/long_valley/dike_var" />
+    <SUITE FILE_PATH="coverage/faultSlip$stress.coverage" NAME="stress Coverage Results" MODIFIED="1618300551245" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/example" />
+    <SUITE FILE_PATH="coverage/faultSlip$example.coverage" NAME="example Coverage Results" MODIFIED="1628151423757" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/example" />
+    <SUITE FILE_PATH="coverage/faultSlip$psokada_test.coverage" NAME="psokada_test Coverage Results" MODIFIED="1580119440863" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/faultSlip$seismisty_test_2.coverage" NAME="seismisty_test_2 Coverage Results" MODIFIED="1580400082104" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/faultSlip$remaking.coverage" NAME="remaking Coverage Results" MODIFIED="1582786430368" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/heimson_remaking" />
+    <SUITE FILE_PATH="coverage/faultSlip$inv_as.coverage" NAME="inv_as Coverage Results" MODIFIED="1589450546197" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/faultSlip$res.coverage" NAME="res Coverage Results" MODIFIED="1596032938251" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/long_valley/dike" />
+    <SUITE FILE_PATH="coverage/faultSlip$downhill_simplex__2_.coverage" NAME="downhill_simplex (2) Coverage Results" MODIFIED="1597320500566" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/long_valley/mogi/multi_seq" />
+    <SUITE FILE_PATH="coverage/faultSlip$mogi.coverage" NAME="mogi Coverage Results" MODIFIED="1595940973918" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/long_valley" />
+    <SUITE FILE_PATH="coverage/faultSlip$grad.coverage" NAME="grad Coverage Results" MODIFIED="1594892472862" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/long_valley/grad" />
+    <SUITE FILE_PATH="coverage/faultSlip$res__1_.coverage" NAME="res (1) Coverage Results" MODIFIED="1595418794041" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/long_valley/combine" />
+    <SUITE FILE_PATH="coverage/faultSlip$plot.coverage" NAME="plot Coverage Results" MODIFIED="1597654500781" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/long_valley/mogi/multi_seq" />
+    <SUITE FILE_PATH="coverage/faultSlip$plot__1_.coverage" NAME="plot (1) Coverage Results" MODIFIED="1596104165533" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/long_valley/multiple" />
+    <SUITE FILE_PATH="coverage/faultSlip$setup__1_.coverage" NAME="setup (1) Coverage Results" MODIFIED="1588594893817" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/faultSlip/psokada" />
+    <SUITE FILE_PATH="coverage/faultSlip$test_Tohoku.coverage" NAME="test_Tohoku Coverage Results" MODIFIED="1621492908587" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/faultSlip$test_Tohoku_1.coverage" NAME="test_Tohoku_1 Coverage Results" MODIFIED="1622119364454" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/faultSlip$catalog_generator_test__1_.coverage" NAME="catalog_generator_test (1) Coverage Results" MODIFIED="1589449287331" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/etas/test1" />
+    <SUITE FILE_PATH="coverage/faultSlip$resample_data_example__1_.coverage" NAME="resample_data_example (1) Coverage Results" MODIFIED="1586430510493" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/faultSlip/example/Ridgecrest" />
+    <SUITE FILE_PATH="coverage/faultSlip$test_image.coverage" NAME="test_image Coverage Results" MODIFIED="1580398996520" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/faultSlip$point_s.coverage" NAME="point_s Coverage Results" MODIFIED="1595225477170" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/long_valley/point_s" />
+    <SUITE FILE_PATH="coverage/faultSlip$downhill_simplex__3_.coverage" NAME="downhill_simplex (3) Coverage Results" MODIFIED="1595575476184" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/long_valley/combine2" />
+  </component>
+  <component name="FavoritesManager">
+    <favorites_list name="faultSlip" />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/setup.py">
+        <entry file="file://$PROJECT_DIR$/faultSlip/gps_set.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="673">
-              <caret line="48" column="57" selection-start-line="48" selection-start-column="57" selection-end-line="48" selection-end-column="57" />
-              <folding>
-                <element signature="e#0#17#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/example/simple_inversion/example.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="405">
-              <caret line="27" column="76" selection-start-line="27" selection-start-column="76" selection-end-line="27" selection-end-column="76" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/inversion.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="355">
-              <caret line="64" column="8" selection-start-line="64" selection-start-column="8" selection-end-line="64" selection-end-column="37" />
-              <folding>
-                <element signature="e#0#31#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/example/resampling_data_n_model/resample_data_example.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="525">
-              <caret line="35" column="23" selection-start-line="35" selection-start-column="23" selection-end-line="35" selection-end-column="23" />
+            <state relative-caret-position="675">
+              <caret line="45" selection-start-line="45" selection-end-line="45" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/example/resampling_data_n_model/resample_data_example.py">
+        <entry file="file://$PROJECT_DIR$/faultSlip/inversion.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="390">
-              <caret line="26" column="19" selection-start-line="26" selection-start-column="19" selection-end-line="26" selection-end-column="19" />
-              <folding>
-                <element signature="e#0#18#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/example/simple_inversion/example.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75">
-              <caret line="5" column="97" selection-start-line="5" selection-start-column="97" selection-end-line="5" selection-end-column="97" />
-              <folding>
-                <element signature="e#0#18#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="190">
+              <caret line="251" selection-start-line="251" selection-end-line="251" />
             </state>
           </provider>
         </entry>
@@ -103,40 +153,132 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
+      <find>calcu</find>
+      <find>cmap_max</find>
+      <find>disl</find>
+      <find>N</find>
+      <find>okada</find>
+      <find>dd2</find>
+      <find>smoothing</find>
+      <find>df_confiremd</find>
+      <find>mom</find>
+      <find>gmt</find>
+      <find>station_mat</find>
+      <find>stations_mat</find>
+      <find>solve_n</find>
+      <find>plot_</find>
+      <find>ker</find>
+      <find>1</find>
+      <find>1, x.shape[0]</find>
+      <find>0, x.shape[0]</find>
+      <find>cal_sl</find>
+      <find>solve</find>
+      <find>inv</find>
+      <find>scale=0.3</find>
+      <find>norm</find>
+      <find>calc_c</find>
+      <find>mag</find>
+      <find>plot_s</find>
       <find>save</find>
+      <find>plot_sou</find>
+      <find>stress</find>
+      <find>calc</find>
     </findStrings>
+    <replaceStrings>
+      <replace>set</replace>
+      <replace>self.images[i].</replace>
+      <replace>inv</replace>
+      <replace>print(</replace>
+      <replace>I</replace>
+      <replace>np.array</replace>
+      <replace>sr</replace>
+      <replace>sr1</replace>
+      <replace>sr2</replace>
+      <replace>sr3</replace>
+      <replace>sr4</replace>
+      <replace>plains</replace>
+      <replace>df_deth</replace>
+      <replace>0</replace>
+      <replace>0, i</replace>
+      <replace>i, 0</replace>
+      <replace>x.shape[0], 1</replace>
+      <replace>inv.gps[0].data</replace>
+      <replace>x.shape[0], 0</replace>
+      <replace>tinv</replace>
+      <replace>scale=scale</replace>
+    </replaceStrings>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/faultSlip" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/disloc/setup.py" />
-        <option value="$PROJECT_DIR$/setup.py" />
-        <option value="$PROJECT_DIR$/example/resample_data_example.py" />
+        <option value="$PROJECT_DIR$/long_valley/dike/disp.csv" />
+        <option value="$PROJECT_DIR$/faultSlip/plain.py" />
+        <option value="$PROJECT_DIR$/long_valley/dike/downhill_simplex.py" />
+        <option value="$PROJECT_DIR$/long_valley/combine2/downhill_simplex.py" />
+        <option value="$PROJECT_DIR$/long_valley/sub/disp.csv" />
+        <option value="$PROJECT_DIR$/long_valley/sub/commac.json" />
+        <option value="$PROJECT_DIR$/long_valley/sub/multiple/downhill_simplex.py" />
+        <option value="$PROJECT_DIR$/long_valley/sub/combine2/downhill_simplex.py" />
+        <option value="$PROJECT_DIR$/long_valley/sub/combine2/plot.py" />
+        <option value="$PROJECT_DIR$/faultSlip/point_source/DC3D.f" />
+        <option value="$PROJECT_DIR$/long_valley/combine2/plot.py" />
+        <option value="$PROJECT_DIR$/long_valley/mogi.py" />
+        <option value="$PROJECT_DIR$/long_valley/mogi/opt.py" />
+        <option value="$PROJECT_DIR$/long_valley/sub/multiple/plot.py" />
+        <option value="$PROJECT_DIR$/long_valley/dike/model.json" />
+        <option value="$PROJECT_DIR$/long_valley/dike/res.py" />
+        <option value="$PROJECT_DIR$/long_valley/dike_var/disp_minus_ps.csv" />
+        <option value="$PROJECT_DIR$/long_valley/dike_var/disp.csv" />
+        <option value="$PROJECT_DIR$/long_valley/dike2/plot.py" />
+        <option value="$PROJECT_DIR$/long_valley/dike2/downhill_simplex.py" />
+        <option value="$PROJECT_DIR$/long_valley/dike_var/model.json" />
+        <option value="$PROJECT_DIR$/long_valley/dike_var/plot.py" />
+        <option value="$PROJECT_DIR$/long_valley/multiple/plot.py" />
+        <option value="$PROJECT_DIR$/long_valley/dike_var/solve.py" />
+        <option value="$PROJECT_DIR$/long_valley/multiple/downhill_simplex.py" />
+        <option value="$PROJECT_DIR$/long_valley/multi_seq/downhill_simplex.py" />
+        <option value="$PROJECT_DIR$/long_valley/multi_seq/plot.py" />
+        <option value="$PROJECT_DIR$/long_valley/mogi/mogi.py" />
+        <option value="$PROJECT_DIR$/long_valley/mogi/commac.json" />
+        <option value="$PROJECT_DIR$/long_valley/mogi/multi_seq/result2/point_sources_4.json" />
+        <option value="$PROJECT_DIR$/long_valley/mogi/multi_seq/downhill_simplex.py" />
+        <option value="$PROJECT_DIR$/long_valley/mogi/multi_seq/plot.py" />
+        <option value="$PROJECT_DIR$/post_ridgecrest/ridg.json" />
+        <option value="$PROJECT_DIR$/post_ridgecrest/cs_solve.py" />
+        <option value="$PROJECT_DIR$/temp.json" />
+        <option value="$PROJECT_DIR$/cs_solve.py" />
+        <option value="$PROJECT_DIR$/stress_calc.py" />
+        <option value="$PROJECT_DIR$/test_Tohoku.py" />
+        <option value="$PROJECT_DIR$/test_Tohoku_1.py" />
+        <option value="$PROJECT_DIR$/אאא.py" />
+        <option value="$PROJECT_DIR$/ttttt.py" />
+        <option value="$PROJECT_DIR$/tttttt.py" />
+        <option value="$PROJECT_DIR$/faultSlip/gps_set.py" />
+        <option value="$PROJECT_DIR$/faultSlip/psokada/pscokada.c" />
+        <option value="$PROJECT_DIR$/faultSlip/source.py" />
+        <option value="$PROJECT_DIR$/faultSlip/inversion.py" />
+        <option value="$PROJECT_DIR$/tttt.py" />
         <option value="$PROJECT_DIR$/example/example.py" />
         <option value="$PROJECT_DIR$/example/example.json" />
-        <option value="$PROJECT_DIR$/example/resampling_data/resample_data_example.py" />
-        <option value="$PROJECT_DIR$/example/simple_inversion/example.py" />
-        <option value="$PROJECT_DIR$/inversion.py" />
-        <option value="$PROJECT_DIR$/example/resampling_data_n_model/resample_data_example.json" />
-        <option value="$PROJECT_DIR$/example/resampling_data_n_model/resample_data_example.py" />
+        <option value="$PROJECT_DIR$/faultSlip/example/resampling_data/resample_data_example.json" />
+        <option value="$PROJECT_DIR$/faultSlip/example/resampling_data_n_model/resample_data_n_model_example.json" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-54" />
     <option name="y" value="23" />
     <option name="width" value="1680" />
-    <option name="height" value="959" />
+    <option name="height" value="960" />
   </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -147,12 +289,13 @@
             <path>
               <item name="faultSlip" type="b2602c69:ProjectViewProjectNode" />
               <item name="faultSlip" type="462c0819:PsiDirectoryNode" />
-              <item name="example" type="462c0819:PsiDirectoryNode" />
+              <item name="faultSlip" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -160,17 +303,20 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="settings.editor.selected.configurable" value="PyScientificConfigurable" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/example/Ridgecrest" />
-      <recent name="$PROJECT_DIR$/example/resampling_data_n_model" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/example/resampling_data" />
-      <recent name="$PROJECT_DIR$/example" />
-      <recent name="$PROJECT_DIR$/example/simple_inversion" />
+      <recent name="$PROJECT_DIR$/long_valley/mogi" />
+      <recent name="$PROJECT_DIR$/faultSlip" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/long_valley/mogi" />
+      <recent name="$PROJECT_DIR$/long_valley/multi_seq" />
+      <recent name="$PROJECT_DIR$/long_valley/dike_var" />
+      <recent name="$PROJECT_DIR$/long_valley/sub" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -185,7 +331,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.resample_data_example (1)">
+  <component name="RunManager" selected="Python.resample_data_n_model_example">
     <configuration name="example" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="faultSlip" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -199,29 +345,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/example/simple_inversion/example.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="resample_data_example (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="faultSlip" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/example/resampling_data_n_model" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/example/resampling_data_n_model/resample_data_example.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/example/example.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -238,12 +362,12 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/example/resampling_data" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/faultSlip/example/resampling_data" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/example/resampling_data/resample_data_example.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/faultSlip/example/resampling_data/resample_data_example.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -252,11 +376,86 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="resample_data_n_model_example" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="faultSlip" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/faultSlip/example/resampling_data_n_model" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/faultSlip/example/resampling_data_n_model/resample_data_n_model_example.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="tttt" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="faultSlip" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tttt.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="tttttt" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="faultSlip" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tttttt.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Python.tttttt" />
+      <item itemvalue="Python.tttt" />
+      <item itemvalue="Python.example" />
+      <item itemvalue="Python.resample_data_example" />
+      <item itemvalue="Python.resample_data_n_model_example" />
+    </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.resample_data_example (1)" />
+        <item itemvalue="Python.resample_data_n_model_example" />
         <item itemvalue="Python.resample_data_example" />
         <item itemvalue="Python.example" />
+        <item itemvalue="Python.tttt" />
+        <item itemvalue="Python.tttttt" />
       </list>
     </recent_temporary>
   </component>
@@ -265,29 +464,54 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="03552222-38da-4755-9dc2-f10fc0826a18" name="Default Changelist" comment="" />
-      <created>1585144332771</created>
+      <changelist id="5bc433d9-347a-43b8-bc55-fdebc6678069" name="Default Changelist" comment="" />
+      <created>1579415948513</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1585144332771</updated>
-      <workItem from="1585144334907" duration="529000" />
-      <workItem from="1586330189559" duration="9504000" />
+      <updated>1579415948513</updated>
+      <workItem from="1579415949993" duration="13932000" />
+      <workItem from="1579455956175" duration="188019000" />
+      <workItem from="1583319435207" duration="9265000" />
+      <workItem from="1586417252872" duration="2700000" />
+      <workItem from="1587900670883" duration="1912000" />
+      <workItem from="1588574964023" duration="71112000" />
+      <workItem from="1589092769110" duration="13869000" />
+      <workItem from="1589172972827" duration="82197000" />
+      <workItem from="1590071854082" duration="471000" />
+      <workItem from="1590250404582" duration="1421000" />
+      <workItem from="1591268248812" duration="5125000" />
+      <workItem from="1592219992698" duration="118252000" />
+      <workItem from="1595310811228" duration="35631000" />
+      <workItem from="1595572719353" duration="50833000" />
+      <workItem from="1597046697232" duration="9941000" />
+      <workItem from="1597920067805" duration="2466000" />
+      <workItem from="1599728946021" duration="219000" />
+      <workItem from="1602405071326" duration="3286000" />
+      <workItem from="1607247387487" duration="3162000" />
+      <workItem from="1613654656874" duration="685000" />
+      <workItem from="1618300448628" duration="132000" />
+      <workItem from="1618301601116" duration="2914000" />
+      <workItem from="1620199830063" duration="10928000" />
+      <workItem from="1626764766776" duration="4726000" />
+      <workItem from="1627997758962" duration="3036000" />
+      <workItem from="1628074533814" duration="790000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="10033000" />
+    <option name="totallyTimeSpent" value="637024000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1680" height="959" extended-state="6" />
+    <frame x="0" y="23" width="1680" height="960" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25274727" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49837664" visible="true" weight="0.33394384" />
+      <window_info id="Structure" order="1" sideWeight="0.5016234" side_tool="true" weight="0.2832723" />
+      <window_info id="Favorites" order="2" sideWeight="0.5016234" side_tool="true" weight="0.2832723" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.3298731" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.39907727" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.2891705" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.39631337" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -296,21 +520,22 @@
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Terminal" order="11" />
-      <window_info anchor="bottom" id="Python Console" order="12" />
+      <window_info anchor="bottom" id="Python Console" order="12" weight="0.328341" />
+      <window_info anchor="bottom" id="Inspection Results" order="13" weight="0.32949308" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" auto_hide="true" id="SciView" order="3" show_stripe_button="false" type="FLOATING" weight="0.32967034" />
+      <window_info anchor="right" auto_hide="true" x="198" y="23" width="540" height="584" id="SciView" order="3" show_stripe_button="false" type="FLOATING" weight="0.32967034" />
       <window_info anchor="right" id="Database" order="4" />
     </layout>
     <layout-to-restore>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25274727" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49837664" visible="true" weight="0.2899878" />
+      <window_info id="Structure" order="1" sideWeight="0.5016234" side_tool="true" weight="0.2832723" />
+      <window_info id="Favorites" order="2" sideWeight="0.5016234" side_tool="true" weight="0.2832723" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.3298731" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.29032257" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.39631337" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -319,11 +544,11 @@
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Terminal" order="11" />
-      <window_info anchor="bottom" id="Python Console" order="12" />
+      <window_info anchor="bottom" id="Python Console" order="12" weight="0.328341" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" auto_hide="true" id="SciView" order="3" show_stripe_button="false" type="FLOATING" weight="0.32967034" />
+      <window_info anchor="right" auto_hide="true" x="198" y="23" width="540" height="584" id="SciView" order="3" show_stripe_button="false" type="FLOATING" weight="0.32967034" />
       <window_info anchor="right" id="Database" order="4" />
     </layout-to-restore>
   </component>
@@ -334,35 +559,455 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/example/resampling_data_n_model/resample_data_example.py</url>
+          <url>file://$PROJECT_DIR$/faultSlip/inversion.py</url>
+          <line>778</line>
+          <option name="timeStamp" value="38" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/faultSlip/inversion.py</url>
+          <line>552</line>
+          <option name="timeStamp" value="59" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/faultSlip/seismicity.py</url>
+          <line>154</line>
+          <option name="timeStamp" value="60" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <condition expression="i == 350" language="Python" />
+          <url>file://$PROJECT_DIR$/heimson_remaking/remaking.py</url>
+          <line>127</line>
+          <option name="timeStamp" value="102" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <condition expression="l == 37" language="Python" />
+          <url>file://$PROJECT_DIR$/heimson_remaking/remaking.py</url>
+          <line>84</line>
+          <option name="timeStamp" value="103" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/heimson_remaking/remaking_1.py</url>
+          <line>73</line>
+          <option name="timeStamp" value="104" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/faultSlip/inversion.py</url>
+          <line>217</line>
+          <option name="timeStamp" value="105" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/faultSlip/example/example.py</url>
+          <line>17</line>
+          <option name="timeStamp" value="106" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/etas/fit_test.py</url>
+          <line>15</line>
+          <option name="timeStamp" value="140" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/faultSlip/catalog_generator.py</url>
+          <line>597</line>
+          <option name="timeStamp" value="142" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/faultSlip/catalog_generator.py</url>
+          <line>692</line>
+          <option name="timeStamp" value="145" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/faultSlip/catalog_generator.py</url>
+          <line>50</line>
+          <option name="timeStamp" value="155" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <condition expression="np.any(t + t_origin &gt; T_t)" language="Python" />
+          <url>file://$PROJECT_DIR$/faultSlip/catalog_generator.py</url>
+          <line>457</line>
+          <option name="timeStamp" value="158" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/faultSlip/catalog_generator.py</url>
+          <line>375</line>
+          <option name="timeStamp" value="160" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/faultSlip/catalog_generator.py</url>
+          <line>297</line>
+          <option name="timeStamp" value="165" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/etas/test1/catalog_generator_test.py</url>
+          <line>43</line>
+          <option name="timeStamp" value="174" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/faultSlip/catalog_generator.py</url>
+          <line>126</line>
+          <option name="timeStamp" value="175" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/faultSlip/catalog_generator.py</url>
+          <line>134</line>
+          <option name="timeStamp" value="176" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/faultSlip/catalog_generator.py</url>
+          <line>144</line>
+          <option name="timeStamp" value="177" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/navada/navada_inv.py</url>
           <line>30</line>
-          <option name="timeStamp" value="2" />
+          <option name="timeStamp" value="180" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/faultSlip/inversion.py</url>
+          <line>243</line>
+          <option name="timeStamp" value="182" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/long_valley/test.py</url>
+          <line>26</line>
+          <option name="timeStamp" value="186" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/long_valley/test.py</url>
+          <line>22</line>
+          <option name="timeStamp" value="188" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/long_valley/test_rl.py</url>
+          <line>32</line>
+          <option name="timeStamp" value="190" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/long_valley/test_rl.py</url>
+          <line>30</line>
+          <option name="timeStamp" value="191" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/long_valley/non_linear/1.py</url>
+          <line>188</line>
+          <option name="timeStamp" value="195" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/long_valley/non_linear/1.py</url>
+          <line>129</line>
+          <option name="timeStamp" value="198" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/long_valley/non_linear/find_ps.py</url>
+          <line>170</line>
+          <option name="timeStamp" value="199" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/long_valley/dike/test.py</url>
+          <line>28</line>
+          <option name="timeStamp" value="202" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/long_valley/dike/downhill_simplex.py</url>
+          <line>54</line>
+          <option name="timeStamp" value="205" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/long_valley/dike/downhill_simplex.py</url>
+          <line>129</line>
+          <option name="timeStamp" value="206" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/long_valley/dike/downhill_simplex.py</url>
+          <line>148</line>
+          <option name="timeStamp" value="208" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/long_valley/grad/grad.py</url>
+          <line>13</line>
+          <option name="timeStamp" value="211" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/faultSlip/gps_torch.py</url>
+          <line>46</line>
+          <option name="timeStamp" value="212" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/long_valley/combine/downhill_simplex.py</url>
+          <line>102</line>
+          <option name="timeStamp" value="223" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/long_valley/point_s/point_s.py</url>
+          <line>58</line>
+          <option name="timeStamp" value="226" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/long_valley/point_s/point_s.py</url>
+          <line>36</line>
+          <option name="timeStamp" value="227" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/long_valley/dike/res.py</url>
+          <line>81</line>
+          <option name="timeStamp" value="229" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/long_valley/combine/downhill_simplex.py</url>
+          <line>65</line>
+          <option name="timeStamp" value="231" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/long_valley/combine/res.py</url>
+          <line>110</line>
+          <option name="timeStamp" value="233" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/long_valley/distance_exp/downhill_simplex.py</url>
+          <line>65</line>
+          <option name="timeStamp" value="235" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/long_valley/combine/res.py</url>
+          <line>78</line>
+          <option name="timeStamp" value="237" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/long_valley/combine/res.py</url>
+          <line>72</line>
+          <option name="timeStamp" value="238" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/long_valley/dike/res.py</url>
+          <line>45</line>
+          <option name="timeStamp" value="240" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/long_valley/distance_exp/res.py</url>
+          <line>78</line>
+          <option name="timeStamp" value="241" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/long_valley/multiple/downhill_simplex.py</url>
+          <line>20</line>
+          <option name="timeStamp" value="245" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/long_valley/multiple/plot.py</url>
+          <line>18</line>
+          <option name="timeStamp" value="247" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/long_valley/combine2/downhill_simplex.py</url>
+          <line>15</line>
+          <option name="timeStamp" value="252" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/long_valley/mogi/mogi.py</url>
+          <line>42</line>
+          <option name="timeStamp" value="263" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/long_valley/sub/multiple/plot.py</url>
+          <line>21</line>
+          <option name="timeStamp" value="264" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/long_valley/sub/multiple/plot.py</url>
+          <line>36</line>
+          <option name="timeStamp" value="265" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/long_valley/dike2/downhill_simplex.py</url>
+          <line>17</line>
+          <option name="timeStamp" value="268" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/long_valley/dike2/downhill_simplex.py</url>
+          <line>39</line>
+          <option name="timeStamp" value="269" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/long_valley/dike_var/solve.py</url>
+          <line>109</line>
+          <option name="timeStamp" value="274" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/long_valley/dike_var/solve.py</url>
+          <line>84</line>
+          <option name="timeStamp" value="275" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/long_valley/dike_var/solve.py</url>
+          <line>62</line>
+          <option name="timeStamp" value="277" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/long_valley/multi_seq/plot.py</url>
+          <line>21</line>
+          <option name="timeStamp" value="282" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/long_valley/mogi/mogi.py</url>
+          <line>9</line>
+          <option name="timeStamp" value="286" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/long_valley/mogi/multi_seq/downhill_simplex.py</url>
+          <line>60</line>
+          <option name="timeStamp" value="291" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/long_valley/mogi/multi_seq/downhill_simplex.py</url>
+          <line>74</line>
+          <option name="timeStamp" value="292" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/faultSlip/inversion.py</url>
+          <line>1382</line>
+          <option name="timeStamp" value="299" />
         </line-breakpoint>
       </breakpoints>
+      <default-breakpoints>
+        <breakpoint type="python-exception">
+          <properties notifyOnTerminate="true" exception="BaseException">
+            <option name="notifyOnTerminate" value="true" />
+          </properties>
+        </breakpoint>
+      </default-breakpoints>
     </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">
-        <watch expression="self.get_stations_num() - self.get_sources_num() *ratio" language="Python" />
-        <watch expression="self.get_stations_num() , self.get_sources_num()" language="Python" />
+        <watch expression="np.stack((inv1.gps[0].G_ds.flatten(), inv2.gps[0].G_ds.flatten()))" language="Python" />
       </configuration>
     </watches-manager>
   </component>
   <component name="debuggerHistoryManager">
-    <expressions id="watch">
+    <expressions id="breakpointCondition">
       <expression>
-        <expression-string>self.get_stations_num() , self.get_sources_num()</expression-string>
+        <expression-string>np.any(t + t_origin &gt; T_t)</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>self.get_stations_num() - self.get_sources_num() *ratio</expression-string>
+        <expression-string>t + t_origin &gt; T_t</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>l == 37</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>i == 350</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>l == 11</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>kk == 19</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>l == 10</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>l == 1</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>l == 392</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>l == 391</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+    </expressions>
+    <expressions id="watch">
+      <expression>
+        <expression-string>np.stack((inv1.gps[0].G_ds.flatten(), inv2.gps[0].G_ds.flatten()))</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>dip_element</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>strike_element</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>n_hat.reshape(1, -1).dot(s_hat)</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>n_hat.dot(s_hat.reshape(1, -1))</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>n_hat.dot(s_hat.reshape(-1, 1))</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>n_hat.dot(s_hat.reshape)</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>n_hat.dot(s_hat)</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>np.concatenate((n_hat, s_hat), axis=1)</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/stress_From_seismisty.py">
+    <entry file="file://$PROJECT_DIR$/long_valley/mogi/commac.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="645">
+          <caret line="43" column="74" selection-start-line="43" selection-start-column="74" selection-end-line="43" selection-end-column="74" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/long_valley/mogi/opt.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="420">
+          <caret line="28" column="29" selection-start-line="28" selection-start-column="15" selection-end-line="28" selection-end-column="29" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/anaconda3/envs/faultSlip/lib/python3.7/site-packages/pandas/core/generic.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="5121" selection-start-line="5121" selection-end-line="5121" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/long_valley/dike/downhill_simplex.py">
       <provider selected="true" editor-type-id="text-editor">
         <state>
           <folding>
@@ -371,10 +1016,122 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/station.py">
+    <entry file="file://$USER_HOME$/anaconda3/envs/faultSlip/lib/python3.7/site-packages/scipy/optimize/optimize.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="159">
+          <caret line="584" selection-start-line="584" selection-end-line="584" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/anaconda3/envs/faultSlip/lib/python3.7/codecs.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="166">
+          <caret line="309" selection-start-line="309" selection-end-line="309" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/pydevd.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="159">
+          <caret line="1134" selection-start-line="1134" selection-end-line="1134" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/_pydev_imps/_pydev_execfile.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="17" selection-start-line="17" selection-end-line="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/long_valley/mogi/multi_seq/result2/point_sources_9.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-361" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/long_valley/mogi/multi_seq/result2/point_sources_2.json">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/source.py">
+    <entry file="file://$PROJECT_DIR$/long_valley/mogi/multi_seq/result2/point_sources_99.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-12285" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/long_valley/mogi/multi_seq/result2/point_sources_1.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" column="1" selection-start-line="11" selection-start-column="1" selection-end-line="11" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/long_valley/mogi/multi_seq/result2/point_sources_4.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="329">
+          <caret line="28" column="14" selection-start-line="28" selection-start-column="1" selection-end-line="28" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/long_valley/mogi/multi_seq/result2/point_sources_19.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/long_valley/mogi/multi_seq/downhill_simplex.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="855">
+          <caret line="59" column="27" selection-start-line="59" selection-start-column="27" selection-end-line="59" selection-end-column="27" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/long_valley/mogi/multi_seq/plot.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="11" column="39" selection-start-line="11" selection-start-column="39" selection-end-line="11" selection-end-column="39" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/post_ridgecrest/cs_solve.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="630">
+          <caret line="50" column="19" selection-start-line="50" selection-start-column="19" selection-end-line="50" selection-end-column="19" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/post_ridgecrest/ridg.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4830">
+          <caret line="322" column="61" selection-start-line="322" selection-start-column="61" selection-end-line="322" selection-end-column="61" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Nevada/helpers/gmt_plots.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" column="68" selection-start-line="8" selection-start-column="62" selection-end-line="8" selection-end-column="68" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/faultSlip/point_source/point_source.c">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ridgecrest.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="215">
+          <caret line="253" column="15" selection-start-line="253" selection-start-column="4" selection-end-line="253" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/psokada_test.py">
       <provider selected="true" editor-type-id="text-editor">
         <state>
           <folding>
@@ -383,124 +1140,214 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/seismicity.py">
+    <entry file="file://$PROJECT_DIR$/faultSlip/ps.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" selection-start-line="2" selection-end-line="2" selection-end-column="68" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/faultSlip/point_source/point_source.pyx">
       <provider selected="true" editor-type-id="text-editor">
         <state>
           <folding>
-            <element signature="e#0#18#0" expanded="true" />
+            <element signature="e#0#13#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gps_set.py">
+    <entry file="file://$PROJECT_DIR$/cs_solve.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
+        <state relative-caret-position="375">
+          <caret line="31" selection-start-line="31" selection-end-line="32" selection-end-column="23" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/faultSlip/point_source/c_DC3D.c">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/temp.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="9" column="22" selection-start-line="9" selection-start-column="22" selection-end-line="9" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/temp1.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="791">
+          <caret line="376" column="13" selection-start-line="376" selection-start-column="9" selection-end-line="376" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test_sampling.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/אאא.py" />
+    <entry file="file://$PROJECT_DIR$/ttttt.py" />
+    <entry file="file://$PROJECT_DIR$/tttttt.py" />
+    <entry file="file://$PROJECT_DIR$/faultSlip/plain.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1890">
+          <caret line="131" column="14" selection-start-line="131" selection-start-column="8" selection-end-line="131" selection-end-column="14" />
           <folding>
             <element signature="e#0#30#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/disloc/setup.py">
+    <entry file="file://$PROJECT_DIR$/faultSlip/source.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" selection-start-line="6" selection-end-line="6" selection-end-column="12" />
+        <state relative-caret-position="3210">
+          <caret line="217" column="72" selection-start-line="217" selection-start-column="60" selection-end-line="217" selection-end-column="72" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/psokada/setup.py">
+    <entry file="file://$PROJECT_DIR$/faultSlip/psokada/okada_stress.pyx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="8" column="17" selection-start-line="8" selection-start-column="17" selection-end-line="8" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/faultSlip/psokada/pscokada.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2910">
+          <caret line="194" column="126" selection-start-line="194" selection-start-column="126" selection-end-line="194" selection-end-column="126" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/faultSlip/psokada/setup.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="18" column="1" selection-start-line="18" selection-start-column="1" selection-end-line="18" selection-end-column="1" />
+          <folding>
+            <element signature="e#51#83#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/faultSlip/gps_set.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="675">
+          <caret line="45" selection-start-line="45" selection-end-line="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/temp3.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1515">
+          <caret line="101" column="20" selection-start-line="101" selection-start-column="20" selection-end-line="101" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tttt.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1470">
+          <caret line="99" selection-start-line="99" selection-end-line="99" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test_Tohoku.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1305">
+          <caret line="93" column="111" selection-start-line="93" selection-start-column="111" selection-end-line="93" selection-end-column="111" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test_Tohoku_1.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1290">
+          <caret line="92" selection-start-line="92" selection-end-line="92" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/stress_calc.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1425">
+          <caret line="101" column="32" selection-start-line="101" selection-start-column="32" selection-end-line="101" selection-end-column="32" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example/stress.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="75">
-          <caret line="5" column="34" selection-start-line="5" selection-end-line="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dists/setup.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" selection-start-line="2" selection-end-line="3" selection-end-column="41" />
+          <caret line="7" selection-start-line="7" selection-end-line="7" />
           <folding>
-            <element signature="e#50#82#0" expanded="true" />
+            <element signature="e#0#18#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/setup.py">
+    <entry file="file://$PROJECT_DIR$/example/example.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="673">
-          <caret line="48" column="57" selection-start-line="48" selection-start-column="57" selection-end-line="48" selection-end-column="57" />
+        <state relative-caret-position="87">
+          <caret line="7" column="22" selection-start-line="7" selection-start-column="22" selection-end-line="7" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example/example.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" selection-start-line="7" selection-end-line="7" />
           <folding>
-            <element signature="e#0#17#0" expanded="true" />
+            <element signature="e#0#18#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/image.py">
+    <entry file="file://$PROJECT_DIR$/faultSlip/example/resampling_data/resample_data_example.py">
       <provider selected="true" editor-type-id="text-editor">
         <state>
           <folding>
-            <element signature="e#0#25#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/example/simple_inversion/example.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="27" column="76" selection-start-line="27" selection-start-column="76" selection-end-line="27" selection-end-column="76" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/example/resampling_data/resample_data_example.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="110" selection-start-line="5" selection-start-column="110" selection-end-line="5" selection-end-column="110" />
-          <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/example/resampling_data_n_model/resample_data_example.json">
+    <entry file="file://$PROJECT_DIR$/faultSlip/example/resampling_data/resample_data_example.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="525">
-          <caret line="35" column="23" selection-start-line="35" selection-start-column="23" selection-end-line="35" selection-end-column="23" />
+        <state relative-caret-position="105">
+          <caret line="7" column="22" selection-start-line="7" selection-start-column="22" selection-end-line="7" selection-end-column="22" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/inversion.py">
+    <entry file="file://$PROJECT_DIR$/faultSlip/example/resampling_data_n_model/resample_data_n_model_example.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="355">
-          <caret line="64" column="8" selection-start-line="64" selection-start-column="8" selection-end-line="64" selection-end-column="37" />
-          <folding>
-            <element signature="e#0#31#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="105">
+          <caret line="7" column="22" selection-start-line="7" selection-start-column="22" selection-end-line="7" selection-end-column="22" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/example/simple_inversion/example.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="97" selection-start-line="5" selection-start-column="97" selection-end-line="5" selection-end-column="97" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/example/Ridgecrest/0407_1007.npy">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/example/resampling_data_n_model/resample_data_example.py">
+    <entry file="file://$PROJECT_DIR$/faultSlip/example/resampling_data_n_model/resample_data_n_model_example.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="390">
-          <caret line="26" column="19" selection-start-line="26" selection-start-column="19" selection-end-line="26" selection-end-column="19" />
+          <caret line="30" selection-start-line="30" selection-end-line="30" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/faultSlip/inversion.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="190">
+          <caret line="251" selection-start-line="251" selection-end-line="251" />
         </state>
       </provider>
     </entry>

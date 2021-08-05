@@ -1,0 +1,28 @@
+{
+"global_parameters":
+	{
+	"poisson_ratio":0.25,
+	"shear_modulus":30e9,
+	"smooth":0.1,
+	"dip_element":0,
+	"strike_element":1,
+	"compute_mean":false,
+	"boundary_constrained":false
+	},
+"plains":
+	{
+	"plain1":
+		{
+		"dip":90.0,
+		"strike":90.0,
+		"plain_cord":[0.0, 0.0, 0],
+		"plain_length":30.0,
+		"width":[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+		"num_sub_stk":[30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30],
+		"smooth_up":[],
+		"strike_element":-1,
+		"dip_element":-1,
+		 "total_width":10
+		}
+	}
+}
