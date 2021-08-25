@@ -4,6 +4,7 @@ import numpy as np
 
 # from okada_wrapper import dc3dwrapper
 from faultSlip.psokada.okada_stress import *
+from faultSlip.utils import m2dd
 
 
 # def okada_stress():
@@ -521,3 +522,30 @@ y = {}""".format(
         x_d = np.cos(self.strike + np.pi / 2) * l
         y_d = np.sin(self.strike + np.pi / 2) * l
         return np.array([x_s + x_d, y_s + y_d, nz]).reshape(-1, 1)
+
+    def get_cords(self):
+        ccw_to_x_stk = (
+                np.pi / 2 - self.strike
+        )  # the angle betuen the fualt and the x axis cunter clock wise
+        ccw_to_x_dip = -self.strike
+        e1 = self.e + self.length / 2.0 * np.cos(ccw_to_x_stk)
+        n1 = self.n + self.length / 2.0 * np.sin(ccw_to_x_stk)
+        e2 = self.e - self.length / 2.0 * np.cos(ccw_to_x_stk)
+        n2 = self.n - self.length / 2.0 * np.sin(ccw_to_x_stk)
+        z1 = -self.depth
+        z2 = z1 + self.width * np.sin(self.dip)
+        l = self.width * np.cos(self.dip)
+        e3 = e1 - l * np.cos(ccw_to_x_dip)
+        n3 = n1 - l * np.sin(ccw_to_x_dip)
+        e4 = e2 - l * np.cos(ccw_to_x_dip)
+        n4 = n2 - l * np.sin(ccw_to_x_dip)
+        return np.stack((np.array([e1, e2, e4, e3]),
+                        np.array([n1, n2, n4, n3]),
+                        np.array([z1, z1, z2, z2])))
+
+    def get_cords_geo(self, origin_lon, origin_lat):
+        cords = self.get_cords()
+        cords_lat = origin_lat + m2dd(cords[1] * 1e3)
+        cords_lon = origin_lon + m2dd(cords[0]*1e3, cords_lat)
+        return np.stack((cords_lon, cords_lat, cords[2]))
+

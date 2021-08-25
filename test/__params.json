@@ -1,0 +1,46 @@
+{
+"global_parameters":
+	{
+	"poisson_ratio":0.25,
+	"shear_modulus":30e9,
+	"smooth":0.1,
+	"dip_element":1,
+	"strike_element":1,
+    "open_element":0,
+	"compute_mean":false,
+	"boundary_constrained":false
+	},
+"plains":
+	{
+	"plain1":
+		{
+		"dip":26.021138,
+		"strike":27.742134,
+		"plain_cord":[140.951324, 76.054795, 5.622531],
+		"plain_length":81.313361,
+		"width":[45, 45],
+		"num_sub_stk":[2, 2],
+		"smooth_up":[],
+		"strike_element":1,
+		"dip_element":1,
+		 "total_width":10,
+		"sources_file":"/Users/yohai/workspace/faultSlip/test/s_mat_plain_0.npy"
+		}
+	},
+"gps":
+	{
+	"gps_set_1":
+		{
+		"data":"/Users/yohai/workspace/GPS_processing/ibaraki/off_seis_syn/gps.csv"
+		}
+	},
+"strain":
+    {
+    "strain_set_1":
+        {
+        "data":"/Users/yohai/workspace/GPS_processing/ibaraki/combiend/data/res_strain.csv",
+        "gps_stations":"/Users/yohai/workspace/GPS_processing/ibaraki/off_seis_syn/gps.csv",
+        "tris":"/Users/yohai/workspace/GPS_processing/ibaraki/combiend/data/tris.npy"
+        }
+    }
+}

@@ -1,0 +1,36 @@
+{
+"global_parameters":
+	{
+	"poisson_ratio":0.25,
+	"shear_modulus":30e9,
+	"smooth":0.1,
+	"dip_element":1,
+	"strike_element":1,
+    "open_element":0,
+	"compute_mean":false,
+	"boundary_constrained":false
+	},
+"plains":
+	{
+	"plain1":
+		{
+		"dip":90.000000,
+		"strike":130.000000,
+		"plain_cord":[154.890395, 115.104777, 4.500000],
+		"plain_length":14.900000,
+		"width":[9.200000],
+		"num_sub_stk":[1],
+		"smooth_up":[],
+		"strike_element":1,
+		"dip_element":1,
+		 "total_width":10
+		}
+	},
+"gps":
+	{
+	"gps_set_1":
+		{
+		"data":"~/workspace/GPS_processing/ibaraki/off_seis_syn/gps.csv"
+		}
+	}
+}

@@ -1,5 +1,7 @@
 import json
 
+from copy import deepcopy
+
 import matplotlib as mlb
 import matplotlib.cm as cm
 import matplotlib.pyplot as plt
@@ -13,6 +15,8 @@ from faultSlip.image import Image
 from faultSlip.plain import Plain
 from faultSlip.ps import Point_sources
 from faultSlip.seismicity import Seismisity
+from faultSlip.strain_set import Strain
+from faultSlip import disloc
 
 
 class Inversion:
@@ -63,6 +67,11 @@ class Inversion:
         if "gps" in in_data.keys():
             for key in sorted(in_data["gps"]):
                 self.gps.append(Gps(**in_data["gps"][key]))
+
+        self.strain = []
+        if "strain" in in_data.keys():
+            for key in sorted(in_data["strain"]):
+                self.strain.append(Strain(**in_data["strain"][key]))
         self.point_sources = []
         if "point_sources" in in_data.keys():
 
@@ -81,33 +90,6 @@ class Inversion:
         else:
             self.S = self.new_smoothing()
 
-    @staticmethod
-    def m2dd(m, lat=0):
-        """
-        transform distance in meter to degrees
-
-        Args:
-            m: distance in meters
-            lat: for converting longitude distances insert the latitude, default 0
-
-        Returns:
-            distance in degrees
-
-        """
-        return m / (111319.9 * np.cos(np.deg2rad(lat)))
-
-    @staticmethod
-    def dd2m(dd, lat=0):
-        """
-        transform distance in degrees to meters
-
-        Args:
-            dd(float): distance in degrees
-            lat(float): for converting longitude distances insert the latitude, default 0
-        Returns:
-            dist: distance in meters
-        """
-        return dd * (111319.9 * np.cos(np.deg2rad(lat)))
 
     def build_kers(self):
         """building all subsets dataset elastic kernels"""
@@ -117,6 +99,10 @@ class Inversion:
             )
         for gps in self.gps:
             gps.build_ker(
+                self.strike_element, self.dip_element, self.open_element, self.plains
+            )
+        for strain in self.strain:
+            strain.build_ker(
                 self.strike_element, self.dip_element, self.open_element, self.plains
             )
         for seismisity in self.seismisity:
@@ -411,6 +397,58 @@ class Inversion:
             )
             shift += len(p.sources)
 
+    def calc_disp(self, X, Y, poisson_ratio=0.25):
+        """
+
+        Args:
+            X: 2d numpy.ndarray of x cords
+            Y: 2d numpy.ndarray of y cords
+
+            poisson_ratio: poisson_ratio
+
+        Returns: 3d displacment in x, y cords where the third dimention is of shape 3
+        for east-west, north-south and up-down displacment respectivly
+
+        """
+        self.assign_slip()
+        uE = np.zeros_like(X, dtype="float64")
+        uN = np.zeros_like(X, dtype="float64")
+        uZ = np.zeros_like(X, dtype="float64")
+        for p in self.plains:
+            for i, sr in enumerate(p.sources):
+                tuE = np.zeros_like(X, dtype="float64")
+                tuN = np.zeros_like(X, dtype="float64")
+                tuZ = np.zeros_like(X, dtype="float64")
+                model = np.array(
+                    [
+                        sr.length,
+                        sr.width,
+                        sr.depth,
+                        np.rad2deg(sr.dip),
+                        np.rad2deg(sr.strike),
+                        0,
+                        0,
+                        sr.strike_slip,
+                        sr.dip_slip,
+                        0.0,
+                    ],
+                    dtype="float64",
+                )
+                disloc.disloc.disloc_2d(
+                    tuE,
+                    tuN,
+                    tuZ,
+                    model,
+                    X - sr.e,
+                    Y - sr.n,
+                    poisson_ratio,
+                    X.shape[0] * X.shape[1],
+                    1,
+                )
+                uE += tuE
+                uN += tuN
+                uZ += tuZ
+        return np.stack((uE, uN, uZ))
     def plot_sol(
         self,
         vmin=-0.2,
@@ -746,7 +784,7 @@ class Inversion:
             the condition number
 
         """
-        G = get_G(self, *G_kw)
+        G = get_G(self, G_kw)
         singular_values = np.linalg.svd(G, compute_uv=False)
         return singular_values.max() / singular_values.min()
 
@@ -867,10 +905,6 @@ class Inversion:
         cn_vec = []
         sources_num = []
         ### building G for Ridgecrest earthquake
-        ker_array = [img.get_ker() for img in self.images] + [
-            seis.get_G() for seis in self.seismisity
-        ]
-        G_kw["kernal_arry"] = ker_array
         G = get_G(self, G_kw)
         cn_vec.append(get_cn(G))
         self.build_sources_mat()
@@ -894,31 +928,7 @@ class Inversion:
                     ):
                         cn.append(1e99)
                         continue
-                    ker_array = [
-                        img.resample_model(
-                            i,
-                            s_ind,
-                            mat_ind,
-                            self.strike_element,
-                            self.dip_element,
-                            self.compute_mean,
-                            self.poisson_ratio,
-                            self.plains,
-                        )
-                        for img in self.images
-                    ] + [
-                        seis.resample_model(
-                            i,
-                            s_ind,
-                            mat_ind,
-                            self.strike_element,
-                            self.dip_element,
-                            self.plains,
-                        )
-                        for seis in self.seismisity
-                    ]
-                    G_kw["kernal_arry"] = ker_array
-                    G = get_G(self, G_kw)
+                    G = self.resample_model_s(i, s_ind, get_G, G_kw)
                     cn.append(get_cn(G))
             cn_indices = np.array(cn).argsort()
             cn_indices = cn_indices[:num_of_sr]
@@ -928,86 +938,36 @@ class Inversion:
             self.add_new_source(
                 plain_num[cn_indices],
                 source_in_plain[cn_indices],
-                mat_ind_vec[cn_indices],
             )
-            ker_array = [img.get_ker() for img in self.images] + [
-                seis.get_G() for seis in self.seismisity
-            ]
-            G_kw["kernal_arry"] = ker_array
             G = get_G(self, G_kw)
             cn_vec.append(get_cn(G))
             # sources_num.append(self.images[0].sources_mat.shape[0])
         return cn_vec
 
-    def add_new_source(self, plain_inds, sources_inds, mat_inds):
-        new_sources = []
-        shift_mat = 0
-        for k, plain in enumerate(self.plains):
-            x = np.where(plain_inds == k)[0]
-            t_sources_inds = sources_inds[x]
-            t_mat_inds = mat_inds[x]
-            y = np.argsort(t_sources_inds)
-            t_sources_inds = t_sources_inds[y]
-            t_mat_inds = t_mat_inds[y]
-            new_sources.append(list(plain.sources))
-            shift = 0
-            for i, t_mat_ind in enumerate(t_mat_inds):
-                sr = plain.sources[t_sources_inds[i]]
+    def resample_model_s(
+        self,
+        source_plain,
+        source_ind,
+        get_G,
+        G_kw
+    ):
+        inv = deepcopy(self)
+        sr = inv.plains[source_plain].sources.pop(source_ind)
+        SR = sr.make_new_source()
+        inv.plains[source_plain].sources[source_ind:source_ind] = SR
+        inv.build_kers()
+        return get_G(inv, G_kw)
+
+    def add_new_source(self, plain_inds, sources_inds):
+        for p_i in plain_inds:
+            p_shift = 0
+            for s_i in sources_inds:
+                sr = self.plains[p_i].sources.pop(s_i + p_shift)
                 SR = sr.make_new_source()
-                shifted = t_sources_inds[i] + shift
-                shift += 3
-                new_sources[k][shifted] = SR[0]
-                new_sources[k].insert(shifted + 1, SR[1])
-                new_sources[k].insert(shifted + 2, SR[2])
-                new_sources[k].insert(shifted + 3, SR[3])
-                mat_in = []
-                for s in SR:
-                    mat_in.append(
-                        np.array(
-                            [
-                                s.length,
-                                s.width,
-                                s.depth,
-                                np.rad2deg(s.dip),
-                                np.rad2deg(s.strike),
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                s.e,
-                                s.n,
-                                s.x,
-                                s.y,
-                            ],
-                            dtype="float64",
-                        )
-                    )
-                mat_in = np.vstack(mat_in)
-                shifted_mat = t_mat_inds[i] + shift_mat
-                self.sources_mat = np.insert(
-                    np.delete(self.sources_mat, shifted_mat, axis=0),
-                    shifted_mat,
-                    mat_in,
-                    axis=0,
-                )
-                for img in self.images:
-                    img.insert_column(
-                        shifted_mat,
-                        SR,
-                        plain.strike_element * self.strike_element,
-                        plain.dip_element * self.dip_element,
-                    )
-                for seismisity in self.seismisity:
-                    seismisity.insert_column(
-                        plain.strike_element * self.strike_element,
-                        plain.dip_element * self.dip_element,
-                        shifted_mat,
-                        SR,
-                    )
-                shift_mat += 3
-        for j, plain in enumerate(self.plains):
-            plain.sources = new_sources[j]
+                self.plains[p_i].sources[s_i + p_shift:s_i + p_shift] = SR
+                p_shift += 4
+        self.build_kers()
+        self.build_sources_mat()
 
     def combine_resample(
         self,
