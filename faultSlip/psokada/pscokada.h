@@ -18,9 +18,9 @@
  */
 
 
-
 void pscokada(double x1, double y1, double z1, double strike1, double dip1, double L, double W, double slip_strike, double slip_dip, double open,
-		double x2, double y2, double z2, double *sxx, double *syy, double *szz, double *sxy, double *syz, double *szx, double lame_lambda, double mu);
+		double x2, double y2, double z2, double *ux, double *uy, double *uz, double *sxx, double *syy, double *szz, double *sxy, double *syz, double *szx,
+		double lame_lambda, double mu);
 
 void c_okada_stress(double x1, double y1, double z1, double strike1, double dip1, double L, double W, double slip_strike, double slip_dip, double open,
 		double x2, double y2, double z2, double *s,
@@ -30,13 +30,4 @@ void c_okada_stress_thread(double x1, double y1, double z1, double strike, doubl
 		double *x2, double *y2, double *z2, double *s,
 		double lame_lambda, double mu, int pop_num, int thread_num);
 
-void strain_okada(double x1, double y1, double z1, double strike1, double dip1, double L, double W, double slip_strike, double slip_dip, double open,
-		double x2, double y2, double z2, double *sxx, double *syy, double *szz, double *sxy, double *syz, double *szx, double lame_lambda, double mu);
 
-void c_okada_strain(double x1, double y1, double z1, double strike1, double dip1, double L, double W, double slip_strike, double slip_dip, double open,
-		double x2, double y2, double z2, double *s,
-		double lame_lambda, double mu);
-
-void c_okada_strain_thread(double x1, double y1, double z1, double strike, double dip, double L, double W, double slip_strike, double slip_dip, double open,
-		double *x2, double *y2, double *z2, double *s,
-		double lame_lambda, double mu, int pop_num, int thread_num);

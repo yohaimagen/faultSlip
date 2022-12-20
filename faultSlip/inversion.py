@@ -11,12 +11,15 @@ from scipy import optimize
 
 from faultSlip.dists.dist import neighbors
 from faultSlip.gps_set import Gps
+from faultSlip.profiles import Profile
 from faultSlip.image import Image
 from faultSlip.plain import Plain
 from faultSlip.ps import Point_sources
 from faultSlip.seismicity import Seismisity
 from faultSlip.strain_set import Strain
-from faultSlip import disloc
+from faultSlip.disloc import disloc
+
+from faultSlip.utils import normal, shear
 
 
 class Inversion:
@@ -67,7 +70,10 @@ class Inversion:
         if "gps" in in_data.keys():
             for key in sorted(in_data["gps"]):
                 self.gps.append(Gps(**in_data["gps"][key]))
-
+        self.profiles = []
+        if "profiles" in in_data.keys():
+            for key in sorted(in_data["profiles"]):
+                self.profiles.append(Profile(**in_data["profiles"][key]))
         self.strain = []
         if "strain" in in_data.keys():
             for key in sorted(in_data["strain"]):
@@ -92,13 +98,22 @@ class Inversion:
 
 
     def build_kers(self):
-        """building all subsets dataset elastic kernels"""
+        """
+        This method builds elastic kernels for all the subsets in the dataset.
+        
+        The method builds kernels for the images, GPS, strain, and seismicity datasets if they are part of the inversion schem, using the specified fault displacement parameters.
+        
+        """
         for img in self.images:
             img.build_kernal(
                 self.strike_element, self.dip_element, self.open_element, self.plains
             )
         for gps in self.gps:
             gps.build_ker(
+                self.strike_element, self.dip_element, self.open_element, self.plains
+            )
+        for profile in self.profiles:
+            profile.build_ker(
                 self.strike_element, self.dip_element, self.open_element, self.plains
             )
         for strain in self.strain:
@@ -246,11 +261,18 @@ class Inversion:
 
     def solve_g(self, get_G, G_kw={}, solver="nnls", bounds=None):
         """
-        solve the inversion for user defined A
-
-        Args:
-            get_G: function that build A from the form get_G(inv, arg1, arg2, ... arg_n)
-            G_kw: map of the form {ar1:val1, ar2:val2, ... , arg_n:val_n}
+        This method solves the inversion problem using the specified linear system of equations.
+        
+        The method uses the provided `get_G` function to build the matrix of coefficients and the right-hand side vector, and then solves the system using one of the available solvers (`nnls`, `lstsq`, or `lstsq_bound`).
+        
+        Parameters:
+        get_G (function): A function that builds the matrix of coefficients and the right-hand side vector from the inversion object and a set of keyword arguments.
+        G_kw (dict): A map of keyword arguments that are passed to the `get_G` function.
+        solver (str): The solver to use. Must be one of `nnls`, `lstsq`, or `lstsq_bound`.
+        bounds (tuple): The bounds on the solution vector, used only if the `lstsq_bound` solver is selected.
+        
+        Raises:
+        Exception: If the specified `solver` is not recognized.
         """
         b, G = get_G(self, G_kw)
         if solver == "nnls":
@@ -279,24 +301,25 @@ class Inversion:
         cmap_max=None,
         cmap_min=None,
         view=(30, 225),
+        slip=None,
         title="Fault Geometry",
         I=None,
     ):
         """
-        plot the fault plain
-
-        Args:
-            cmap_max(float): slip colormap maximum
-            cmap_min(float): slip colormap minimum
-            view(tuple): view angle (above horizon, angle)
-            title(string): plot title
-            set: ser of the dataset to plot with default inv.images[0]
-            I: plains index to black out (debaging)
-
+        This method plots the sources of the fault plains in the current object.
+        
+        The method creates a figure with three subplots, each showing a different slip component: the strike-slip, dip-slip, and total slip. The colormap and view angle can be customized.
+        
+        Parameters:
+        cmap_max (float): The maximum value of the colormap.
+        cmap_min (float): The minimum value of the colormap.
+        view (tuple): A tuple containing the view angle above the horizon and the angle to rotate the plot.
+        title (str): The title for the plot.
+        I (int): The index of the fault plain to highlight.
+        
         Returns:
-            fig: plot figure
-            ax: plot axis
-
+        fig (matplotlib.figure.Figure): The figure containing the subplots.
+        ax (matplotlib.axes.Axes): The axes containing the plotted fault sources.
         """
 
         def plot_s(
@@ -331,16 +354,18 @@ class Inversion:
                 cbar.set_label("slip [m]")
 
         fig = plt.figure()
-        if self.solution is None:
+        if self.solution is None and slip is None:
             ax = fig.add_subplot(1, 1, 1, projection="3d")
             ax.view_init(*view)
             plot_s(ax, None, False, title=title, I=I)
         else:
+            if slip is None:
+                slip = self.solution
             n = 0
             for p in self.plains:
                 n += len(p.sources)
-            ss = self.solution[0:n]
-            ds = self.solution[n : n * 2]
+            ss = slip[0:n]
+            ds = slip[n : n * 2]
             total_slip = np.sqrt(ss ** 2 + ds ** 2)
             ax = fig.add_subplot(1, 1, 1, projection="3d")
             ax.view_init(*view)
@@ -381,7 +406,14 @@ class Inversion:
         return fig, ax
 
     def assign_slip(self, slip=None):
-        """assign slip to each dislocation in the model"""
+        """
+        This method assigns slip values to the sources of the fault plains in the current object.
+        
+        The method assigns the given slip values to the strike-slip and dip-slip of each fault source. If no slip values are provided, the method uses the `solution` attribute of the object.
+        
+        Parameters:
+        slip (numpy.ndarray): An array containing the slip values to assign to each fault source.
+        """
         if slip is None:
             slip = self.solution
         n = 0
@@ -397,58 +429,42 @@ class Inversion:
             )
             shift += len(p.sources)
 
-    def calc_disp(self, X, Y, poisson_ratio=0.25):
+    def calc_disp(self, X, Y, Z, lambda_l=30e9, shear_m=30e9):
         """
+        Calculate the displacement of the fault model.
 
         Args:
-            X: 2d numpy.ndarray of x cords
-            Y: 2d numpy.ndarray of y cords
+            X: 2D numpy.ndarray of x coordinates.
+            Y: 2D numpy.ndarray of y coordinates.
+            Z: 2D numpy.ndarray of z coordinates.
+            lambda_l: Lame's constant.
+            shear_m: Shear modulus.
 
-            poisson_ratio: poisson_ratio
-
-        Returns: 3d displacment in x, y cords where the third dimention is of shape 3
-        for east-west, north-south and up-down displacment respectivly
-
+        Returns:
+            3D displacement in e, n, and u directions with dimensions
+            (X.shape[0], X.shape[1], 3).
         """
         self.assign_slip()
-        uE = np.zeros_like(X, dtype="float64")
-        uN = np.zeros_like(X, dtype="float64")
-        uZ = np.zeros_like(X, dtype="float64")
-        for p in self.plains:
-            for i, sr in enumerate(p.sources):
-                tuE = np.zeros_like(X, dtype="float64")
-                tuN = np.zeros_like(X, dtype="float64")
-                tuZ = np.zeros_like(X, dtype="float64")
-                model = np.array(
-                    [
-                        sr.length,
-                        sr.width,
-                        sr.depth,
-                        np.rad2deg(sr.dip),
-                        np.rad2deg(sr.strike),
-                        0,
-                        0,
-                        sr.strike_slip,
-                        sr.dip_slip,
-                        0.0,
-                    ],
-                    dtype="float64",
-                )
-                disloc.disloc.disloc_2d(
-                    tuE,
-                    tuN,
-                    tuZ,
-                    model,
-                    X - sr.e,
-                    Y - sr.n,
-                    poisson_ratio,
-                    X.shape[0] * X.shape[1],
-                    1,
-                )
-                uE += tuE
-                uN += tuN
-                uZ += tuZ
-        return np.stack((uE, uN, uZ))
+        disp = np.zeros((X.shape[0], X.shape[1], 3))
+
+        for plain in self.plains:
+            for sr in plain.sources:
+                if sr.strike_slip < 1e-7 and sr.dip_slip < 1e-7:
+                    continue
+                for ix in range(X.shape[0]):
+                    for jx in range(X.shape[1]):
+                        # print(X[ix, jx], Y[ix, jx], Z[ix, jx])
+                        disp[ix, jx] += sr.disp(
+                            X[ix, jx],
+                            Y[ix, jx],
+                            Z[ix, jx],
+                            self.strike_element * plain.strike_element,
+                            self.dip_element * plain.dip_element,
+                            lambda_l,
+                            shear_m,
+                        )
+        return disp
+
     def plot_sol(
         self,
         vmin=-0.2,
@@ -740,7 +756,7 @@ class Inversion:
     def get_sources_num(self):
         """
         Returns:
-            the number of sources
+            int: the number of sources in the fault model
         """
         return self.sources_mat.shape[0]
 
@@ -1122,7 +1138,7 @@ class Inversion:
         seismic_moment = 0
         mu = 30e9
         sources_num = 0
-        for p in self.images[0].plains:
+        for p in self.plains:
             sources_num += len(p.sources)
         shift = 0
         if plains is None:
@@ -1151,10 +1167,10 @@ class Inversion:
                 len(min_size),
             )
             for th, mi, img in zip(threshold, min_size, self.images):
-                img.quadtree(th, mi, 0.2)
+                img.quadtree(th, mi)
         else:
             for img in self.images:
-                img.quadtree(threshold, min_size, 0.2)
+                img.quadtree(threshold, min_size)
 
     def solve_non_linear_torch(self, strike, dip, ss, ds, length, width, e, n, depth):
         import torch
@@ -1290,95 +1306,14 @@ class Inversion:
         for i, img in enumerate(self.images):
             np.save(pref + "_image_%d.npy" % i, img.stations_mat)
 
-    def calc_coulomb(
+    def calc_stress_tensor(
         self,
-        mu,
         X,
         Y,
         Z,
-        strike=0.0,
-        dip=(3.141592653589793 / 2.0),
-        rake=0.0,
         lambda_l=50e9,
         shear_m=30e9,
     ):
-        def normal(strike, dip):
-            nz = np.cos(dip)
-            nx = np.cos(strike) * np.sin(dip)
-            ny = -np.sin(strike) * np.sin(dip)
-            return np.array([nx, ny, nz]).reshape(-1, 1)
-
-        def shear_hat(strike, dip, rake):
-            l_s = np.cos(rake)
-            l_d = np.sin(rake)
-            l = np.sin(dip) * l_d
-            nz = np.cos(dip) * l_d
-
-            x_s = np.cos(strike) * l_s
-            y_s = np.sin(strike) * l_s
-
-            x_d = np.cos(strike + np.pi / 2) * l
-            y_d = np.sin(strike + np.pi / 2) * l
-            return np.array([x_s + x_d, y_s + y_d, nz]).reshape(-1, 1)
-
-        self.assign_slip()
-
-        stress = np.zeros((X.shape[0], 3, 3))
-
-        for plain in self.plains:
-            for sr in plain.sources:
-                if sr.strike_slip < 1e-7 and sr.dip_slip < 1e-7:
-                    continue
-                for ix in range(X.shape[0]):
-                    # print(X[ix], Y[ix], Z[ix])
-                    stress[ix] += sr.stress(
-                        X[ix],
-                        Y[ix],
-                        Z[ix],
-                        self.strike_element * plain.strike_element,
-                        self.dip_element * plain.dip_element,
-                        lambda_l,
-                        shear_m,
-                    )
-        n_hat = normal(strike, dip)
-        s_hat = shear_hat(np.pi / 2 - strike, dip, rake)
-        t = np.squeeze(stress.dot(n_hat))
-        tn = -np.squeeze(t.dot(n_hat))
-        ts = np.squeeze(t.dot(s_hat))
-        coulomb = ts + mu * tn
-        return X, Y, Z, coulomb, tn, ts
-
-    def calc_coulomb_2d(
-        self,
-        mu,
-        X,
-        Y,
-        Z,
-        strike=0.0,
-        dip=(3.141592653589793 / 2.0),
-        rake=0.0,
-        lambda_l=50e9,
-        shear_m=30e9,
-    ):
-        def normal(strike, dip):
-            nz = np.cos(dip)
-            nx = np.cos(strike) * np.sin(dip)
-            ny = -np.sin(strike) * np.sin(dip)
-            return np.array([nx, ny, nz]).reshape(-1, 1)
-
-        def shear_hat(strike, dip, rake):
-            l_s = np.cos(rake)
-            l_d = np.sin(rake)
-            l = np.sin(dip) * l_d
-            nz = np.cos(dip) * l_d
-
-            x_s = np.cos(strike) * l_s
-            y_s = np.sin(strike) * l_s
-
-            x_d = np.cos(strike + np.pi / 2) * l
-            y_d = np.sin(strike + np.pi / 2) * l
-            return np.array([x_s + x_d, y_s + y_d, nz]).reshape(-1, 1)
-
         self.assign_slip()
 
         stress = np.zeros((X.shape[0], X.shape[1], 3, 3))
@@ -1399,13 +1334,28 @@ class Inversion:
                             lambda_l,
                             shear_m,
                         )
+        return stress
+
+    def calc_coulomb_2d(
+        self,
+        mu,
+        X,
+        Y,
+        Z,
+        strike,
+        dip,
+        rake,
+        lambda_l=50e9,
+        shear_m=30e9,
+    ):
+        stress = self.calc_stress_tensor(X, Y, Z, lambda_l, shear_m)
         n_hat = normal(strike, dip)
-        s_hat = shear_hat(np.pi / 2 - strike, dip, rake)
+        s_hat = shear(strike, dip, rake)
         t = np.squeeze(stress.dot(n_hat))
-        tn = np.fliplr(np.squeeze(t.dot(n_hat)))
-        ts = np.fliplr(np.squeeze(t.dot(s_hat)))
+        tn = np.squeeze(t.dot(n_hat))
+        ts = np.squeeze(t.dot(s_hat))
         coulomb = ts + mu * tn
-        return X, Y, Z, coulomb, tn, ts
+        return coulomb, tn, ts
 
     def slip_depth(self, max_depth=15, intervals=10):
         self.assign_slip()
@@ -1569,3 +1519,83 @@ class Inversion:
             X.append(x)
             Y.append(y)
         return X, Y
+    
+    def plot_fault(self, sampels=8, ax=None, color='r'):
+        if ax is None:
+            ax = plt.subplots(1, 1)
+        X, Y = self.get_fault(sampels)
+        for x, y in zip(X, Y):
+            ax.plot(x, y, color=color)
+
+    def plot_profiles(self, slip=None):
+        fig, axs = plt.subplots(len(self.profiles), 1)
+        if len(self.profiles) > 1:
+            for ax, prof in zip(axs, self.profiles):
+                prof.plot_profile(ax=ax)
+        else:
+            self.profiles[0].plot_profile(ax=axs)
+        if slip is not None:
+            if len(self.profiles) > 1:
+                for ax, prof in zip(axs, self.profiles):
+                    prof.plot_model(slip, ax=ax)
+            else:
+                self.profiles[0].plot_model(slip, ax=axs)
+
+    def calc_disp(self, cords, slip=None, poisson_ratio=0.25):
+        all_Gz = []
+        all_Ge = []
+        all_Gn = []
+        for plain in self.plains:
+            s_element = self.strike_element * plain.strike_element
+            d_element = self.dip_element * plain.dip_element
+            o_element = self.open_element * plain.open_element
+            Gz = np.zeros((cords.shape[1], len(plain.sources)))
+            Ge = np.zeros_like(Gz)
+            Gn = np.zeros_like(Gz)
+            for i, sr in enumerate(plain.sources):
+                uE = np.zeros(cords.shape[1], dtype="float64")
+                uN = np.zeros_like(uE)
+                uZ = np.zeros_like(uE)
+                model = np.array(
+                    [
+                        sr.length,
+                        sr.width,
+                        sr.depth,
+                        np.rad2deg(sr.dip),
+                        np.rad2deg(sr.strike),
+                        0,
+                        0,
+                        s_element,
+                        d_element,
+                        o_element,
+                    ],
+                    dtype="float64",
+                )
+                disloc.disloc_1d(
+                    uE,
+                    uN,
+                    uZ,
+                    model,
+                    cords[0] - sr.e,
+                    cords[1] - sr.n,
+                    poisson_ratio,
+                    cords.shape[1],
+                    1,
+                )
+                Gz[:, i] = uZ
+                Ge[:, i] = uE
+                Gn[:, i] = uN
+            all_Ge.append(Ge)
+            all_Gn.append(Gn)
+            all_Gz.append(Gz)
+        if slip is None:
+            return np.concatenate(all_Ge, axis=1), np.concatenate(all_Gn, axis=1), np.concatenate(all_Gz, axis=1)
+        return np.concatenate(all_Ge, axis=1).dot(slip.reshape(-1, 1)), np.concatenate(all_Gn, axis=1).dot(slip.reshape(-1, 1)), np.concatenate(all_Gz, axis=1).dot(slip.reshape(-1, 1))
+
+
+    def plot_profiles_location(self, ax=None):
+        if ax is None:
+            fig, ax = plt.subplots(1, 1)
+        for prof in self.profiles:
+            prof.plot_location(ax)
+        return ax

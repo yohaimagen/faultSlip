@@ -45,42 +45,47 @@ class Gps:
             s_element = strike_element * plain.strike_element
             d_element = dip_element * plain.dip_element
             o_element = open_element * plain.open_element
-            Gz = np.zeros((self.data.shape[0], len(plain.sources)))
-            Ge = np.zeros_like(Gz)
-            Gn = np.zeros_like(Gz)
-            for i, sr in enumerate(plain.sources):
-                uE = np.zeros(self.data.shape[0], dtype="float64")
-                uN = np.zeros_like(uE)
-                uZ = np.zeros_like(uE)
-                model = np.array(
-                    [
-                        sr.length,
-                        sr.width,
-                        sr.depth,
-                        np.rad2deg(sr.dip),
-                        np.rad2deg(sr.strike),
-                        0,
-                        0,
-                        s_element,
-                        d_element,
-                        o_element,
-                    ],
-                    dtype="float64",
-                )
-                disloc.disloc_1d(
-                    uE,
-                    uN,
-                    uZ,
-                    model,
-                    self.data.x.values * 1e-3 - sr.e,
-                    self.data.y.values * 1e-3 - sr.n,
-                    poisson_ratio,
-                    self.data.shape[0],
-                    1,
-                )
-                Gz[:, i] = uZ
-                Ge[:, i] = uE
-                Gn[:, i] = uN
+            if np.all(np.array([s_element, d_element, o_element]) == 0):
+                Gz = np.zeros((self.data.shape[0], 0))
+                Ge = np.zeros_like(Gz)
+                Gn = np.zeros_like(Gz)
+            else:
+                Gz = np.zeros((self.data.shape[0], len(plain.sources)))
+                Ge = np.zeros_like(Gz)
+                Gn = np.zeros_like(Gz)
+                for i, sr in enumerate(plain.sources):
+                    uE = np.zeros(self.data.shape[0], dtype="float64")
+                    uN = np.zeros_like(uE)
+                    uZ = np.zeros_like(uE)
+                    model = np.array(
+                        [
+                            sr.length,
+                            sr.width,
+                            sr.depth,
+                            np.rad2deg(sr.dip),
+                            np.rad2deg(sr.strike),
+                            0,
+                            0,
+                            s_element,
+                            d_element,
+                            o_element,
+                        ],
+                        dtype="float64",
+                    )
+                    disloc.disloc_1d(
+                        uE,
+                        uN,
+                        uZ,
+                        model,
+                        self.data.x.values * 1e-3 - sr.e,
+                        self.data.y.values * 1e-3 - sr.n,
+                        poisson_ratio,
+                        self.data.shape[0],
+                        1,
+                    )
+                    Gz[:, i] = uZ
+                    Ge[:, i] = uE
+                    Gn[:, i] = uN
             all_Ge.append(Ge)
             all_Gn.append(Gn)
             all_Gz.append(Gz)
@@ -118,15 +123,26 @@ class Gps:
         G = np.concatenate((self.G_ss, self.G_ds), axis=1)
         model_d = G.dot(slip.reshape(-1, 1))
         shift = 0
-        for d, err in zip(["E", "N", "Up"], ["Se", "Sn", "Su"]):
-            plt.figure()
-            plt.bar(np.arange(self.data.shape[0]), self.data[d], yerr=self.data[err])
-            y = model_d[shift : shift + self.data.shape[0]]
-            plt.bar(np.arange(self.data.shape[0]), y.flatten(), width=0.4)
-            shift += self.data.shape[0]
-            plt.ylabel("displacment [mm]")
-            plt.xlabel("GPS station")
-            plt.legend()
+        plt.figure()
+        plt.quiver(self.data.x, self.data.y, self.data.E, self.data.N)
+        em = model_d[: self.data.shape[0]]
+        nm = model_d[self.data.shape[0]: self.data.shape[0] * 2]
+        plt.quiver(self.data.x, self.data.y, em, nm, color='r')
+
+        plt.figure()
+        plt.quiver(self.data.x, self.data.y, np.zeros_like(self.data.E), self.data.Up)
+        um = nm = model_d[self.data.shape[0] * 2:]
+        plt.quiver(self.data.x, self.data.y, np.zeros_like(em), um, color='r')
+
+        # for d, err in zip(["E", "N", "Up"], ["Se", "Sn", "Su"]):
+        #     plt.figure()
+        #     plt.bar(np.arange(self.data.shape[0]), self.data[d], yerr=self.data[err])
+        #     y = model_d[shift : shift + self.data.shape[0]]
+        #     plt.bar(np.arange(self.data.shape[0]), y.flatten(), width=0.4)
+        #     shift += self.data.shape[0]
+        #     plt.ylabel("displacment [mm]")
+        #     plt.xlabel("GPS station")
+        #     plt.legend()
 
     def calc_misfit(self, slip):
         G = np.concatenate((self.G_ss, self.G_ds), axis=1)
@@ -151,7 +167,7 @@ class Gps:
             plt.plot(x, y, color="g")
 
     def save_model(self, slip, path=None, only_gps=True):
-        G = np.concatenate((self.G_ss, self.G_ds), axis=1)
+        G = np.concatenate((self.G_ss, self.G_ds, self.G_o), axis=1)
         if only_gps:
             model_d = G.dot(slip.reshape(-1, 1))
         else:
@@ -184,3 +200,11 @@ class Gps:
             ),
             axis=1,
         )
+    def plot_en(self, slip=None, ax=None):
+        if ax is None:
+            fig, ax = plt.subplots(1, 1)
+        ax.quiver(self.data.x *1e-3, self.data.y * 1e-3, self.data.E, self.data.N)
+        if slip is not None:
+            model = self.get_model(slip)
+            ax.quiver(self.data.x *1e-3, self.data.y * 1e-3, model.E, model.N, color='r')
+        return ax

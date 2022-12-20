@@ -15,13 +15,13 @@
 	"plain1":
 		{
 		"dip":90.000000,
-		"strike":130.000000,
-		"plain_cord":[154.890395, 115.104777, 4.500000],
-		"plain_length":14.900000,
-		"width":[9.200000],
+		"strike":0.000000,
+		"plain_cord":[50.01, 45.01, 0.2],
+		"plain_length":10.0,
+		"width":[10.0],
 		"num_sub_stk":[1],
 		"smooth_up":[],
-		"strike_element":1,
+		"strike_element":-1,
 		"dip_element":1,
 		 "total_width":10
 		}

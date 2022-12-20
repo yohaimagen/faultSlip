@@ -1,19 +1,16 @@
 # run with 'build_ext --inplace' in command line
 
-
 from distutils.core import setup
 from distutils.extension import Extension
-from Cython.Build import cythonize
+from Cython.Distutils import build_ext
+
 import numpy
 
-examples_extension = Extension(
-    name="okada_stress",
-    sources=["okada_stress.pyx"],
-    libraries=["okada_stress"],
-    library_dirs=["."],
-    include_dirs=[numpy.get_include()]
-)
+
+
 setup(
-    name="okada_stress",
-    ext_modules=cythonize([examples_extension])
+    cmdclass={'build_ext': build_ext},
+    ext_modules=[Extension("okada",
+                             sources=["okada.pyx", "pscokada.c"],
+                             include_dirs=[numpy.get_include()])]
 )

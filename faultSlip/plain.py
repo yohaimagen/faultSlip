@@ -1,7 +1,7 @@
 import matplotlib.patches as patches
 from matplotlib.pylab import *
 
-from faultSlip.disloc import disloc
+from faultSlip.disloc import *
 from faultSlip.source import Source
 
 

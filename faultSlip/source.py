@@ -3,7 +3,7 @@ from copy import deepcopy
 import numpy as np
 
 # from okada_wrapper import dc3dwrapper
-from faultSlip.psokada.okada_stress import *
+from faultSlip.psokada.okada import *
 from faultSlip.utils import m2dd
 
 
@@ -329,33 +329,11 @@ y = {}""".format(
         return inv_rot.dot(u), inv_rot.dot(grad_u)
 
     def stress(self, x, y, z, strike_element, dip_element, lambda_l, shaer_m):
-        stress = np.zeros((3, 3))
-        okada_stress(
+        u, s = psokada(
             self.e_t,
             self.n_t,
             self.depth_t,
-            self.ccw_to_x_stk,
-            self.dip,
-            self.length,
-            self.width,
-            self.strike_slip * strike_element,
-            self.dip_slip * dip_element,
-            0,
-            x,
-            y,
-            z,
-            stress,
-            lambda_l,
-            shaer_m,
-        )
-        return stress
-
-    def stress_thread(self, x, y, z, strike_element, dip_element, lambda_l, shaer_m):
-        return okada_stress_thread(
-            self.e_t,
-            self.n_t,
-            self.depth_t,
-            self.ccw_to_x_stk,
+            self.strike,
             self.dip,
             self.length,
             self.width,
@@ -367,15 +345,15 @@ y = {}""".format(
             z,
             lambda_l,
             shaer_m,
-            x.shape[0],
         )
+        return s
 
-    def strain_thread(self, x, y, z, strike_element, dip_element, lambda_l, shaer_m):
-        return okada_strain_thread(
+    def disp(self, x, y, z, strike_element, dip_element, lambda_l, shaer_m):
+        u, s = psokada(
             self.e_t,
             self.n_t,
             self.depth_t,
-            self.ccw_to_x_stk,
+            self.strike,
             self.dip,
             self.length,
             self.width,
@@ -387,28 +365,10 @@ y = {}""".format(
             z,
             lambda_l,
             shaer_m,
-            x.shape[0],
         )
+        return u
 
-    def strain_thread_gf(self, x, y, z, strike_element, dip_element, lambda_l, shaer_m):
-        return okada_strain_thread(
-            self.e_t,
-            self.n_t,
-            self.depth_t,
-            self.ccw_to_x_stk,
-            self.dip,
-            self.length,
-            self.width,
-            strike_element,
-            dip_element,
-            0,
-            x,
-            y,
-            z,
-            lambda_l,
-            shaer_m,
-            x.shape[0],
-        )
+
 
     def to_gmt(self, slip):
         ccw_to_x_stk = (

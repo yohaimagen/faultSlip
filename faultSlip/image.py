@@ -1142,7 +1142,7 @@ class Image:
         ), "add_uncorelated_noise() or add_corelated_noise(), shold be run befor restoring clean displacment"
         self.disp = self.clean
 
-    def quadtree(self, thershold, min_size, max_grad):
+    def quadtree(self, thershold, min_size):
         def quad(s):
             dx = s.x_size / 2.0
             dy = s.y_size / 2.0
@@ -1154,7 +1154,8 @@ class Image:
             x2 = int((east + dx) / self.x_pixel)
             data = self.disp[y1:y2, x1:x2]
             not_nans = float(np.count_nonzero(~np.isnan(data)))
-            if not_nans / data.size < 0.6:
+            # print(not_nans / data.size)
+            if not_nans / data.size < 0.3:
                 self.station.append(deepcopy(s))
                 return
             grid = np.indices(data.shape)

@@ -2,7 +2,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-from faultSlip.psokada.okada_stress import okada_stress, okada_stress_thread
 
 
 class Population:

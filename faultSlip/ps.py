@@ -5,7 +5,6 @@ import numpy as np
 from faultSlip.point_source.point_source import py_disp_point_source
 
 # from okada_wrapper import dc3dwrapper
-from faultSlip.psokada.okada_stress import *
 
 
 # def okada_stress():

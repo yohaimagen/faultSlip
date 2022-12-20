@@ -1,0 +1,70 @@
+{
+"global_parameters":
+	{
+	"poisson_ratio":0.25,
+	"shear_modulus":30e9,
+	"smooth":0.1,
+	"dip_element":0,
+	"strike_element":1,
+	"open_element":0,
+	"compute_mean":false,
+	"boundary_constrained":false,
+	"origin_lon":-118.1,
+	"origin_lat":35.3
+	},
+"plains":
+	{
+	"plain1":
+		{
+		"dip":90.0,
+		"strike":137.0,
+		"plain_cord":[16.62003279875003, 84.6470740323834, 0.1],
+		"plain_length":100.0,
+		"width":[1.3, 5.3, 5.3, 9.1, 9.1],
+		"num_sub_stk":[8, 8, 4, 4, 2],
+		"smooth_up":[],
+		"strike_element":-1,
+		"dip_element":0,
+			"total_width":10
+		}
+	},
+"profiles":
+    {
+    "profile1":
+        {
+            "x":"/Users/yohai/workspace/east_california/okada/resamp_cx_2.npy",
+            "y":"/Users/yohai/workspace/east_california/okada/resamp_cy_2.npy",
+            "data":"/Users/yohai/workspace/east_california/okada/resamp_disp2.npy",
+            "uncertentices":"/Users/yohai/workspace/east_california/okada/resamp_inter2.npy",
+            "heading":-13.13,
+            "incidence_angle":0
+        },
+    "profile2":
+        {
+            "x":"/Users/yohai/workspace/east_california/okada/resamp_cx_3.npy",
+            "y":"/Users/yohai/workspace/east_california/okada/resamp_cy_3.npy",
+            "data":"/Users/yohai/workspace/east_california/okada/resamp_disp3.npy",
+            "uncertentices":"/Users/yohai/workspace/east_california/okada/resamp_inter3.npy",
+            "heading":-13.13,
+            "incidence_angle":0
+        },
+    "profile3":
+        {
+            "x":"/Users/yohai/workspace/east_california/okada/resamp_cx_4.npy",
+            "y":"/Users/yohai/workspace/east_california/okada/resamp_cy_4.npy",
+            "data":"/Users/yohai/workspace/east_california/okada/resamp_disp4.npy",
+            "uncertentices":"/Users/yohai/workspace/east_california/okada/resamp_inter4.npy",
+            "heading":-13.13,
+            "incidence_angle":0
+        }
+    },
+"gps":
+    {
+    "gps1":
+        {
+            "data":"/Users/yohai/workspace/east_california/static_inversion/gnss_disp.csv",
+            "origin_lat":35.3,
+            "origin_lon":-118.1
+        }
+    }
+}
