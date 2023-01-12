@@ -38,6 +38,7 @@ class Image:
         self.station = []
         self.G_ss = None
         self.G_ds = None
+        self.G_o = None
         self.stations_mat = None
         self.origin_x = origin_x
         if self.origin_x is None:
@@ -186,7 +187,7 @@ class Image:
                 G_ss.append(np.zeros((len(self.station), 0)))
             else:
                 G_ss.append(build(p, ss * p.strike_element, 0.0).T)
-            if ds == 0:
+            if ds * p.dip_element == 0:
                 G_ds.append(np.zeros((len(self.station), 0)))
             else:
                 G_ds.append(build(p, 0.0, ds * p.dip_element).T)
