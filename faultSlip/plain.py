@@ -242,14 +242,14 @@ class Plain:
                 edgecolor="black",
             )
 
-    def plot_sources_2d(self, ax, movment, my_cmap=None, norm=None):
+    def plot_sources_2d(self, ax, movment, my_cmap=None, norm=None, shift=0):
         for i, sr in enumerate(self.sources):
             if movment is None:
                 color_sub_plain = "gray"
             else:
                 color_sub_plain = my_cmap(norm(movment[i]))
             rect = patches.Rectangle(
-                (sr.x - sr.length / 2, -sr.y),
+                (shift + sr.x - sr.length / 2, -sr.y),
                 sr.length,
                 sr.width,
                 edgecolor="k",
@@ -257,6 +257,8 @@ class Plain:
                 zorder=1,
             )
             ax.add_patch(rect)
+        # ax.set_xlim(0, self.plain_length)
+        # ax.set_ylim(-self.total_width, 0)
 
     def assign_slip(self, strike_slip, dip_slip):
         for i, sr in enumerate(self.sources):

@@ -11,6 +11,7 @@ from scipy import optimize
 
 from faultSlip.dists.dist import neighbors
 from faultSlip.gps_set import Gps
+from faultSlip.profiles_2 import Profile_2
 from faultSlip.profiles import Profile
 from faultSlip.image import Image
 from faultSlip.plain import Plain
@@ -47,6 +48,8 @@ class Inversion:
         self.strike_element = global_parameters["strike_element"]
         self.open_element = global_parameters["open_element"]
         self.compute_mean = global_parameters["compute_mean"]
+        self.origin_lon = global_parameters["origin_lon"]
+        self.origin_lat = global_parameters["origin_lat"]
         self.solution = None
         self.cost = None
         self.images = []
@@ -74,6 +77,14 @@ class Inversion:
         if "profiles" in in_data.keys():
             for key in sorted(in_data["profiles"]):
                 self.profiles.append(Profile(**in_data["profiles"][key]))
+        self.profiles_2 = []
+        def prof_key(prof):
+            return int(prof.split('e')[-1])
+        if "profiles_2" in in_data.keys():
+            for key in sorted(in_data["profiles_2"], key=prof_key):
+                in_data["profiles_2"][key]["origin_lon"] = self.origin_lon
+                in_data["profiles_2"][key]["origin_lat"] = self.origin_lat
+                self.profiles_2.append(Profile_2(**in_data["profiles_2"][key]))
         self.strain = []
         if "strain" in in_data.keys():
             for key in sorted(in_data["strain"]):
@@ -113,6 +124,10 @@ class Inversion:
                 self.strike_element, self.dip_element, self.open_element, self.plains
             )
         for profile in self.profiles:
+            profile.build_ker(
+                self.strike_element, self.dip_element, self.open_element, self.plains
+            )
+        for profile in self.profiles_2:
             profile.build_ker(
                 self.strike_element, self.dip_element, self.open_element, self.plains
             )
@@ -295,6 +310,71 @@ class Inversion:
                     f"{solver} is an unauthorized solver. available solvers are: nnls, lstsq"
                 )
             )
+    def plot_sources_2d(
+        self,
+        cmap_max=None,
+        cmap_min=None,
+        slip=None,
+        title="Fault Geometry",
+    ):
+        def plot_s(
+                ax,
+                slip=None,
+                plot_color_bar=True,
+                cmap_max=1.0,
+                cmap_min=0.0,
+                cmap="jet",
+                title="",
+            ):
+                if slip is not None:
+                    my_cmap = cm.get_cmap(cmap)
+                    norm = mlb.colors.Normalize(cmap_min, cmap_max)
+                shift = 0
+                tot_length = 0
+                for p in self.plains:
+                    if slip is not None:
+                        p.plot_sources_2d(ax, slip[shift: shift + len(p.sources)], my_cmap=my_cmap, norm=norm, shift=tot_length)
+                    else:
+                        p.plot_sources_2d(ax, slip, shift=tot_length)
+                    shift += len(p.sources)
+                    tot_length += p.plain_length
+                    ax.plot([tot_length, tot_length], [0, -p.total_width], color='k', lw=5)
+                ax.set_xlim(0, tot_length)
+                max_width = np.max([p.total_width for p in self.plains])
+                ax.set_ylim(-max_width, 0)
+                ax.set_aspect(3)
+                ax.set_title(title)
+                
+        def plot_com(slip, title, ax):
+            if cmap_max is None:
+                cmax = slip.max()
+            else:
+                cmax = cmap_max
+            if cmap_min is None:
+                cmin = slip.min()
+            else:
+                cmin = cmap_min
+            plot_s(ax, slip, cmap_max=cmax, cmap_min=cmin, title=title)
+
+        
+        if slip is None:
+            fig = plt.figure()
+            ax = fig.add_subplot(1, 1, 1)
+            plot_s(ax, None, False, title=title)
+            figs = [fig]
+        else:
+            n = 0
+            for p in self.plains:
+                n += len(p.sources)
+            ss = slip[0:n]
+            ds = slip[n : n * 2]
+            total_slip = np.sqrt(ss ** 2 + ds ** 2)
+            figs = [plt.figure() for i in range(3)]
+            plot_com(ss, 'strike slip', figs[0].add_subplot(1, 1, 1))
+            plot_com(ds, 'dip slip', figs[1].add_subplot(1, 1, 1))
+            plot_com(total_slip, 'total slip', figs[2].add_subplot(1, 1, 1))
+        return figs
+                
 
     def plot_sources(
         self,
@@ -304,6 +384,7 @@ class Inversion:
         slip=None,
         title="Fault Geometry",
         I=None,
+        aspect=(5, 5, 1)
     ):
         """
         This method plots the sources of the fault plains in the current object.
@@ -357,6 +438,7 @@ class Inversion:
         if self.solution is None and slip is None:
             ax = fig.add_subplot(1, 1, 1, projection="3d")
             ax.view_init(*view)
+            ax.set_box_aspect(aspect)
             plot_s(ax, None, False, title=title, I=I)
         else:
             if slip is None:
@@ -369,6 +451,7 @@ class Inversion:
             total_slip = np.sqrt(ss ** 2 + ds ** 2)
             ax = fig.add_subplot(1, 1, 1, projection="3d")
             ax.view_init(*view)
+            ax.set_box_aspect(aspect)
             if cmap_max is None:
                 cmax = ss.max()
             else:
@@ -381,6 +464,7 @@ class Inversion:
             fig = plt.figure()
             ax = fig.add_subplot(1, 1, 1, projection="3d")
             ax.view_init(*view)
+            ax.set_box_aspect(aspect)
             if cmap_max is None:
                 cmax = ds.max()
             else:
@@ -393,6 +477,7 @@ class Inversion:
             fig = plt.figure()
             ax = fig.add_subplot(1, 1, 1, projection="3d")
             ax.view_init(*view)
+            ax.set_box_aspect(aspect)
             # set.plot_sources(ax, total_slip, cmap_max=total_slip.max(), title='Total Slip')
             if cmap_max is None:
                 cmax = total_slip.max()
@@ -653,6 +738,14 @@ class Inversion:
                     model[shift : shift + len(img.station)], path + "_%d.geojson" % i
                 )
                 shift += len(img.station)
+    def scatter_stations(self, cmap="jet", vmax=1.0, vmin=-1.0, figsize=(12, 3)):
+        f, axs = plt.subplots(1, len(self.images), figsize=figsize)
+        if len(self.images) == 1:
+            self.images[0].scatter_stations(axs, self.plains, cmap, vmax=vmax, vmin=vmin)
+        else:
+            for i, img in enumerate(self.images):
+                img.scatter_stations(axs[i], self.plains, cmap, vmax=vmax, vmin=vmin)
+        return f, axs
 
     def plot_stations(
         self, dots=False, cmap="jet", vmax=1.0, vmin=-1.0, figsize=(12, 3)
@@ -994,6 +1087,7 @@ class Inversion:
         min_data_point_size,
         data_point_per_round,
         ratio=10,
+        num_of_sr=1,
         dest_path=None,
     ):
         """
@@ -1006,6 +1100,7 @@ class Inversion:
             min_source_size: minimum dislocation size in the model
             min_data_point_size: minimum data point size
             data_point_per_round: number of data points to split in each round
+            num_of_sr: number of dislocation to split in each round
             dest_path: destenation path for saving intermidate results, /None for dont save
 
         Returns:
@@ -1058,7 +1153,7 @@ class Inversion:
             self.save_sources_mat(dest_path + "0")
             self.save_stations_mat(dest_path + "0")
         for i in range(pre_rounds):
-            self.resample_model(get_G, G_kw, N=1, min_size=min_source_size)
+            self.resample_model(get_G, G_kw, N=1, min_size=min_source_size, num_of_sr=num_of_sr)
             itert += 1
             if dest_path is not None:
                 self.save_sources_mat(dest_path + "{}".format(itert))
@@ -1075,7 +1170,7 @@ class Inversion:
         print_status()
         iter_num = int(np.round((final_num_of_sources - self.get_sources_num()) / 3))
         for _ in range(iter_num):
-            self.resample_model(get_G, G_kw, N=1, min_size=min_source_size)
+            self.resample_model(get_G, G_kw, N=1, min_size=min_source_size, num_of_sr=num_of_sr)
             itert += 1
             if dest_path is not None:
                 self.save_sources_mat(dest_path + "{}".format(itert))
@@ -1113,25 +1208,31 @@ class Inversion:
         print_status()
         return iteration, num_of_sources, num_of_stations, cn
 
-    def moment_magnitude(self, convert_to_meter=1e3, solution=None):
-        return (np.log10(self.seismic_moment(convert_to_meter, solution)) - 9.05) / 1.5
+    def moment_magnitude(self, convert_to_meter=1e3, solution=None, plains=None):
+        if plains is None:
+            plains = [i + 1 for i in rannge(len(self.plains))]
+        return (np.log10(self.seismic_moment(convert_to_meter, solution, plains)) - 9.05) / 1.5
 
-    def seismic_moment(self, convert_to_meter=1e3, solution=None):
+    def seismic_moment(self, convert_to_meter=1e3, solution=None, plains=None):
         if solution is None:
             solution = self.solution
+        if plains is None:
+            plains = [i + 1 for i in rannge(len(self.plains))]
         seismic_moment = 0
         mu = 30e9
         sources_num = 0
         for p in self.plains:
             sources_num += len(p.sources)
         n = 0
-        for plain in self.plains:
-            strike_slip = solution[n : n + len(plain.sources)]
-            dip_slip = solution[n + sources_num : n + sources_num + len(plain.sources)]
+        for i, plain in enumerate(self.plains):
+            if i + 1 in plains:
+                strike_slip = solution[n : n + len(plain.sources)]
+                dip_slip = solution[n + sources_num : n + sources_num + len(plain.sources)]
+                
+                seismic_moment += plain.seismic_moment(
+                    strike_slip, dip_slip, convert_to_meter, mu
+                )
             n += len(plain.sources)
-            seismic_moment += plain.seismic_moment(
-                strike_slip, dip_slip, convert_to_meter, mu
-            )
         return seismic_moment
 
     def part_seismic_moment(self, solution, convert_to_meter=1e3, plains=None):
@@ -1159,7 +1260,7 @@ class Inversion:
         return seismic_moment
 
     def quadtree(self, threshold, min_size):
-        if type(threshold) is not float > 1:
+        if type(threshold) is not float:
             assert len(threshold) == len(
                 min_size
             ), "threshold length is %d and min size is %d shold by the same" % (
@@ -1599,3 +1700,50 @@ class Inversion:
         for prof in self.profiles:
             prof.plot_location(ax)
         return ax
+
+    def plot_profiles_2_location(self, ax=None, vmin=-1, vmax=1, cmap='jet', subset=None):
+        if ax is None:
+            fig, ax = plt.subplots(1, 1)
+        if subset is None:
+            subset = (0, len(self.profiles_2))
+        X, Y = self.get_fault()
+        for x, y in zip(X, Y):
+            plt.plot(x, y, color='k')
+        for prof in self.profiles_2[subset[0]:subset[1]]:
+            prof.plot_location(ax, vmin=vmin, vmax=vmax, cmap=cmap)
+        return ax
+
+    def plot_profiles_2_data_model_res(self, ax=None, vmin=-1, vmax=1, cmap='jet', subset=None, slip=None, figsize=(15, 5)):
+        fig, axs = plt.subplots(1, 3, figsize=figsize)
+        if subset is None:
+            subset = (0, len(self.profiles_2))
+        if slip is None:
+            slip = self.solution
+        X, Y = self.get_fault()
+        for x, y in zip(X, Y):
+            for ax in axs:
+                ax.plot(x, y, color='k')
+        for prof in self.profiles_2[subset[0]:subset[1]]:
+            prof.plot_location(axs[0], vmin=vmin, vmax=vmax, cmap=cmap)
+            m = prof.get_model(slip=slip).flatten()
+            prof.plot_location(axs[1], d=m, vmin=vmin, vmax=vmax, cmap=cmap)
+            prof.plot_location(axs[2], d=prof.data-m, vmin=vmin, vmax=vmax, cmap=cmap)
+
+        
+    def plot_profiles_2(self):
+        
+        for k, prof in enumerate(self.profiles_2):
+            plt.figure()
+            plt.scatter(prof.full_x, prof.full_data, s=1, color='k')
+            plt.scatter(prof.x, prof.data, s=7, color='r')
+            plt.title(k + 1)
+
+    def quad_profiles_2(self, thresh, min_size):
+        if type(thresh) is float:
+            thresh = [thresh] * len(self.profiles_2)
+        if type(min_size) is float or type(min_size) is int:
+            min_size = [min_size] * len(self.profiles_2)
+        for prof, th, ms in zip(self.profiles_2, thresh, min_size):
+            prof.quadtree(th, ms)
+
+

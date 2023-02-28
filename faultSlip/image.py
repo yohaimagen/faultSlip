@@ -261,25 +261,15 @@ class Image:
                     (east + s.x_size / 2.0) / self.x_pixel
                 ),
             ]
-            try:
-                s.weight = float(np.count_nonzero(~np.isnan(data))) / data.size
-                if s.weight != 0:
-                    s.weight = 1.0
-            except:
-                print(self.disp.shape)
-                print(data.shape)
-                print(s.north)
-                print(
-                    int(s.north / self.y_pixel),
-                    int((s.north + s.y_size) / self.y_pixel),
-                    int(s.east / self.x_pixel),
-                    int((s.east + s.x_size) / self.x_pixel),
-                )
-                exit(1)
-            s.disp = np.nanmean(data)
-            # w_normalizer += s.weight
-            if np.isnan(s.disp):
+            s.weight = float(np.count_nonzero(~np.isnan(data))) / data.size
+            if s.weight > 0.6:
+                s.weight = 1.0
+                s.disp = np.nanmean(data)
+                # if s.disp < 0.001:
+                #     s.disp = 0
+            else:
                 s.disp = 0.0
+                
             mat.append([s.east, s.north, s.x_size, s.y_size, s.disp, s.weight])
         if S is not None:
             mat = np.array(mat)
@@ -364,7 +354,7 @@ class Image:
         new_station = []
         delete_rows = []
         for i, s in enumerate(self.station):
-            if s.weight != 0:
+            if s.disp != 0:
                 new_station.append(s)
             else:
                 delete_rows.append(i)
@@ -672,9 +662,17 @@ class Image:
         for x, y in zip(X, Y):
             x /= self.x_pixel
             y /= self.y_pixel
-            ax.plot(x, y, color="g", linewidth=2)
+            ax.plot(x - self.origin_x, y - self.origin_y, color="g", linewidth=2)
 
         return im
+    def scatter_stations(self, ax, plains, cmap="jet", vmax=0.2, vmin=-0.2):
+        s_x = [s.east - self.origin_x - s.x_size / 2.0 for s in self.station]
+        s_y = [s.north - self.origin_y - s.y_size / 2.0 for s in self.station]
+        disp = [s.disp for s in self.station]
+        ax.scatter(s_x, s_y, c=disp, cmap=cmap, vmin=vmin, vmax=vmax, s=1)
+        X, Y = self.get_fault(plains)
+        for x, y in zip(X, Y):
+            ax.plot(x - self.origin_x, y - self.origin_y, color="g", linewidth=2)
 
     def plot_stations(self, ax, plains, dots=True, cmap="jet", vmax=0.2, vmin=-0.2):
         ax.imshow(

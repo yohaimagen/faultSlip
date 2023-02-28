@@ -1,0 +1,235 @@
+{
+    "global_parameters":
+        {
+        "poisson_ratio":0.25,
+        "shear_modulus":30e9,
+        "smooth":0.1,
+        "dip_element":1,
+        "strike_element":1,
+        "open_element":0,
+        "compute_mean":true,
+        "boundary_constrained":false,
+            "origin_lon":35.6,
+            "origin_lat":35.6
+    
+        },
+        "plains":
+        {
+            "plain1":
+                {
+                    "dip":90.0,
+                    "strike": 23.64 ,
+                    "plain_cord":[ 58.19,  79.03, 0.1],
+                    "plain_length": 30.07,
+                    "width":[2, 3, 4, 5, 6],
+                    "num_sub_stk":[15, 10, 7, 6, 5],
+                    "smooth_up":[],
+                    "strike_element":1,
+                    "dip_element":1
+                },
+            "plain2":
+                {
+                    "dip":90.0,
+                    "strike": 3.44 ,
+                    "plain_cord":[ 70.06,  106.57, 0.1],
+                    "plain_length": 7.51,
+                    "width":[2, 3, 4, 5, 6],
+                    "num_sub_stk":[3, 2, 1, 1, 1],
+                    "smooth_up":[],
+                    "strike_element":1,
+                    "dip_element":1
+                },
+            "plain3":
+                {
+                    "dip":90.0,
+                    "strike": 38.42 ,
+                    "plain_cord":[ 70.45,  114.07, 0.1],
+                    "plain_length": 11.23,
+                    "width":[2, 3, 4, 5, 6],
+                    "num_sub_stk":[5, 3, 2, 2, 1],
+                    "smooth_up":[],
+                    "strike_element":1,
+                    "dip_element":1
+                },
+            "plain4":
+                {
+                    "dip":90.0,
+                    "strike": 20.73 ,
+                    "plain_cord":[ 77.37,  122.89, 0.1],
+                    "plain_length": 51.07,
+                    "width":[2, 3, 4, 5, 6],
+                    "num_sub_stk":[25, 17, 12, 10, 8],
+                    "smooth_up":[],
+                    "strike_element":1,
+                    "dip_element":1
+                },
+            "plain5":
+                {
+                    "dip":90.0,
+                    "strike": 35.88 ,
+                    "plain_cord":[ 95.01,  170.64, 0.1],
+                    "plain_length": 40.05,
+                    "width":[2, 3, 4, 5, 6],
+                    "num_sub_stk":[20, 13, 10, 8, 6],
+                    "smooth_up":[],
+                    "strike_element":1,
+                    "dip_element":1
+                },
+            "plain6":
+                {
+                    "dip":90.0,
+                    "strike": 62.96 ,
+                    "plain_cord":[ 118.12,  203.06, 0.1],
+                    "plain_length": 46.62,
+                    "width":[2, 3, 4, 5, 6],
+                    "num_sub_stk":[23, 15, 11, 9, 7],
+                    "smooth_up":[],
+                    "strike_element":1,
+                    "dip_element":1
+                },
+            "plain7":
+                {
+                    "dip":90.0,
+                    "strike": 196.76 ,
+                    "plain_cord":[ 142.17,  214.25, 0.1],
+                    "plain_length": 22.94,
+                    "width":[2, 3, 4, 5, 6],
+                    "num_sub_stk":[11, 7, 5, 4, 3],
+                    "smooth_up":[],
+                    "strike_element":1,
+                    "dip_element":1
+                },
+            "plain8":
+                {
+                    "dip":90.0,
+                    "strike": 49.55 ,
+                    "plain_cord":[ 159.36,  224.15, 0.1],
+                    "plain_length": 39.59,
+                    "width":[2, 3, 4, 5, 6],
+                    "num_sub_stk":[19, 13, 9, 7, 6],
+                    "smooth_up":[],
+                    "strike_element":1,
+                    "dip_element":1
+                },
+            "plain9":
+                {
+                    "dip":90.0,
+                    "strike": 77.39 ,
+                    "plain_cord":[ 181.43,  243.05, 0.1],
+                    "plain_length": 13.67,
+                    "width":[2, 3, 4, 5, 6],
+                    "num_sub_stk":[6, 4, 3, 2, 2],
+                    "smooth_up":[],
+                    "strike_element":1,
+                    "dip_element":1
+                },
+            "plain10":
+                {
+                    "dip":90.0,
+                    "strike": 94.67 ,
+                    "plain_cord":[ 194.70,  246.03, 0.1],
+                    "plain_length": 11.39,
+                    "width":[2, 3, 4, 5, 6],
+                    "num_sub_stk":[5, 3, 2, 2, 1],
+                    "smooth_up":[],
+                    "strike_element":1,
+                    "dip_element":1
+                },
+            "plain11":
+                {
+                    "dip":90.0,
+                    "strike": 66.81 ,
+                    "plain_cord":[ 188.99,  249.78, 0.1],
+                    "plain_length": 57.09,
+                    "width":[2, 3, 4, 5, 6],
+                    "num_sub_stk":[28, 19, 14, 11, 9],
+                    "smooth_up":[],
+                    "strike_element":1,
+                    "dip_element":1
+                },
+            "plain12":
+                {
+                    "dip":90.0,
+                    "strike": 86.18 ,
+                    "plain_cord":[ 240.96,  272.08, 0.1],
+                    "plain_length": 18.76,
+                    "width":[2, 3, 4, 5, 6],
+                    "num_sub_stk":[9, 6, 4, 3, 3],
+                    "smooth_up":[],
+                    "strike_element":1,
+                    "dip_element":1
+                },
+            "plain13":
+                {
+                    "dip":90.0,
+                    "strike": 236.52 ,
+                    "plain_cord":[ 217.53,  290.97, 0.1],
+                    "plain_length": 51.03,
+                    "width":[2, 3, 4, 5, 6],
+                    "num_sub_stk":[25, 17, 12, 10, 8],
+                    "smooth_up":[],
+                    "strike_element":1,
+                    "dip_element":1
+                },
+            "plain14":
+                {
+                    "dip":90.0,
+                    "strike": 281.03 ,
+                    "plain_cord":[ 175.69,  262.67, 0.1],
+                    "plain_length": 65.46,
+                    "width":[2, 3, 4, 5, 6],
+                    "num_sub_stk":[32, 21, 16, 13, 10],
+                    "smooth_up":[],
+                    "strike_element":1,
+                    "dip_element":1
+                },
+            "plain15":
+                {
+                    "dip":90.0,
+                    "strike": 259.96 ,
+                    "plain_cord":[ 111.16,  274.93, 0.1],
+                    "plain_length": 17.22,
+                    "width":[2, 3, 4, 5, 6],
+                    "num_sub_stk":[8, 5, 4, 3, 2],
+                    "smooth_up":[],
+                    "strike_element":1,
+                    "dip_element":1
+                },
+            "plain16":
+                {
+                    "dip":90.0,
+                    "strike": 245.08 ,
+                    "plain_cord":[ 94.23,  271.91, 0.1],
+                    "plain_length": 14.05,
+                    "width":[2, 3, 4, 5, 6],
+                    "num_sub_stk":[7, 4, 3, 2, 2],
+                    "smooth_up":[],
+                    "strike_element":1,
+                    "dip_element":1
+                },
+            "plain17":
+                {
+                    "dip":90.0,
+                    "strike": 179.52 ,
+                    "plain_cord":[ 97.98,  272.58, 0.1],
+                    "plain_length": 18.05,
+                    "width":[2, 3, 4, 5, 6],
+                    "num_sub_stk":[9, 6, 4, 3, 3],
+                    "smooth_up":[],
+                    "strike_element":1,
+                    "dip_element":1
+                }
+        },        
+            "profiles_2":
+            {
+            "profile9":
+                {
+                "lon":"/Users/yohai/workspace/turky/bo_intf/20230128_20230209/b8_lon.npy",
+                "lat":"/Users/yohai/workspace/turky/bo_intf/20230128_20230209/b8_lat.npy",
+                "data":"/Users/yohai/workspace/turky/bo_intf/20230128_20230209/b8_disp.npy",
+                "heading":193.26
+                }
+            }
+             
+    }
+    
