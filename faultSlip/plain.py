@@ -336,3 +336,57 @@ class Plain:
                 * np.sqrt(strike_slip[i] ** 2 + dip_slip[i] ** 2)
             )
         return seismic_moment
+
+    def sample_up_model(self, idxs):
+        joined = np.array([])
+        shift = 0
+        for k in range(len(idxs)):
+            if idxs[k] not in joined:
+                lx = np.array([s.x - s.width / 2 for s in self.sources])
+                rx = np.array([s.x + s.width / 2 for s in self.sources])
+                uy = np.array([s.y for s in self.sources])
+                dy = np.array([s.y - s.length for s in self.sources])
+                s = self.sources[idxs[k]]
+                sl = s.x - s.width / 2 - 0.5
+                sr = s.x + s.width / 2 + 0.5
+                su = s.y + 0.5
+                sd = s.y - s.length  -  0.5
+                nigbhors = np.argwhere(((rx > sl) & (rx  < sr) & (dy < su) & (dy > sd)) |
+                                       ((rx > sl) & (rx  < sr) & (uy < su) & (uy > sd)) |
+                                       ((lx > sl) & (lx  < sr) & (uy < su) & (uy > sd)) |
+                                       ((lx > sl) & (lx  < sr) & (dy < su) & (dy > sd))).flatten()
+                self.join_sources(nigbhors)
+                joined = np.concatenate((joined, nigbhors))
+                for j in range(k + 1, len(idxs)):
+                    if idxs[j] not in joined:
+                        idxs[j] -= (np.sum(nigbhors < idxs[k]) - 1)
+
+    def join_sources(self, idxs):
+        new_sources = [self.sources[i] for i, s in enumerate(self.sources) if i not in idxs]
+        to_join = [self.sources[i] for i, s in enumerate(self.sources) if i in idxs]
+
+        lx = np.array([s.x - s.width / 2 for s in to_join])
+        rx = np.array([s.x + s.width / 2 for s in to_join])
+        uy = np.array([s.y for s in to_join])
+        dy = np.array([s.y - s.length for s in to_join])
+        ts = self.sources[idxs[0]]
+        s = Source(
+                    None,
+                    None,
+                    ts.strike,
+                    ts.dip,
+                    rx.max() - lx.min(),
+                    uy.max() - dy.min(),
+                    0,
+                    0,
+                    0,
+                    lx.min() + (rx.max() - lx.min()) / 2,
+                    uy.max(),
+                    self.plain_cord[0],
+                    self.plain_cord[1],
+                    self.plain_cord[2],
+                )
+        new_sources.append(s)
+        self.sources = new_sources
+
+    

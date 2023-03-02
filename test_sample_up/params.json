@@ -1,0 +1,48 @@
+{
+"global_parameters":
+	{
+	"poisson_ratio":0.25,
+	"shear_modulus":30e9,
+	"smooth":0.1,
+	"dip_element":1,
+	"strike_element":1,
+    "open_element":0,
+	"compute_mean":false,
+	"boundary_constrained":false,
+	"origin_lon":35.0,
+	"origin_lat":35.0
+	},
+"plains":
+	{
+	"plain1":
+		{
+		"dip":90,
+		"strike":180,
+		"plain_cord":[50, 50, 0.01],
+		"plain_length":50,
+		"width":[2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
+		"num_sub_stk":[25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25],
+		"smooth_up":[],
+		"strike_element":1,
+		"dip_element":1,
+		 "total_width":10
+		}
+	},
+	"images":
+	{
+	"image1":
+			{
+			"disp_file":"./dumy.npy",
+			"lon": 35.455,
+			"lat": 35.454,
+			"x_pixel": 0.1,
+			"y_pixel": 0.1,
+			"incidence_angle":39.3,
+			"azimuth":193.26,
+			"station":"uniform",
+			"station_size":5,
+			"origin_y":0,
+			"origin_x":0
+			}
+	}
+}

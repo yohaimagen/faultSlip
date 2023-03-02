@@ -1208,6 +1208,51 @@ class Inversion:
         print_status()
         return iteration, num_of_sources, num_of_stations, cn
 
+    def sample_up_model(self, get_G, G_kw, num_of_rounds, dislocations_per_round):
+        """
+    Samples up the model for each plain in the given number of rounds.
+
+    Parameters:
+        get_G (function): A function that returns a generator matrix G.
+        G_kw (dict): A dictionary of keyword arguments to be passed to `get_G`.
+        num_of_rounds (int): The number of rounds to sample up.
+        dislocations_per_round (int): The number of dislocations to sample up in each round.
+
+    Returns:
+        None
+        """
+        for k in range(num_of_rounds):
+            G = get_G(self, G_kw)
+            U, s, V = np.linalg.svd(G)
+            v = np.sum(np.abs(V[-int(V.shape[0]/ 10):]), axis=0)
+            n = int(G.shape[1] / 2)
+            v = np.maximum(v[:n], v[n:])
+            idxs = np.argsort(v)[::-1][:dislocations_per_round]
+            idxs = np.unique(np.mod(idxs, self.get_sources_num()))
+            plain_idxs = self.split_idexs_to_plains(idxs)
+            for p, p_idxs in zip(self.plains, plain_idxs):
+                p.sample_up_model(p_idxs)
+            self.build_kers()
+
+    def split_idexs_to_plains(self, idxs):
+        """
+        Splits a list of indices into separate lists of indices for each plain.
+
+        Parameters:
+            idxs (list): A list of indices.
+
+        Returns:
+            list: A list of lists, where each inner list contains the indices for a single plain.
+        """
+        plain_idxs = []
+        n = 0
+        for p in self.plains:
+            np = n + len(p.sources)
+            pidxs = idxs[(idxs > n) & (idxs < np)] - n
+            plain_idxs.append(pidxs)
+            n = np
+        return plain_idxs
+
     def moment_magnitude(self, convert_to_meter=1e3, solution=None, plains=None):
         if plains is None:
             plains = [i + 1 for i in rannge(len(self.plains))]
@@ -1217,7 +1262,7 @@ class Inversion:
         if solution is None:
             solution = self.solution
         if plains is None:
-            plains = [i + 1 for i in rannge(len(self.plains))]
+            plains = [i + 1 for i in range(len(self.plains))]
         seismic_moment = 0
         mu = 30e9
         sources_num = 0
@@ -1746,4 +1791,60 @@ class Inversion:
         for prof, th, ms in zip(self.profiles_2, thresh, min_size):
             prof.quadtree(th, ms)
 
+
+    def write_model_as_raster(self, raster, out_prefix, slip=None):
+        if slip is None and self.solution is None:
+            raise("slip or inv.solution must be not None")
+        elif slip is None:
+            slip = inv.solution
+        n = self.get_sources_num()
+        ss = slip[:n]
+        ds = slip[n:]
+        ds = xarray.open_rasterio(raster)
+        _, _, x = geodesic.inv(ds.x.values, ds.y.values, np.ones_like(ds.x.values) * self.origin_lon, ds.y.values)
+        x *= 1e-3
+        x[ds.x.values < self.origin_lon] *= -1
+        _, _, y = geodesic.inv(ds.x.values, ds.y.values, ds.x.values, np.ones_like(ds.x.values) * self.origin_lat)
+        y *= 1e-3
+        y[ds.y.values < self.origin_lat] *= -1
+        E, N = np.meshgrid(x, y)
+        uE = np.zeros(E.shape, dtype="float64")
+        uN = np.zeros(E.shape, dtype="float64")
+        uZ = np.zeros(E.shape, dtype="float64")
+        i = 0
+        for p in self.plains:
+            for s in p.sources:
+                uE_t = np.zeros(E.shape, dtype="float64")
+                uN_t = np.zeros(E.shape, dtype="float64")
+                uZ_t = np.zeros(E.shape, dtype="float64")
+                model = np.array(
+                    [
+                        s.length,
+                        s.width,
+                        s.depth,
+                        np.rad2deg(s.dip),
+                        np.rad2deg(s.strike),
+                        0,
+                        0,
+                        strike_slip[i] * p.strike_element,
+                        dip_slip[i] * p.dip_element,
+                        0.0,
+                    ],
+                    dtype="float64",
+                )
+                disloc.disloc_2d(
+                    uE_t,
+                    uN_t,
+                    uZ_t,
+                    model,
+                    E - s.e,
+                    N - s.n,
+                    poisson_ratio,
+                    E.shape[0] * E.shape[1],
+                    1,
+                )
+                uE += uE_t
+                uN += uN_t
+                uZ += uZ_t
+                i += 1
 
