@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 from faultSlip.gps_set import Gps
 import os
-import pygmt
+# import pygmt
 
 class Cpt():
     def __init__(self, series, cmap, output='_______temp', background='i', **kwargs):

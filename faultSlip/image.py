@@ -194,6 +194,45 @@ class Image:
         self.G_ss = np.concatenate(G_ss, axis=1)
         self.G_ds = np.concatenate(G_ds, axis=1)
 
+    def build_stations_grid(self):
+        self.east = np.array([st.east for st in self.station], dtype="float64")
+        self.north = np.array([st.north for st in self.station], dtype="float64")
+
+    def build_source_ker(self, sr, ss, ds, poisson_ratio=0.25):
+        uE = np.zeros(self.east.shape, dtype="float64")
+        uN = np.zeros(self.east.shape, dtype="float64")
+        uZ = np.zeros(self.east.shape, dtype="float64")
+        model = np.array(
+            [
+                sr.length,
+                sr.width,
+                sr.depth,
+                np.rad2deg(sr.dip),
+                np.rad2deg(sr.strike),
+                0,
+                0,
+                ss,
+                ds,
+                0.0,
+            ],
+            dtype="float64",
+        )
+        disloc.disloc_1d(
+            uE,
+            uN,
+            uZ,
+            model,
+            self.east - sr.e,
+            self.north - sr.n,
+            poisson_ratio,
+            self.east.shape[0],
+            1,
+        )
+        x = -np.cos(self.azimuth) * uE
+        y = np.sin(self.azimuth) * uN
+        z = uZ * np.cos(self.incidence_angle)
+        return -((x + y) * np.sin(self.incidence_angle) + z)
+
     def get_G_ss(self):
         return self.G_ss
 

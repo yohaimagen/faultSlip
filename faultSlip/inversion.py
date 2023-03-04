@@ -9,13 +9,17 @@ import numpy as np
 from mpl_toolkits.mplot3d import Axes3D
 from scipy import optimize
 
+import pycuda.autoinit
+import pycuda.gpuarray as gpuarray
+import skcuda.linalg as linalg
+
 from faultSlip.dists.dist import neighbors
 from faultSlip.gps_set import Gps
 from faultSlip.profiles_2 import Profile_2
 from faultSlip.profiles import Profile
 from faultSlip.image import Image
 from faultSlip.plain import Plain
-from faultSlip.ps import Point_sources
+# from faultSlip.ps import Point_sources
 from faultSlip.seismicity import Seismisity
 from faultSlip.strain_set import Strain
 from faultSlip.disloc import disloc
@@ -89,10 +93,10 @@ class Inversion:
         if "strain" in in_data.keys():
             for key in sorted(in_data["strain"]):
                 self.strain.append(Strain(**in_data["strain"][key]))
-        self.point_sources = []
-        if "point_sources" in in_data.keys():
+        # self.point_sources = []
+        # if "point_sources" in in_data.keys():
 
-            self.point_sources = Point_sources(in_data["point_sources"])
+        #     self.point_sources = Point_sources(in_data["point_sources"])
         self.seismisity = []
         if "seismicity" in in_data.keys():
 
@@ -851,7 +855,7 @@ class Inversion:
         Returns:
             int: the number of sources in the fault model
         """
-        return self.sources_mat.shape[0]
+        return sum([len(p.sources) for p in self.plains])
 
     def get_stations_num(self):
         """
@@ -918,6 +922,11 @@ class Inversion:
         def get_cn(G):
             a = np.linalg.svd(G, compute_uv=False)
             return a.max() / a.min()
+        # def get_cn(G):
+        #     G_gpu = gpuarray.to_gpu(G.T)
+        #     a = linalg.svd(G_gpu, 'N', 'N')
+        #     a = a.get()
+        #     return a[0] / a[-1]
 
         cn_vec = []
         data_points = []
@@ -992,7 +1001,7 @@ class Inversion:
                 self.save_stations_mat(path + "%d" % n)
         return data_points, cn_vec, res
 
-    def resample_model(self, get_G, G_kw, N=5, min_size=0.2, num_of_sr=1):
+    def resample_model(self, get_G, G_kw, N=5, min_size=0.2, num_of_sr=1, dest_path=None):
         """
         resample the model space
 
@@ -1010,14 +1019,24 @@ class Inversion:
         def get_cn(G):
             a = np.linalg.svd(G, compute_uv=False)
             return a.max() / a.min()
+        # def get_cn(G):
+        #     G_gpu = gpuarray.to_gpu(G.T)
+        #     a = linalg.svd(G_gpu, 'N', 'N')
+        #     a = a.get()
+        #     return a[0] / a[-1]
+        for img in self.images:
+            img.build_stations_grid()
 
         cn_vec = []
         sources_num = []
         ### building G for Ridgecrest earthquake
         G = get_G(self, G_kw)
         cn_vec.append(get_cn(G))
+        sources_num.append(self.get_sources_num())
         self.build_sources_mat()
         # sources_num.append(self.images[0].sources_mat.shape[0])
+        if dest_path is not None:
+                self.save_sources_mat(dest_path + "{}".format(0))
         for n in range(N):
             print(n)
             cn = []
@@ -1037,7 +1056,7 @@ class Inversion:
                     ):
                         cn.append(1e99)
                         continue
-                    G = self.resample_model_s(i, s_ind, get_G, G_kw)
+                    G = self.resample_model_s(i, s_ind, mat_ind, get_G, G_kw)
                     cn.append(get_cn(G))
             cn_indices = np.array(cn).argsort()
             cn_indices = cn_indices[:num_of_sr]
@@ -1050,10 +1069,12 @@ class Inversion:
             )
             G = get_G(self, G_kw)
             cn_vec.append(get_cn(G))
-            # sources_num.append(self.images[0].sources_mat.shape[0])
-        return cn_vec
+            if dest_path is not None:
+                self.save_sources_mat(dest_path + "{}".format(n + 1))
+            sources_num.append(self.get_sources_num())
+        return cn_vec, sources_num
 
-    def resample_model_s(
+    def resample_model_s_old(
         self,
         source_plain,
         source_ind,
@@ -1066,15 +1087,37 @@ class Inversion:
         inv.plains[source_plain].sources[source_ind:source_ind] = SR
         inv.build_kers()
         return get_G(inv, G_kw)
+    
+    def resample_model_s(
+        self,
+        source_plain,
+        source_ind,
+        mat_ind,
+        get_G,
+        G_kw
+    ):
+        G = get_G(self, G_kw)
+        sr = self.plains[source_plain].sources[source_ind]
+        SR = sr.make_new_source()
+        s1_ker = np.concatenate([img.build_source_ker(SR[0], self.plains[source_plain].strike_element, 0) for img in self.images])
+        s2_ker = np.concatenate([img.build_source_ker(SR[1], self.plains[source_plain].strike_element, 0) for img in self.images])
+        s3_ker = np.concatenate([img.build_source_ker(SR[2], self.plains[source_plain].strike_element, 0) for img in self.images])
+        s4_ker = np.concatenate([img.build_source_ker(SR[3], self.plains[source_plain].strike_element, 0) for img in self.images])
+        G[:, mat_ind] = s1_ker
+        SR_ker = np.stack((s2_ker, s3_ker, s4_ker))
+        G = np.insert(G, mat_ind, SR_ker, axis=1)
+        return G
 
     def add_new_source(self, plain_inds, sources_inds):
-        for p_i in plain_inds:
+        for p_i in np.unique(plain_inds):
+            s_inds = sources_inds[plain_inds == p_i]
+            s_inds.sort()
             p_shift = 0
-            for s_i in sources_inds:
+            for s_i in s_inds:
                 sr = self.plains[p_i].sources.pop(s_i + p_shift)
                 SR = sr.make_new_source()
                 self.plains[p_i].sources[s_i + p_shift:s_i + p_shift] = SR
-                p_shift += 4
+                p_shift += 3
         self.build_kers()
         self.build_sources_mat()
 
@@ -1121,7 +1164,7 @@ class Inversion:
                     self.get_stations_num() / self.get_sources_num(),
                 )
             )
-
+        linalg.init()
         print_status()
 
         pre_rounds = int(
@@ -1569,9 +1612,7 @@ class Inversion:
         self.sources_mat = np.vstack(mat)
 
     def save_sources_mat(self, file_prefix):
-        assert (
-            self.sources_mat is not None
-        ), "need to initialize sources_mat before saving it"
+        self.build_sources_mat()
         n = 0
         for i, plain in enumerate(self.plains):
             np.save(
