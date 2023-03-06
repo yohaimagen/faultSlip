@@ -8,10 +8,13 @@ import matplotlib.pyplot as plt
 import numpy as np
 from mpl_toolkits.mplot3d import Axes3D
 from scipy import optimize
+from osgeo import gdal
+import xarray
+import pyproj
 
-import pycuda.autoinit
-import pycuda.gpuarray as gpuarray
-import skcuda.linalg as linalg
+# import pycuda.autoinit
+# import pycuda.gpuarray as gpuarray
+# import skcuda.linalg as linalg
 
 from faultSlip.dists.dist import neighbors
 from faultSlip.gps_set import Gps
@@ -1164,7 +1167,7 @@ class Inversion:
                     self.get_stations_num() / self.get_sources_num(),
                 )
             )
-        linalg.init()
+        # linalg.init()
         print_status()
 
         pre_rounds = int(
@@ -1833,21 +1836,63 @@ class Inversion:
             prof.quadtree(th, ms)
 
 
-    def write_model_as_raster(self, raster, out_prefix, slip=None):
+    def write_model_as_raster(self, raster, out_prefix, slip=None, poisson_ratio=0.25):
+        ds = xarray.open_rasterio(raster)
+        uE, uN, uZ = self.calc_disp_lon_lat(ds.x.values, ds.y.values, slip=slip, poisson_ratio=poisson_ratio)
+        gdal_ds = gdal.Open(raster)
+        band = gdal_ds.GetRasterBand(1)
+        driver = gdal.GetDriverByName("GTiff")
+        def save_to_raster(gdal_ds, dest, arr_out):
+            print(gdal_ds.GetProjection())
+            outdata = driver.Create(dest, ds.data.shape[2], ds.data.shape[1], 1, gdal.GDT_Float32)
+            outdata.SetGeoTransform(gdal_ds.GetGeoTransform())##sets same geotransform as input
+            outdata.SetProjection(gdal_ds.GetProjection())##sets same projection as input
+            outdata.GetRasterBand(1).WriteArray(arr_out)
+            outdata.GetRasterBand(1).SetNoDataValue(0)##if you want these values transparent
+            outdata.FlushCache() ##saves to disk!!
+            outdata = None
+            band=None
+            gdal_ds=None
+        save_to_raster(gdal_ds, out_prefix + '_E.tif', uE)
+        save_to_raster(gdal_ds, out_prefix + '_N.tif', uN)
+        save_to_raster(gdal_ds, out_prefix + '_Z.tif', uZ)
+
+    def write_model_to_grid(self, lon, lat, out_prefix, slip=None, poisson_ratio=0.25):
+        uE, uN, uZ = self.calc_disp_lon_lat(lon, lat, slip=slip, poisson_ratio=poisson_ratio)
+        
+        def save_to_raster(dest, arr_out):
+            driver = gdal.GetDriverByName("GTiff")
+            # print(dest)
+            outdata = driver.Create(dest, arr_out.shape[1], arr_out.shape[0], 1, gdal.GDT_Float32)
+            print(lon.min(), lon[1] - lon[0], 0, lat.max(), 0, lat[1] - lat[0])
+            outdata.SetGeoTransform((lon.min(), lon[1] - lon[0], 0, lat.max(), 0, lat[1] - lat[0]))##sets same geotransform as input
+            outdata.SetProjection('GEOGCS["WGS 84",DATUM["WGS_1984",SPHEROID["WGS 84",6378137,298.257223563,AUTHORITY["EPSG","7030"]],AUTHORITY["EPSG","6326"]],PRIMEM["Greenwich",0],UNIT["degree",0.0174532925199433,AUTHORITY["EPSG","9122"]],AXIS["Latitude",NORTH],AXIS["Longitude",EAST],AUTHORITY["EPSG","4326"]]')##sets same projection as input
+            outdata.GetRasterBand(1).WriteArray(arr_out)
+            outdata.GetRasterBand(1).SetNoDataValue(0)##if you want these values transparent
+            outdata.FlushCache() ##saves to disk!!
+            outdata = None
+            band=None
+            gdal_ds=None
+        save_to_raster(out_prefix + '_E.tif', uE)
+        save_to_raster(out_prefix + '_N.tif', uN)
+        save_to_raster(out_prefix + '_Z.tif', uZ)
+
+    def calc_disp_lon_lat(self, lon, lat, slip=None, poisson_ratio=0.25):
         if slip is None and self.solution is None:
             raise("slip or inv.solution must be not None")
         elif slip is None:
-            slip = inv.solution
+            slip = self.solution
         n = self.get_sources_num()
-        ss = slip[:n]
-        ds = slip[n:]
-        ds = xarray.open_rasterio(raster)
-        _, _, x = geodesic.inv(ds.x.values, ds.y.values, np.ones_like(ds.x.values) * self.origin_lon, ds.y.values)
+        strike_slip = slip[:n]
+        dip_slip = slip[n:]
+        
+        geodesic = pyproj.Geod(ellps='WGS84')
+        _, _, x = geodesic.inv(lon, lat, np.ones_like(lon) * self.origin_lon, lat)
         x *= 1e-3
-        x[ds.x.values < self.origin_lon] *= -1
-        _, _, y = geodesic.inv(ds.x.values, ds.y.values, ds.x.values, np.ones_like(ds.x.values) * self.origin_lat)
+        x[lon < self.origin_lon] *= -1
+        _, _, y = geodesic.inv(lon, lat, lon, np.ones_like(lon) * self.origin_lat)
         y *= 1e-3
-        y[ds.y.values < self.origin_lat] *= -1
+        y[lat < self.origin_lat] *= -1
         E, N = np.meshgrid(x, y)
         uE = np.zeros(E.shape, dtype="float64")
         uN = np.zeros(E.shape, dtype="float64")
@@ -1888,4 +1933,5 @@ class Inversion:
                 uN += uN_t
                 uZ += uZ_t
                 i += 1
+        return uE, uN, uZ
 
