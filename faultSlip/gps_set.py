@@ -6,6 +6,15 @@ from faultSlip.disloc import disloc
 
 class Gps:
     def __init__(self, data, origin_lon=None, origin_lat=None):
+        """
+        Initialize the `Gps` object.
+
+        Args:
+            data (pd.DataFrame): The GPS data.
+            origin_lon (float): The longitude of the origin of the coordinate system.
+            origin_lat (float): The latitude of the origin of the coordinate system.
+
+        """
         if isinstance(data, pd.DataFrame):
             self.data = data
         else:
@@ -18,8 +27,10 @@ class Gps:
         self.origin_lat = origin_lat
 
     def build_ker(
+        
         self, strike_element, dip_element, open_elemnt, plains, poisson_ratio=0.25
     ):
+    
         if strike_element == 0:
             self.G_ss = np.zeros((self.data.shape[0] * 3, 0))
         else:
@@ -146,7 +157,7 @@ class Gps:
 
     def calc_misfit(self, slip):
         G = np.concatenate((self.G_ss, self.G_ds), axis=1)
-        model_d = G.dot(slip[:-2])
+        model_d = G.dot(slip)
         obs = np.concatenate((self.data["E"], self.data["N"], self.data["Up"]))
         return np.linalg.norm(obs - model_d) / np.linalg.norm(obs)
 
@@ -208,3 +219,5 @@ class Gps:
             model = self.get_model(slip)
             ax.quiver(self.data.x *1e-3, self.data.y * 1e-3, model.E, model.N, color='r')
         return ax
+
+  

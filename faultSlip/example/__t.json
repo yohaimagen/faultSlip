@@ -8,22 +8,24 @@
 	"strike_element":1,
     "open_element":0,
 	"compute_mean":false,
-	"boundary_constrained":false
+	"boundary_constrained":false,
+	"origin_lon":35.0,
+	"origin_lat":35.0
 	},
 "plains":
 	{
 	"plain1":
 		{
-		"dip":45,
+		"dip":40,
 		"strike":180,
 		"plain_cord":[50, 50, 0.01],
-		"plain_length":20,
-		"width":[12],
+		"plain_length":18.05,
+		"width":[30],
 		"num_sub_stk":[1],
 		"smooth_up":[],
 		"strike_element":1,
-		"dip_element":1,
-		 "total_width":10
+		"dip_element":-1,
+		 "total_width":30
 		}
 	},
 "gps":

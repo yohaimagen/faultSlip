@@ -122,6 +122,11 @@ class Inversion:
         The method builds kernels for the images, GPS, strain, and seismicity datasets if they are part of the inversion schem, using the specified fault displacement parameters.
         
         """
+        for dataset in (self.images, self.gps, self.profiles, self.profiles_2, self.strain, self.seismisity):
+            for data in dataset:
+                data.build_kernel(
+                    self.strike_element, self.dip_element, self.open_element, self.plains
+                )
         for img in self.images:
             img.build_kernal(
                 self.strike_element, self.dip_element, self.open_element, self.plains
@@ -723,6 +728,83 @@ class Inversion:
         cmmapable = cm.ScalarMappable(norm, my_cmap)
         cmmapable.set_array(np.linspace(vmin, vmax))
         plt.colorbar(cmmapable, orientation="horizontal", cax=cax)
+    
+    def plot_sol_dots(
+        self,
+        G,
+        slip=None,
+        vmin=-0.2,
+        vmax=0.2,
+        cmap="jet",
+        figsize=15,
+        f=None,
+        axs=None,
+        images=None,
+    ):
+        """
+        plot data model res plot only for data points in the model
+
+        Args:
+            G: elastic kernel
+            slip(ndarray): slip array of the shape(2n,) for n number of dislocation in the model
+            vmin(float): displacment colormap minimum
+            vmax(float): dislpacment colormap maximum
+            cmap(string): matplotlib colormap
+            figsize: figure size
+            f(Figure): matplotlib Figure
+            axs(ndarray): matplotlib axsis array
+            images(list): subset of images to plot, default inv.images
+
+
+        """
+
+        if images is None:
+            images = self.images
+        if f is None or axs is None:
+            f, axs = plt.subplots(
+                len(images),
+                3,
+                figsize=(
+                    figsize * 1.5,
+                    figsize * images[0].im_y_size / images[0].im_x_size,
+                ),
+            )
+
+        if slip is None:
+            if self.solution is None:
+                raise ValueError(
+                    "can plot a solution only after the inversion solution is not None or slip is provided"
+                )
+            slip = self.solution
+        model = G.dot(slip)
+        if len(images) == 1:
+            images[0].plot_sol_dots(
+                self.plains, axs[0], axs[1], axs[2], model, vmin, vmax, cmap
+            )
+        else:
+            shift = 0
+            for i, img in enumerate(images):
+                img.plot_sol_dots(
+                    self.plains,
+                    axs[i, 0],
+                    axs[i, 1],
+                    axs[i, 2],
+                    model[shift : shift + len(img.station)],
+                    vmin,
+                    vmax,
+                    cmap,
+                )
+                shift += len(img.station)
+        if len(axs.shape) > 1:
+            left, bottom, width, height = axs[len(images) - 1, 0].get_position().bounds
+        else:
+            left, bottom, width, height = axs[len(images) - 1].get_position().bounds
+        cax = f.add_axes([left, 0.03, 0.8, height * 0.1])
+        my_cmap = cm.get_cmap(cmap)
+        norm = mlb.colors.Normalize(vmin, vmax)
+        cmmapable = cm.ScalarMappable(norm, my_cmap)
+        cmmapable.set_array(np.linspace(vmin, vmax))
+        plt.colorbar(cmmapable, orientation="horizontal", cax=cax)
 
     def sol_to_geojson(self, G, images=None, path="./image"):
         """
@@ -1301,7 +1383,7 @@ class Inversion:
 
     def moment_magnitude(self, convert_to_meter=1e3, solution=None, plains=None):
         if plains is None:
-            plains = [i + 1 for i in rannge(len(self.plains))]
+            plains = [i + 1 for i in range(len(self.plains))]
         return (np.log10(self.seismic_moment(convert_to_meter, solution, plains)) - 9.05) / 1.5
 
     def seismic_moment(self, convert_to_meter=1e3, solution=None, plains=None):
@@ -1669,7 +1751,8 @@ class Inversion:
 
     def new_smoothing(self):
         self.build_sources_mat()
-        S = np.zeros((self.sources_mat.shape[0], self.sources_mat.shape[0]))
+        S_ds = np.zeros((self.sources_mat.shape[0], self.sources_mat.shape[0]))
+        S_ss = np.zeros((self.sources_mat.shape[0], self.sources_mat.shape[0]))
         i = 0
         j = 0
         for ip, p in enumerate(self.plains):
@@ -1694,11 +1777,43 @@ class Inversion:
                             tpoints[2],
                             tpoints[3],
                         ):
-                            S[i, j] += 1.0
-                            S[i, i] -= 1.0
+                            if p.strike_element != 0 and t_p.strike_element != 0:
+                                S_ss[i, j] += 1.0
+                                S_ss[i, i] -= 1.0
+                            if p.dip_element != 0 and t_p.dip_element != 0:
+                                S_ds[i, j] += 1.0
+                                S_ds[i, i] -= 1.0
                         j += 1
                 j = 0
                 i += 1
+        indx_ss = []
+        shift = 0
+        for p in self.plains:
+            if p.strike_element != 0:
+                indx_ss.append(shift + np.arange(len(p.sources)))
+            shift += len(p.sources)
+        
+        indx_ds = []
+        shift = 0
+        for p in self.plains:
+            if p.dip_element != 0:
+                indx_ds.append(shift + np.arange(len(p.sources)))
+            shift += len(p.sources)
+        if len(indx_ss) > 0:
+            indx_ss = np.concatenate(indx_ss)
+            ss_len = indx_ss.shape[0]
+        else:
+            ss_len = 0
+            indx_ss = np.array([], dtype=int)
+        if len(indx_ds) > 0:
+            indx_ds = np.concatenate(indx_ds)
+            ds_len = indx_ds.shape[0]
+        else:
+            ds_len = 0
+            indx_ds = np.array([], dtype=int)
+        S_ss = np.concatenate((S_ss[:, indx_ss], np.zeros((S_ss.shape[0], ds_len))), axis=1)
+        S_ds = np.concatenate((np.zeros((S_ds.shape[0], ss_len)), S_ds[:, indx_ds]), axis=1)
+        S = np.concatenate((S_ss, S_ds), axis=0)
         return S
 
     def get_fault(self, sampels=8):
@@ -1730,57 +1845,6 @@ class Inversion:
                     prof.plot_model(slip, ax=ax)
             else:
                 self.profiles[0].plot_model(slip, ax=axs)
-
-    def calc_disp(self, cords, slip=None, poisson_ratio=0.25):
-        all_Gz = []
-        all_Ge = []
-        all_Gn = []
-        for plain in self.plains:
-            s_element = self.strike_element * plain.strike_element
-            d_element = self.dip_element * plain.dip_element
-            o_element = self.open_element * plain.open_element
-            Gz = np.zeros((cords.shape[1], len(plain.sources)))
-            Ge = np.zeros_like(Gz)
-            Gn = np.zeros_like(Gz)
-            for i, sr in enumerate(plain.sources):
-                uE = np.zeros(cords.shape[1], dtype="float64")
-                uN = np.zeros_like(uE)
-                uZ = np.zeros_like(uE)
-                model = np.array(
-                    [
-                        sr.length,
-                        sr.width,
-                        sr.depth,
-                        np.rad2deg(sr.dip),
-                        np.rad2deg(sr.strike),
-                        0,
-                        0,
-                        s_element,
-                        d_element,
-                        o_element,
-                    ],
-                    dtype="float64",
-                )
-                disloc.disloc_1d(
-                    uE,
-                    uN,
-                    uZ,
-                    model,
-                    cords[0] - sr.e,
-                    cords[1] - sr.n,
-                    poisson_ratio,
-                    cords.shape[1],
-                    1,
-                )
-                Gz[:, i] = uZ
-                Ge[:, i] = uE
-                Gn[:, i] = uN
-            all_Ge.append(Ge)
-            all_Gn.append(Gn)
-            all_Gz.append(Gz)
-        if slip is None:
-            return np.concatenate(all_Ge, axis=1), np.concatenate(all_Gn, axis=1), np.concatenate(all_Gz, axis=1)
-        return np.concatenate(all_Ge, axis=1).dot(slip.reshape(-1, 1)), np.concatenate(all_Gn, axis=1).dot(slip.reshape(-1, 1)), np.concatenate(all_Gz, axis=1).dot(slip.reshape(-1, 1))
 
 
     def plot_profiles_location(self, ax=None):
@@ -1878,6 +1942,19 @@ class Inversion:
         save_to_raster(out_prefix + '_Z.tif', uZ)
 
     def calc_disp_lon_lat(self, lon, lat, slip=None, poisson_ratio=0.25):
+        
+        Lon, Lat = np.meshgrid(lon, lat)
+        geodesic = pyproj.Geod(ellps='WGS84')
+        _, _, x = geodesic.inv(Lon, Lat, np.ones_like(Lon) * self.origin_lon, Lat)
+        x *= 1e-3
+        x[Lon < self.origin_lon] *= -1
+        _, _, y = geodesic.inv(Lon, Lat, Lon, np.ones_like(Lat) * self.origin_lat)
+        y *= 1e-3
+        y[Lat < self.origin_lat] *= -1
+        return self.calc_disp_2d(x, y, slip)
+
+
+    def calc_disp_2d(self, E, N, slip, poisson_ratio=0.25):
         if slip is None and self.solution is None:
             raise("slip or inv.solution must be not None")
         elif slip is None:
@@ -1885,15 +1962,6 @@ class Inversion:
         n = self.get_sources_num()
         strike_slip = slip[:n]
         dip_slip = slip[n:]
-        
-        geodesic = pyproj.Geod(ellps='WGS84')
-        _, _, x = geodesic.inv(lon, lat, np.ones_like(lon) * self.origin_lon, lat)
-        x *= 1e-3
-        x[lon < self.origin_lon] *= -1
-        _, _, y = geodesic.inv(lon, lat, lon, np.ones_like(lon) * self.origin_lat)
-        y *= 1e-3
-        y[lat < self.origin_lat] *= -1
-        E, N = np.meshgrid(x, y)
         uE = np.zeros(E.shape, dtype="float64")
         uN = np.zeros(E.shape, dtype="float64")
         uZ = np.zeros(E.shape, dtype="float64")

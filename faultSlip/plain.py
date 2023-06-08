@@ -1,5 +1,6 @@
 import matplotlib.patches as patches
 from matplotlib.pylab import *
+import matplotlib as mlb
 
 from faultSlip.disloc import *
 from faultSlip.source import Source
@@ -259,6 +260,35 @@ class Plain:
             ax.add_patch(rect)
         # ax.set_xlim(0, self.plain_length)
         # ax.set_ylim(-self.total_width, 0)
+
+    def plot_sources_2d_t(self, ax=None, my_cmap='jet', slip_type = 'total'):
+        if ax is None:
+            fig, ax = plt.subplots(1, 1)
+        my_cmap = cm.get_cmap(my_cmap)
+        if slip_type == 'ss':
+            slip = [s.strike_slip for s in self.sources]
+        elif slip_type == 'ds':
+            slip = [s.dip_slip for s in self.sources]
+        elif slip_type == 'total':
+            slip = [(s.strike_slip ** 2 + s.dip_slip ** 2 ) ** 0.5 for s in self.sources]
+        else:
+            raise 'slip_type should be one of "ss", "ds", or "total'
+        norm = mlb.colors.Normalize(min(slip), max(slip))
+        for i, sr in enumerate(self.sources):    
+            color_sub_plain = my_cmap(norm(slip[i]))
+            rect = patches.Rectangle(
+                ( sr.x - sr.length / 2, -sr.y),
+                sr.length,
+                sr.width,
+                edgecolor="k",
+                facecolor=color_sub_plain,
+                zorder=1,
+            )
+            ax.add_patch(rect)
+        ax.set_xlim(0, self.plain_length)
+        ax.set_ylim(-self.total_width, 0)
+
+
 
     def assign_slip(self, strike_slip, dip_slip):
         for i, sr in enumerate(self.sources):

@@ -606,6 +606,17 @@ class Image:
             # ax.set_xticklabels(tic_x_label)
             # ax.set_yticklabels(tic_y_label)
 
+    def plot_sol_dots(self, plains, ax1, ax2, ax3, m_disp, vmin, vmax, cmap="jet"):
+        disp = np.array([s.disp for s in self.station])
+        east = np.array([s.east for s in self.station])
+        north = np.array([s.north for s in self.station])
+        for ax, d in zip((ax1, ax2, ax3), (disp, m_disp, disp - m_disp)):
+            ax.scatter(east, north, c=d, vmin=vmin, vmax=vmax, cmap=cmap, s=1)
+            X, Y = self.get_fault(plains)
+            for x, y in zip(X, Y):
+                ax.plot(x, y, color="g", linewidth=2)
+
+
     def sol_to_geojson(self, m_disp, path):
         def m2dd(m, lat=0):
             "meters to decimal degrees."
