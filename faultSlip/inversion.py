@@ -124,33 +124,10 @@ class Inversion:
         """
         for dataset in (self.images, self.gps, self.profiles, self.profiles_2, self.strain, self.seismisity):
             for data in dataset:
-                data.build_kernel(
+                data.build_ker(
                     self.strike_element, self.dip_element, self.open_element, self.plains
                 )
-        for img in self.images:
-            img.build_kernal(
-                self.strike_element, self.dip_element, self.open_element, self.plains
-            )
-        for gps in self.gps:
-            gps.build_ker(
-                self.strike_element, self.dip_element, self.open_element, self.plains
-            )
-        for profile in self.profiles:
-            profile.build_ker(
-                self.strike_element, self.dip_element, self.open_element, self.plains
-            )
-        for profile in self.profiles_2:
-            profile.build_ker(
-                self.strike_element, self.dip_element, self.open_element, self.plains
-            )
-        for strain in self.strain:
-            strain.build_ker(
-                self.strike_element, self.dip_element, self.open_element, self.plains
-            )
-        for seismisity in self.seismisity:
-            seismisity.build_ker(
-                self.strike_element, self.dip_element, self.open_element, self.plains
-            )
+
 
     def calculate_station_disp(self):
         """calculate the displacement for each data point"""
