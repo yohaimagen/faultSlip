@@ -1,0 +1,39 @@
+{
+"global_parameters":
+	{
+	"poisson_ratio":0.25,
+	"shear_modulus":30e9,
+	"smooth":0.1,
+	"dip_element":1,
+	"strike_element":1,
+    "open_element":0,
+	"compute_mean":false,
+	"boundary_constrained":false,
+	"origin_lon":0,
+	"origin_lat":0
+	},
+"plains":
+	{
+	"plain1":
+		{
+		"dip":60.000000,
+		"strike":0.000000,
+		"plain_cord":[50.010000, 45.010000, 0.200000],
+		"plain_length":10.000000,
+		"width":[10.000000],
+		"num_sub_stk":[1],
+		"smooth_up":[],
+		"strike_element":0.000000,
+		"dip_element":1.000000,
+		 "total_width":10
+		}
+	},
+"gps":
+	{
+	"gps_set_1":
+		{
+		"data":"./ttt.csv"
+		}
+	}
+}
+

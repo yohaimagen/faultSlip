@@ -166,7 +166,33 @@ class Inversion:
         sol = optimize.nnls(ker, b)
         self.solution = sol[0]
         self.cost = sol[1]
-
+    def get_slip(self):
+        """
+        Returns:
+            ndarray: slip array of the shape (2n,) for n number of dislocation in the model where the first n elements are the strike slip and the second n elements are the dip slip
+        """
+        if self.solution is None:
+            raise ValueError("can retrive slip only after the problem is solved")
+        s_num = self.get_sources_num()
+        sslip = np.zeros(s_num)
+        dslip = np.zeros(s_num)
+        n = 0
+        nt = 0
+        for p in self.plains:
+            k = len(p.sources)
+            if p.strike_element != 0:
+                sslip[n : n + k] = self.solution[nt : nt + k]
+                nt += k
+            n += k
+    
+        n = 0
+        for p in self.plains:
+            k = len(p.sources)
+            if p.dip_element != 0:
+                dslip[n : n + k] = self.solution[nt : nt + k]
+                nt += k
+            n += k
+        return np.concatenate((sslip, dslip))
     def get_sar_inv_pars(self, include_offset=True, subset=None):
         """
         build the elastic kernel and displacement for a subset of the dens datasets images
@@ -617,6 +643,7 @@ class Inversion:
                         vmin,
                         vmax,
                         cmap,
+                        self.poisson_ratio
                     )
                     m_disp.append(model)
             if len(axs.shape) > 1:
@@ -940,7 +967,7 @@ class Inversion:
 
         """
         kernal_array = [
-            img.get_ker(zero_pad=0, compute_mean=self.compute_mean)
+            img.get_ker(compute_mean=self.compute_mean)
             for img in self.images
         ]
         G_t = np.concatenate(kernal_array)
@@ -1118,7 +1145,8 @@ class Inversion:
                     ):
                         cn.append(1e99)
                         continue
-                    G = self.resample_model_s(i, s_ind, mat_ind, get_G, G_kw)
+                    # G = self.resample_model_s(i, s_ind, mat_ind, get_G, G_kw)
+                    G = self.resample_model_s_old(i, s_ind, get_G, G_kw)
                     cn.append(get_cn(G))
             cn_indices = np.array(cn).argsort()
             cn_indices = cn_indices[:num_of_sr]
@@ -1754,10 +1782,10 @@ class Inversion:
                             tpoints[2],
                             tpoints[3],
                         ):
-                            if p.strike_element != 0 and t_p.strike_element != 0:
+                            if p.strike_element  *  self.strike_element != 0 and t_p.strike_element != 0:
                                 S_ss[i, j] += 1.0
                                 S_ss[i, i] -= 1.0
-                            if p.dip_element != 0 and t_p.dip_element != 0:
+                            if p.dip_element * self.dip_element != 0 and t_p.dip_element != 0:
                                 S_ds[i, j] += 1.0
                                 S_ds[i, i] -= 1.0
                         j += 1
@@ -1766,14 +1794,14 @@ class Inversion:
         indx_ss = []
         shift = 0
         for p in self.plains:
-            if p.strike_element != 0:
+            if p.strike_element * self.strike_element != 0:
                 indx_ss.append(shift + np.arange(len(p.sources)))
             shift += len(p.sources)
         
         indx_ds = []
         shift = 0
         for p in self.plains:
-            if p.dip_element != 0:
+            if p.dip_element * self.dip_element != 0:
                 indx_ds.append(shift + np.arange(len(p.sources)))
             shift += len(p.sources)
         if len(indx_ss) > 0:
@@ -1788,9 +1816,16 @@ class Inversion:
         else:
             ds_len = 0
             indx_ds = np.array([], dtype=int)
-        S_ss = np.concatenate((S_ss[:, indx_ss], np.zeros((S_ss.shape[0], ds_len))), axis=1)
-        S_ds = np.concatenate((np.zeros((S_ds.shape[0], ss_len)), S_ds[:, indx_ds]), axis=1)
-        S = np.concatenate((S_ss, S_ds), axis=0)
+        if  self.strike_element != 0 and self.dip_element != 0:
+            S_ss = np.concatenate((S_ss[:, indx_ss], np.zeros((S_ss.shape[0], ds_len))), axis=1)
+            S_ds = np.concatenate((np.zeros((S_ds.shape[0], ss_len)), S_ds[:, indx_ds]), axis=1)
+            S = np.concatenate((S_ss, S_ds), axis=0)
+        elif self.strike_element != 0:
+            S = S_ss
+        elif self.dip_element != 0:
+            S = S_ds
+        else:
+            raise Exception('both strike and dip elements are zero')
         return S
 
     def get_fault(self, sampels=8):

@@ -149,6 +149,7 @@ class Source:
         tl = 0.5 * sr1.width * np.cos(sr1.dip)
         sr1.e_m = sr1.e + np.cos(ccw_to_x_up_dip) * tl
         sr1.n_m = sr1.n + np.sin(ccw_to_x_up_dip) * tl
+        sr1.update_corners()
 
         sr2 = deepcopy(sr1)
         sr2.x += sr1.length
@@ -173,6 +174,7 @@ class Source:
         tl = 0.5 * sr2.width * np.cos(sr2.dip)
         sr2.e_m = sr2.e + np.cos(ccw_to_x_up_dip) * tl
         sr2.n_m = sr2.n + np.sin(ccw_to_x_up_dip) * tl
+        sr2.update_corners()
 
         sr3 = deepcopy(sr1)
         sr3.y += sr1.width
@@ -197,6 +199,7 @@ class Source:
         tl = 0.5 * sr3.width * np.cos(sr3.dip)
         sr3.e_m = sr3.e + np.cos(ccw_to_x_up_dip) * tl
         sr3.n_m = sr3.n + np.sin(ccw_to_x_up_dip) * tl
+        sr3.update_corners()
 
         sr4 = deepcopy(sr2)
         sr4.y += sr2.width
@@ -221,8 +224,15 @@ class Source:
         tl = 0.5 * sr4.width * np.cos(sr4.dip)
         sr4.e_m = sr4.e + np.cos(ccw_to_x_up_dip) * tl
         sr4.n_m = sr4.n + np.sin(ccw_to_x_up_dip) * tl
+        sr4.update_corners()
         return sr1, sr3, sr2, sr4
-
+    def update_corners(self):
+        deast = np.cos(self.ccw_to_x_stk) * self.length * 0.5
+        dnorth = np.sin(self.ccw_to_x_stk) * self.length * 0.5
+        self.p1 = np.array([self.e_t - deast, self.n_t - dnorth, self.depth_t])
+        self.p2 = np.array([self.e_t + deast, self.n_t + dnorth, self.depth_t])
+        self.p3 = np.array([self.e + deast, self.n + dnorth, self.depth])
+        self.p4 = np.array([self.e - deast, self.n - dnorth, self.depth])
     def __str__(self):
         return """strike = {}
 dip = {}
@@ -252,17 +262,7 @@ y = {}""".format(
             self.y,
         )
 
-    def __eq__(self, other):
-        return (
-            self.strike == other.strike
-            and self.dip == other.dip
-            and self.length == other.length
-            and self.e == other.e
-            and self.n == other.n
-            and self.depth == other.depth
-            and self.x == other.x
-            and self.y == other.y
-        )
+
 
     def adjacent(self, other):
         def eq(x, y):

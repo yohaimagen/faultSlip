@@ -780,6 +780,27 @@ class Image:
         for x, y in zip(X, Y):
             ax.plot(x - self.origin_x, y - self.origin_y, color="g", linewidth=2)
 
+    def plot_idxes(self, plains, ax=None):
+        if ax is None:
+            fig, ax  = plt.subplots(1, 1)
+        for s, i in zip(self.station, range(len(self.station))):
+            ax.add_patch(
+                    patches.Rectangle(
+                        (
+                            s.east - self.origin_x - s.x_size / 2.0,
+                            s.north - self.origin_y - s.y_size / 2.0,
+                        ),
+                        s.x_size,
+                        s.y_size,
+                        fill=False,
+                        ec="k",
+                    )
+            )
+            ax.annotate('%d' %i, (s.east - self.origin_x, s.north - self.origin_y), fontsize=6)
+        X, Y = self.get_fault(plains)
+        for x, y in zip(X, Y):
+            ax.plot(x - self.origin_x, y - self.origin_y, color="g", linewidth=2)
+
     def get_fault(self, plains, sampels=2):
         X = []
         Y = []
@@ -1191,7 +1212,7 @@ class Image:
         ), "add_uncorelated_noise() or add_corelated_noise(), shold be run befor restoring clean displacment"
         self.disp = self.clean
 
-    def quadtree(self, thershold, min_size):
+    def quadtree(self, thershold, min_size, preform_idx=None):
         def quad(s):
             dx = s.x_size / 2.0
             dy = s.y_size / 2.0
@@ -1234,8 +1255,13 @@ class Image:
 
         old_station = self.station
         self.station = []
-        for s in old_station:
-            quad(s)
+        if preform_idx is None:
+            preform_idx = np.arange(len(old_station))
+        for i, s in enumerate(old_station):
+            if i in preform_idx:
+                quad(s)
+            else:
+                self.station.append(s)
 
     def insert_column(
         self, mat_ind, SR, strike_element, dip_element, poisson_ratio=0.25
